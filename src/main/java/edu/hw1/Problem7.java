@@ -37,8 +37,7 @@ public class Problem7 {
         for (int i = 0; i < indexes.length; i++) {
             if (indexes[i] - shift < 0) {
                 indexes[i] = (indexes[i] - shift) + binLengthMod;
-            }
-            else {
+            } else {
                 indexes[i] -= shift;
             }
         }
@@ -51,8 +50,7 @@ public class Problem7 {
         for (int i = 0; i < indexes.length; i++) {
             if (indexes[i] + shift >= binLengthMod) {
                 indexes[i] = (indexes[i] + shift) - binLengthMod;
-            }
-            else {
+            } else {
                 indexes[i] += shift;
             }
         }
