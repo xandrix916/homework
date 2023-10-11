@@ -1,5 +1,6 @@
 package edu.project1;
 
+import edu.hw1.Problem6;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +24,9 @@ public final class Main {
             // for you, but you can always add more by pressing Ctrl+F8.
             LOGGER.info("i = {}", i);
         }
+
+        Problem6 problem6 = new Problem6();
+        problem6.countK(3524);
 
     }
 }
