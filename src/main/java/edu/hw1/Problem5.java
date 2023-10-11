@@ -1,9 +1,10 @@
 package edu.hw1;
 
 public class Problem5 {
-    private final int TEN = 10;
+    private final int ten = 10;
+
     private boolean isPalindrome(int number) {
-        if (number < TEN) {
+        if (number < ten) {
             return false;
         }
         String stringNumber = Integer.toString(number);
@@ -29,7 +30,7 @@ public class Problem5 {
         }
         int descendant = 0;
         for (var i: arrayOfPairSums) {
-            descendant = descendant * TEN + i;
+            descendant = descendant * ten + i;
         }
         return descendant;
     }
@@ -39,7 +40,7 @@ public class Problem5 {
             return true;
         }
         int descendantNumber = number;
-        while (descendantNumber >= TEN) {
+        while (descendantNumber >= ten) {
             descendantNumber = formDescendant(descendantNumber);
             if (isPalindrome(descendantNumber)) {
                 return true;

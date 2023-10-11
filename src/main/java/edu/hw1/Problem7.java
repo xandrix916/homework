@@ -8,7 +8,8 @@ public class Problem7 {
     private int[] formIndexes(int n) {
         String binaryNumber = Integer.toBinaryString(n);
         int[] indexes = new int[countOnes(binaryNumber)];
-        int counter = 0, iterator = 0;
+        int counter = 0;
+        int iterator = 0;
         while (counter < indexes.length && iterator < binaryNumber.length()) {
             if (binaryNumber.charAt(iterator) == '1') {
                 indexes[counter] = iterator;
@@ -34,22 +35,26 @@ public class Problem7 {
         int[] indexes = formIndexes(n).clone();
         int binLengthMod = Integer.toBinaryString(n).length();
         for (int i = 0; i < indexes.length; i++) {
-            if (indexes[i] - shift < 0)
+            if (indexes[i] - shift < 0) {
                 indexes[i] = (indexes[i] - shift) + binLengthMod;
-            else
+            }
+            else {
                 indexes[i] -= shift;
+            }
         }
         return formInt(indexes, binLengthMod);
     }
 
-    int rotateRight(int n, int shift){
+    int rotateRight(int n, int shift) {
         int[] indexes = formIndexes(n).clone();
         int binLengthMod = Integer.toBinaryString(n).length();
         for (int i = 0; i < indexes.length; i++) {
-            if (indexes[i] + shift >= binLengthMod)
+            if (indexes[i] + shift >= binLengthMod) {
                 indexes[i] = (indexes[i] + shift) - binLengthMod;
-            else
+            }
+            else {
                 indexes[i] += shift;
+            }
         }
         return formInt(indexes, binLengthMod);
     }
