@@ -1,16 +1,17 @@
 package edu.hw1;
 
 public class Problem5 {
-
+    private final int TEN = 10;
     private boolean isPalindrome(int number) {
-        if (number<10) {
+        if (number < TEN) {
             return false;
         }
         String stringNumber = Integer.toString(number);
         for (int i = 0, j = stringNumber.length() - 1; i <= (stringNumber.length() - 1) / 2
             && j > (stringNumber.length() - 1) / 2; i++, j--) {
-            if (stringNumber.charAt(i) != stringNumber.charAt(j))
+            if (stringNumber.charAt(i) != stringNumber.charAt(j)) {
                 return false;
+            }
         }
         return true;
     }
@@ -27,20 +28,20 @@ public class Problem5 {
             arrayOfPairSums[(stopIndex / 2)] = stringNumber.charAt(stringNumber.length() - 1);
         }
         int descendant = 0;
-        for (var i:
-             arrayOfPairSums) {
-            descendant = descendant * 10 + i;
+        for (var i: arrayOfPairSums) {
+            descendant = descendant * TEN + i;
         }
         return descendant;
     }
 
-    public boolean isPalindromeDescendant(int number){
+    public boolean isPalindromeDescendant(int number) {
         if (isPalindrome(number)) {
             return true;
         }
-        while (number >= 10) {
-            number = formDescendant(number);
-            if (isPalindrome(number)) {
+        int descendantNumber = number;
+        while (descendantNumber >= TEN) {
+            descendantNumber = formDescendant(descendantNumber);
+            if (isPalindrome(descendantNumber)) {
                 return true;
             }
         }
