@@ -23,3 +23,4 @@ public class Problem1 {
             return minutes * 60 + seconds;
     }
 }
+
