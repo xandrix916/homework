@@ -18,13 +18,13 @@ public class Problem1 {
             if (!Character.isDigit(time.charAt(i))) {
                 return -1;
             }
-            minutes += getNumericValue(time.charAt(i)) * (int)Math.pow(ten, time.indexOf(':') - i - 1);
+            minutes += getNumericValue(time.charAt(i)) * (int) Math.pow(ten, time.indexOf(':') - i - 1);
         }
         for (int i = time.indexOf(':') + 1; i < time.length(); i++) {
             if (!Character.isDigit(time.charAt(i))) {
                 return -1;
             }
-            seconds += getNumericValue(time.charAt(i)) * (int)Math.pow(ten, time.length() - i - 1);
+            seconds += getNumericValue(time.charAt(i)) * (int) Math.pow(ten, time.length() - i - 1);
         }
         return seconds >= amountOfSecondsInMinute ? -1 : minutes * amountOfSecondsInMinute + seconds;
     }
