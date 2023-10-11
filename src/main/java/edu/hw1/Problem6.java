@@ -1,12 +1,14 @@
 package edu.hw1;
 
 public class Problem6 {
+    private final int three = 3;
+    private final int ten = 10;
+    private final int kaprekarNumber = 6174;
 
     private int kaprekar(int number) {
         char[] arrayOfDigits = Integer.toString(number).toCharArray();
         char[] ascendingSort = arrayOfDigits.clone();
         char[] descendingSort = arrayOfDigits.clone();
-        int three = 3;
         for (int j = 0; j < three; j++) {
             for (int i = 0; i < ascendingSort.length - 1; i++) {
                 if (ascendingSort[i] > ascendingSort[i+1]) {
@@ -26,7 +28,6 @@ public class Problem6 {
             }
         }
         int ascendingSortNumber = 0, descendingSortNumber = 0;
-        int ten = 10;
         for (var i:
             ascendingSort) {
             ascendingSortNumber = ascendingSortNumber * ten + Character.getNumericValue(i);
@@ -39,7 +40,6 @@ public class Problem6 {
     }
 
     public int countK(int number) {
-        int kaprekarNumber = 6174;
         if (number == kaprekarNumber)
             return 0;
         if (kaprekar(number) == kaprekarNumber)
