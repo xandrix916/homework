@@ -3,10 +3,11 @@ package edu.project1;
 public class Scaffold {
     private final GameStatus gameStatus;
     private final String[] scaffoldFrames = new String[]{
-        "\n".repeat(9)+
-        "<>===================П\n"+
-        "||                   H\n"+
-        "<>===================U\n",
+                """
+        <>===================П
+        ||                   H
+        <>===================U
+        """,
             """
         []=============|
         ||

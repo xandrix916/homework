@@ -23,13 +23,16 @@ public class Game {
             System.out.printf("THERE %s LEFT\n", (gameStatus.getLettersLeft() == 1 ? "IS ONE LETTER" : "ARE %d LETTERS".formatted(gameStatus.getLettersLeft())));
             System.out.println(stringProcessor.getStringWithMask());
             System.out.println(scaffold.getFrame());
+            System.out.println("USED: " + gameStatus.getUsedLettersString());
+            System.out.println("WRONG: " + gameStatus.getWrongLettersString());
             System.out.printf("Attempts left: %d of %d\n", gameStatus.getAttemptsLeft(), gameStatus.getTotalAttempts());
             player.makeMove();
             gameStatus.checkStatusAndOutputInfo();
             isTerminal = gameStatus.isTerminal();
         }
         if (gameStatus.getState() == State.WIN) {
-            System.out.println("YOU WIN");
+            System.out.printf("Congratulations, %s, you win this game!\n", player.getPlayerName());
+            System.out.println("You used %d a");
         }
         if (gameStatus.getState() == State.FAIL) {
             System.out.printf("THERE %s LEFT\n", (gameStatus.getLettersLeft() == 1 ? "IS ONE LETTER" : "ARE %d LETTERS".formatted(gameStatus.getLettersLeft())));

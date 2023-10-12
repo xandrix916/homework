@@ -1,6 +1,7 @@
 package edu.project1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class GameStatus {
@@ -14,17 +15,21 @@ public class GameStatus {
     private int attemptsLeft;
 
     private int inputFailures = 0;
+
+    private int numberOfMove;
     private final int totalAttempts;
     private int lettersLeft;
     private Message currentMessage;
 
-    private ArrayList<Character> usedLetters = new ArrayList<>();
+    private final ArrayList<Character> usedLetters = new ArrayList<>();
+    private final ArrayList<Character> wrongLetters = new ArrayList<>();
 
     public GameStatus(int totalAttempts, StringProcessor stringProcessor, Player player) {
         this.state = State.START;
         this.totalAttempts = totalAttempts;
         this.attemptsLeft = totalAttempts;
         this.currentMessage = new Message();
+        this.numberOfMove = 1;
         this.stringProcessor = stringProcessor;
         this.player = player;
         this.previousMove = stringProcessor.getStringWithMask();
@@ -55,43 +60,49 @@ public class GameStatus {
     }
 
     private void whenSingleChar() {
-        if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures == 0) {
-            System.out.println("Apparently, you wrote some symbol, which is not letter, so try again. This time you won't lose any attempts");
-            state = State.INPUT_FAILURE;
-            inputFailures++;
-            return;
-        }
-        if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures > 0) {
-            System.out.println("Apparently, you wrote some symbol, which is not letter, so try again. Now every time you write symbol that is not letter, you will lose 1 attempt.");
-            state = State.INPUT_FAILURE;
-            attemptsLeft--;
-            inputFailures++;
-            if (isFail()) {
-                System.out.println("You lost all your attempts. Bad luck, buddy");
+        if (usedLetters.contains(Character.toUpperCase(currentMessage.getInput().charAt(0))) || wrongLetters.contains(Character.toUpperCase(currentMessage.getInput().charAt(0)))) {
+            System.out.println("Sorry, you have already used this letter. Please, try another.");
+        } else {
+            if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures == 0) {
+                System.out.println(
+                    "Apparently, you wrote some symbol, which is not letter, so try again. This time you won't lose any attempts");
+                state = State.INPUT_FAILURE;
+                inputFailures++;
+                return;
             }
-            return;
-        }
-        currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
-        if (!previousMove.equalsIgnoreCase(currentStringWithMask)) {
-            int changes = amountOfChanges(currentStringWithMask);
-            if (changes == 1) {
-                System.out.println("Nice work! You opened one letter");
-                lettersLeft--;
+            if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures > 0) {
+                System.out.println(
+                    "Apparently, you wrote some symbol, which is not letter, so try again. Now every time you write symbol that is not letter, you will lose 1 attempt.");
+                state = State.INPUT_FAILURE;
+                attemptsLeft--;
+                inputFailures++;
+                if (isFail()) {
+                    System.out.println("You lost all your attempts. Bad luck, buddy");
+                }
+                return;
             }
-            else {
-                System.out.printf("Well done, you opened %d letters!\n", changes);
-                lettersLeft -= changes;
-            }
-            if (!isWin()) {
-                state = State.SUCCESSFUL_GUESS;
-            }
-        }
-        else {
-            System.out.println("No letters opened. That's a pity.");
-            attemptsLeft -= 1;
-            state = State.UNSUCCESSFUL_GUESS;
-            if (isFail()) {
-                System.out.println("You lost all your attempts. Bad luck, buddy");
+            currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
+            if (!previousMove.equalsIgnoreCase(currentStringWithMask)) {
+                int changes = amountOfChanges(currentStringWithMask);
+                if (changes == 1) {
+                    System.out.println("Nice work! You opened one letter");
+                    lettersLeft--;
+                } else {
+                    System.out.printf("Well done, you opened %d letters!\n", changes);
+                    lettersLeft -= changes;
+                }
+                usedLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
+                if (!isWin()) {
+                    state = State.SUCCESSFUL_GUESS;
+                }
+            } else {
+                System.out.println("No letters opened. That's a pity.");
+                attemptsLeft -= 1;
+                state = State.UNSUCCESSFUL_GUESS;
+                wrongLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
+                if (isFail()) {
+                    System.out.println("You lost all your attempts. Bad luck, buddy");
+                }
             }
         }
     }
@@ -99,7 +110,7 @@ public class GameStatus {
     @SuppressWarnings({"all"})
     private boolean isWin() {
         if (countSymbols(currentStringWithMask) == 0) {
-            System.out.println("Congratulations, you managed to open a whole word!");
+            System.out.println("Bravo, you managed to open a whole word!");
             state = State.WIN;
             lettersLeft = 0;
             return true;
@@ -165,6 +176,7 @@ public class GameStatus {
             whenWholeWord();
         }
         previousMove = currentStringWithMask;
+        numberOfMove++;
     }
 
     public boolean isTerminal() {
@@ -189,4 +201,26 @@ public class GameStatus {
     public State getState() {
         return state;
     }
+
+    private String charListToString(ArrayList<Character> arrayList) {
+        Collections.sort(arrayList);
+        StringBuilder letterString = new StringBuilder();
+        for (var c: arrayList) {
+            letterString.append(c);
+        }
+        return letterString.toString();
+    }
+
+    public String getUsedLettersString() {
+        return charListToString(usedLetters);
+    }
+
+    public String getWrongLettersString() {
+        return charListToString(wrongLetters);
+    }
+
+    public int getNumberOfMove() {
+        return numberOfMove;
+    }
+
 }
