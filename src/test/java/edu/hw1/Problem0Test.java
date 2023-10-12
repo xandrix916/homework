@@ -11,7 +11,7 @@ class Problem0Test {
     void inputOutputTest() throws Exception {
         problem0 = new Problem0();
         String helloWorld = tapSystemErr(() -> problem0.helloWorld());
-        String infoString = helloWorld.substring(helloWorld.indexOf("\n")+1, helloWorld.lastIndexOf("\r"));
-        Assertions.assertEquals("INFO: Привет, мир!", infoString);
+        String infoString = helloWorld.substring(helloWorld.indexOf("\n")+1);
+        Assertions.assertEquals("INFO: Привет, мир!\r\n", infoString);
     }
 }
