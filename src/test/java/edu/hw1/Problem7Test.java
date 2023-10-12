@@ -23,7 +23,7 @@ class Problem7Test {
     void testLeftSixteen() {
         int n = 16, shift = 1;
         int response = problem7.rotateLeft(n, shift);
-        Assertions.assertThat(response).isEqualTo(1);
+        Assertions.assertThat(response).isOne();
     }
 
     @Test

@@ -31,7 +31,7 @@ public class Problem7 {
         return resultSum;
     }
 
-    int rotateLeft(int n, int shift) {
+    public int rotateLeft(int n, int shift) {
         int[] indexes = formIndexes(n).clone();
         int binLengthMod = Integer.toBinaryString(n).length();
         for (int i = 0; i < indexes.length; i++) {
@@ -44,7 +44,7 @@ public class Problem7 {
         return formInt(indexes, binLengthMod);
     }
 
-    int rotateRight(int n, int shift) {
+    public int rotateRight(int n, int shift) {
         int[] indexes = formIndexes(n).clone();
         int binLengthMod = Integer.toBinaryString(n).length();
         for (int i = 0; i < indexes.length; i++) {

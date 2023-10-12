@@ -16,34 +16,34 @@ class Problem5Test {
     void goodPasswordFourPlusBackwards() {
         int number = 12344321;
         boolean response = problem5.isPalindromeDescendant(number);
-        Assertions.assertThat(response).isEqualTo(true);
+        Assertions.assertThat(response).isTrue();
     }
 
     @Test
     void firstTestWithDescendant() {
         int number = 11211230;
         boolean response = problem5.isPalindromeDescendant(number);
-        Assertions.assertThat(response).isEqualTo(true);
+        Assertions.assertThat(response).isTrue();
     }
 
     @Test
     void secondTestWithDescendant() {
         int number = 13001120;
         boolean response = problem5.isPalindromeDescendant(number);
-        Assertions.assertThat(response).isEqualTo(true);
+        Assertions.assertThat(response).isTrue();
     }
 
     @Test
     void elevenAngryMen() {
         int number = 11;
         boolean response = problem5.isPalindromeDescendant(number);
-        Assertions.assertThat(response).isEqualTo(true);
+        Assertions.assertThat(response).isTrue();
     }
 
     @Test
     void obviouslyFail() {
         int number = 135;
         boolean response = problem5.isPalindromeDescendant(number);
-        Assertions.assertThat(response).isEqualTo(false);
+        Assertions.assertThat(response).isFalse();
     }
 }

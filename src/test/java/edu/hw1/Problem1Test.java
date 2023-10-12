@@ -20,6 +20,7 @@ class Problem1Test {
 //            problem1.say(word);
 //        }).isInstanceOf(IllegalArgumentException.class);
 //    }
+//    Не имеет отношения к задаче
 
     @Test
     void oneMinute() {

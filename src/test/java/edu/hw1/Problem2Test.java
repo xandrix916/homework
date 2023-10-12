@@ -17,7 +17,7 @@ class Problem2Test {
     void numberZero() {
         int number = 0;
         int response = problem2.countDigits(number);
-        Assertions.assertThat(response).isEqualTo(1);
+        Assertions.assertThat(response).isOne();
     }
 
     @Test

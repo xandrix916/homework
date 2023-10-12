@@ -25,7 +25,7 @@ class Problem8Test {
             {0, 0, 0, 0, 1, 0, 0, 0}
 };
         boolean response = problem8.knightBoardCapture(board);
-        Assertions.assertThat(response).isEqualTo(true);
+        Assertions.assertThat(response).isTrue();
     }
 
     @Test
@@ -41,7 +41,7 @@ class Problem8Test {
             {0, 0, 0, 1, 0, 1, 0, 1}
         };
         boolean response = problem8.knightBoardCapture(board);
-        Assertions.assertThat(response).isEqualTo(false);
+        Assertions.assertThat(response).isFalse();
     }
 
     @Test
@@ -57,7 +57,7 @@ class Problem8Test {
             {1, 0, 0, 0, 0, 0, 0, 0}
         };
         boolean response = problem8.knightBoardCapture(board);
-        Assertions.assertThat(response).isEqualTo(false);
+        Assertions.assertThat(response).isFalse();
     }
 
     @Test
@@ -73,6 +73,6 @@ class Problem8Test {
             {1, 0, 0, 0, 1, 0, 0, 0}
         };
         boolean response = problem8.knightBoardCapture(board);
-        Assertions.assertThat(response).isEqualTo(true);
+        Assertions.assertThat(response).isTrue();
     }
 }

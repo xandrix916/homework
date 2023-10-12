@@ -44,6 +44,6 @@ class Problem6Test {
     void defaultTest() {
         int number = 6174;
         int response = problem6.countK(number);
-        Assertions.assertThat(response).isEqualTo(0);
+        Assertions.assertThat(response).isZero();
     }
 }

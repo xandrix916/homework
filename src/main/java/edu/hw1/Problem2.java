@@ -1,7 +1,9 @@
 package edu.hw1;
 
+import static edu.hw1.Problem1.TEN;
+
 public class Problem2 {
-    private final int ten = 10;
+
 
     public int countDigits(int number) {
         if (number == 0) {
@@ -10,7 +12,7 @@ public class Problem2 {
         int counter = 0;
         int n = number;
         while (n != 0) {
-            n /= ten;
+            n /= TEN;
             counter++;
         }
         return counter;
