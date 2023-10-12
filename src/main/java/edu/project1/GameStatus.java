@@ -92,6 +92,7 @@ public class GameStatus {
         }
     }
 
+    @SuppressWarnings({"all"})
     private boolean isWin() {
         if (countSymbols(currentStringWithMask) == 0) {
             System.out.println("Congratulations, you managed to open a whole word!");
