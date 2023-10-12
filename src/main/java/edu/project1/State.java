@@ -7,5 +7,6 @@ public enum State {
     SUCCESSFUL_GUESS,
     UNSUCCESSFUL_GUESS,
     GIVE_UP,
-    RAGE_QUIT
+    RAGE_QUIT,
+    INPUT_FAILURE
 }

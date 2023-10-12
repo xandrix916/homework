@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class StringProcessor {
     private final String originString;
-    private String stringWithMask = "";
+    private String stringWithMask;
     private final HashMap<Character, ArrayList<Integer>> indexMap = new HashMap<>() ;
 
     private void createMap(String string) {
@@ -26,6 +26,14 @@ public class StringProcessor {
         this.originString = originString;
         createMap(originString);
         stringWithMask = "_".repeat(originString.length());
+    }
+
+    public boolean anyOddSymbols(String string) {
+        for (var i: string.toCharArray()) {
+            if (!Character.isLetter(i))
+                return true;
+        }
+        return false;
     }
 
     private void wheelOfFortune(Character symbol) {

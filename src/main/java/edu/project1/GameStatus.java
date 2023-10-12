@@ -12,6 +12,8 @@ public class GameStatus {
 
     private String currentStringWithMask;
     private int attemptsLeft;
+
+    private int inputFailures = 0;
     private final int totalAttempts;
     private Message currentMessage;
 
@@ -32,12 +34,12 @@ public class GameStatus {
     }
 
 
-    private int countSymbols(String string, String symbol) {
-        return string.length() - (string.replace(symbol, "")).length();
+    private int countSymbols(String string) {
+        return string.length() - (string.replace("_", "")).length();
     }
 
     private int amountOfChanges(String current) {
-        return countSymbols(previousMove, "_") - countSymbols(current, "_");
+        return countSymbols(previousMove) - countSymbols(current);
     }
 
     private void whenGiveUp() {
@@ -51,6 +53,22 @@ public class GameStatus {
     }
 
     private void whenSingleChar() {
+        if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures == 0) {
+            System.out.println("Apparently, you wrote some symbol, which is not letter, so try again. This time you won't lose any attempts");
+            state = State.INPUT_FAILURE;
+            inputFailures++;
+            return;
+        }
+        if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures > 0) {
+            System.out.println("Apparently, you wrote some symbol, which is not letter, so try again. Now every time you write symbol that is not letter, you will lose 1 attempt.");
+            state = State.INPUT_FAILURE;
+            attemptsLeft--;
+            inputFailures++;
+            if (isFail()) {
+                System.out.println("You lost all your attempts. Bad luck, buddy");
+            }
+            return;
+        }
         currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
         if (!previousMove.equalsIgnoreCase(currentStringWithMask)) {
             int changes = amountOfChanges(currentStringWithMask);
@@ -75,7 +93,7 @@ public class GameStatus {
     }
 
     private boolean isWin() {
-        if (countSymbols(currentStringWithMask, "_") == 0) {
+        if (countSymbols(currentStringWithMask) == 0) {
             System.out.println("Congratulations, you managed to open a whole word!");
             state = State.WIN;
             return true;
@@ -91,6 +109,23 @@ public class GameStatus {
         return false;
     }
     private void whenWholeWord() {
+        boolean anyOddSymbols = stringProcessor.anyOddSymbols(currentMessage.getInput());
+        if (anyOddSymbols && inputFailures == 0) {
+            System.out.println("Apparently, you wrote some char sequence, which is not word, so try again. This time you won't lose any attempts");
+            inputFailures++;
+            state = State.INPUT_FAILURE;
+            return;
+        }
+        if (anyOddSymbols && inputFailures > 0) {
+            System.out.println("Apparently, you wrote some char sequence, which is not word, so try again. This time and any further you will lose two attempts");
+            state = State.INPUT_FAILURE;
+            inputFailures++;
+            attemptsLeft -= 2;
+            if (isFail()) {
+                System.out.println("You lost all your attempts. It seems you didn't need to risk so much");
+            }
+            return;
+        }
         currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
         if (!isWin()) {
             System.out.println("Unfortunately, you didn't manage it. You'll lose two attempts");
@@ -101,8 +136,6 @@ public class GameStatus {
         }
 
     }
-
-
 
     public void checkStatusAndOutputInfo(){
         if (currentMessage.isDefault()) {
@@ -138,6 +171,7 @@ public class GameStatus {
             }
             if (state == State.FAIL) {
                 System.out.println("GAME OVER.");
+                attemptsLeft = 0;
             }
             return true;
         }

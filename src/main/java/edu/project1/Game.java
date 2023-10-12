@@ -13,11 +13,11 @@ public class Game {
         player.updateGameStatus(gameStatus);
     }
 
-
     public void run() {
         boolean isTerminal = false;
+        player.changeName();
         while (!isTerminal) {
-            System.out.println(stringProcessor.getStringWithMask());
+            System.out.println("GUESS WHAT REMAINS:\n"+stringProcessor.getStringWithMask());
             player.makeMove();
             gameStatus.checkStatusAndOutputInfo();
             isTerminal = gameStatus.isTerminal();
