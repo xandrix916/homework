@@ -15,6 +15,7 @@ public class GameStatus {
 
     private int inputFailures = 0;
     private final int totalAttempts;
+    private int lettersLeft;
     private Message currentMessage;
 
     private ArrayList<Character> usedLetters = new ArrayList<>();
@@ -27,6 +28,7 @@ public class GameStatus {
         this.stringProcessor = stringProcessor;
         this.player = player;
         this.previousMove = stringProcessor.getStringWithMask();
+        this.lettersLeft = previousMove.length();
     }
 
     public void updateMessage(Message message) {
@@ -74,9 +76,11 @@ public class GameStatus {
             int changes = amountOfChanges(currentStringWithMask);
             if (changes == 1) {
                 System.out.println("Nice work! You opened one letter");
+                lettersLeft--;
             }
             else {
                 System.out.printf("Well done, you opened %d letters!\n", changes);
+                lettersLeft -= changes;
             }
             if (!isWin()) {
                 state = State.SUCCESSFUL_GUESS;
@@ -97,6 +101,7 @@ public class GameStatus {
         if (countSymbols(currentStringWithMask) == 0) {
             System.out.println("Congratulations, you managed to open a whole word!");
             state = State.WIN;
+            lettersLeft = 0;
             return true;
         }
         return false;
@@ -166,17 +171,7 @@ public class GameStatus {
         if (state == State.RAGE_QUIT || state == State.GIVE_UP) {
             return true;
         }
-        if (state == State.WIN || state == State.FAIL) {
-            if (state == State.WIN) {
-                System.out.println("YOU WON!");
-            }
-            if (state == State.FAIL) {
-                System.out.println("GAME OVER.");
-                attemptsLeft = 0;
-            }
-            return true;
-        }
-        return false;
+        return state == State.WIN || state == State.FAIL;
     }
 
     public int getTotalAttempts() {
@@ -185,5 +180,13 @@ public class GameStatus {
 
     public int getAttemptsLeft() {
         return attemptsLeft;
+    }
+
+    public int getLettersLeft() {
+        return lettersLeft;
+    }
+
+    public State getState() {
+        return state;
     }
 }

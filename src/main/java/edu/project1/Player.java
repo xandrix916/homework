@@ -53,12 +53,27 @@ public class Player {
         }
     }
 
+    private boolean checkAttemptLimit() {
+        if (gameStatus.getAttemptsLeft() == 0) {
+            System.out.println(
+                "It seemed you have already reached the limit of attempts, so you can't waste two attempts at once." +
+                    " You may use one char option or give up.");
+            return false;
+        }
+        return true;
+    }
+
     private void guessLetter() {
         System.out.println("Ok, now input any letter you think is correct.");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next();
         if (answer.length() > 1) {
-            guessWord(answer);
+            if (checkAttemptLimit()) {
+                guessWord(answer);
+            }
+            else {
+                makeMove();
+            }
         }
         else {
             gameStatus.updateMessage(new Message(false, false, answer, true, false));
@@ -70,14 +85,18 @@ public class Player {
         gameStatus.updateMessage(new Message(false, false, symbol, true, false));
     }
     private void guessWord() {
-        System.out.println("Risky plan, but input whole word now.");
-        Scanner scanner = new Scanner(System.in);
-        String answer = scanner.next();
-        if (answer.length() == 1) {
-            guessLetter(answer);
+        if (checkAttemptLimit()) {
+            System.out.println("Risky plan, but input whole word now.");
+            Scanner scanner = new Scanner(System.in);
+            String answer = scanner.next();
+            if (answer.length() == 1) {
+                guessLetter(answer);
+            } else {
+                gameStatus.updateMessage(new Message(false, false, answer, false, true));
+            }
         }
         else {
-            gameStatus.updateMessage(new Message(false, false, answer, false, true));
+            makeMove();
         }
     }
 
@@ -97,6 +116,7 @@ public class Player {
         System.out.println("Hi, your default name is Player1. But you can change it right now, if you want to. yes/no");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next();
+        scanner.nextLine();
         if (answer.equalsIgnoreCase("yes")) {
             System.out.println("Please, write down your nickname");
             this.playerName = scanner.nextLine();
