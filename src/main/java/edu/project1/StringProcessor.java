@@ -28,9 +28,17 @@ public class StringProcessor {
         stringWithMask = "_".repeat(originString.length());
     }
 
-    public boolean anyOddSymbols(String string) {
+    public static boolean anyOddDigits(String string) {
         for (var i: string.toCharArray()) {
             if (!Character.isLetter(i))
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean anyOddSymbols(String string) {
+        for (var i: string.toCharArray()) {
+            if (Character.isLetter(i))
                 return true;
         }
         return false;

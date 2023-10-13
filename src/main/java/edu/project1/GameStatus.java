@@ -2,17 +2,19 @@ package edu.project1;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class GameStatus {
 
     private final Player player;
+
+    private final GameJournal gameJournal;
     private State state;
     private final StringProcessor stringProcessor;
     private String previousMove;
 
     private String currentStringWithMask;
     private int attemptsLeft;
+    private Turn[] turns;
 
     private int inputFailures = 0;
 
@@ -24,8 +26,9 @@ public class GameStatus {
     private final ArrayList<Character> usedLetters = new ArrayList<>();
     private final ArrayList<Character> wrongLetters = new ArrayList<>();
 
-    public GameStatus(int totalAttempts, StringProcessor stringProcessor, Player player) {
+    public GameStatus(int totalAttempts, StringProcessor stringProcessor, Player player, GameJournal gameJournal) {
         this.state = State.START;
+        this.gameJournal = gameJournal;
         this.totalAttempts = totalAttempts;
         this.attemptsLeft = totalAttempts;
         this.currentMessage = new Message();
@@ -40,7 +43,14 @@ public class GameStatus {
         currentMessage = message;
     }
 
-
+    private Turn getTurn() {
+        if (turns == null || numberOfMove > turns.length)
+            return new Turn();
+        return turns[numberOfMove-1];
+    }
+    public void updateTurns(Turn[] turns) {
+        this.turns = turns.clone();
+    }
     private int countSymbols(String string) {
         return string.length() - (string.replace("_", "")).length();
     }
@@ -50,34 +60,35 @@ public class GameStatus {
     }
 
     private void whenGiveUp() {
-        System.out.println("You sure to give up right now? I guess, you still have some chances... yes/no");
-        Scanner scanner = new Scanner(System.in);
-        String answer = scanner.next();
-        if (answer.equalsIgnoreCase("yes")) {
-            System.out.println("Try again, pal, I believe you will be lucky enough.");
+        if (currentMessage.getInput().equalsIgnoreCase("yes")) {
+            System.out.println(InterfaceStrings.giveUpGoodbye);
+            gameJournal.makeLog(LogStrings.trueGiveUp, turns[numberOfMove-1]);
             state = State.GIVE_UP;
+        }
+        else {
+            gameJournal.makeLog(LogStrings.falseGiveUp, turns[numberOfMove-1]);
         }
     }
 
     private void whenSingleChar() {
         if (usedLetters.contains(Character.toUpperCase(currentMessage.getInput().charAt(0))) || wrongLetters.contains(Character.toUpperCase(currentMessage.getInput().charAt(0)))) {
-            System.out.println("Sorry, you have already used this letter. Please, try another.");
+            System.out.println(InterfaceStrings.alreadyUsedLetter);
         } else {
             if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures == 0) {
-                System.out.println(
-                    "Apparently, you wrote some symbol, which is not letter, so try again. This time you won't lose any attempts");
+                System.out.println(InterfaceStrings.wrongSymbolFree);
                 state = State.INPUT_FAILURE;
+                gameJournal.makeLog(LogStrings.inputFailure, getTurn());
                 inputFailures++;
                 return;
             }
             if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures > 0) {
-                System.out.println(
-                    "Apparently, you wrote some symbol, which is not letter, so try again. Now every time you write symbol that is not letter, you will lose 1 attempt.");
+                System.out.println(InterfaceStrings.wrongSymbolFine);
                 state = State.INPUT_FAILURE;
                 attemptsLeft--;
                 inputFailures++;
+                gameJournal.makeLog(LogStrings.inputFailureAgain.formatted(1, attemptsLeft), turns[numberOfMove-1]);
                 if (isFail()) {
-                    System.out.println("You lost all your attempts. Bad luck, buddy");
+                    System.out.println(InterfaceStrings.noAttemptsSymbolWay);
                 }
                 return;
             }
@@ -85,23 +96,28 @@ public class GameStatus {
             if (!previousMove.equalsIgnoreCase(currentStringWithMask)) {
                 int changes = amountOfChanges(currentStringWithMask);
                 if (changes == 1) {
-                    System.out.println("Nice work! You opened one letter");
+                    System.out.println(InterfaceStrings.oneLetterOpened);
                     lettersLeft--;
+                    gameJournal.makeLog(LogStrings.oneLetterOpened, getTurn());
                 } else {
-                    System.out.printf("Well done, you opened %d letters!\n", changes);
+                    System.out.printf((InterfaceStrings.severalLettersOpened), changes);
                     lettersLeft -= changes;
+                    gameJournal.makeLog(LogStrings.severalLettersOpened.formatted(changes), getTurn());
                 }
                 usedLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
+                gameJournal.makeLog(LogStrings.correctLetterUpdate.formatted(currentMessage.getInput().charAt(0)),getTurn());
                 if (!isWin()) {
                     state = State.SUCCESSFUL_GUESS;
                 }
             } else {
-                System.out.println("No letters opened. That's a pity.");
+                System.out.println(InterfaceStrings.noLettersOpenedSymbol);
                 attemptsLeft -= 1;
+                gameJournal.makeLog(LogStrings.wrongGuess.formatted(1,attemptsLeft), getTurn());
                 state = State.UNSUCCESSFUL_GUESS;
                 wrongLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
+                gameJournal.makeLog(LogStrings.wrongLetterUpdate.formatted(currentMessage.getInput().charAt(0)), getTurn());
                 if (isFail()) {
-                    System.out.println("You lost all your attempts. Bad luck, buddy");
+                    System.out.println(InterfaceStrings.noAttemptsSymbolWay);
                 }
             }
         }
@@ -110,9 +126,10 @@ public class GameStatus {
     @SuppressWarnings({"all"})
     private boolean isWin() {
         if (countSymbols(currentStringWithMask) == 0) {
-            System.out.println("Bravo, you managed to open a whole word!");
+            System.out.println(InterfaceStrings.bravoOpened);
             state = State.WIN;
             lettersLeft = 0;
+            gameJournal.makeLog(LogStrings.winOfGame, getTurn());
             return true;
         }
         return false;
@@ -121,34 +138,38 @@ public class GameStatus {
     private boolean isFail() {
         if (attemptsLeft < 0) {
             state = State.FAIL;
+            gameJournal.makeLog(LogStrings.outOfAttempts, getTurn());
             return true;
         }
         return false;
     }
     private void whenWholeWord() {
-        boolean anyOddSymbols = stringProcessor.anyOddSymbols(currentMessage.getInput());
+        boolean anyOddSymbols = StringProcessor.anyOddDigits(currentMessage.getInput());
         if (anyOddSymbols && inputFailures == 0) {
-            System.out.println("Apparently, you wrote some char sequence, which is not word, so try again. This time you won't lose any attempts");
+            System.out.println(InterfaceStrings.wrongSequenceFree);
             inputFailures++;
             state = State.INPUT_FAILURE;
+            gameJournal.makeLog(LogStrings.inputFailure, getTurn());
             return;
         }
         if (anyOddSymbols && inputFailures > 0) {
-            System.out.println("Apparently, you wrote some char sequence, which is not word, so try again. This time and any further you will lose two attempts");
+            System.out.println(InterfaceStrings.wrongSequenceFine);
             state = State.INPUT_FAILURE;
             inputFailures++;
             attemptsLeft -= 2;
+            gameJournal.makeLog(LogStrings.inputFailureAgain, getTurn());
             if (isFail()) {
-                System.out.println("You lost all your attempts. It seems you didn't need to risk so much");
+                System.out.println(InterfaceStrings.noAttemptsSequenceWay);
             }
             return;
         }
         currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
         if (!isWin()) {
-            System.out.println("Unfortunately, you didn't manage it. You'll lose two attempts");
+            System.out.println(InterfaceStrings.wrongWord);
             attemptsLeft -= 2;
+            gameJournal.makeLog(LogStrings.wrongGuess.formatted(2,attemptsLeft), getTurn());
             if (isFail()) {
-                System.out.println("You lost all your attempts. It seems you didn't need to risk so much");
+                System.out.println(InterfaceStrings.noAttemptsSequenceWay);
             }
         }
 
@@ -156,11 +177,11 @@ public class GameStatus {
 
     public void checkStatusAndOutputInfo(){
         if (currentMessage.isDefault()) {
-            player.makeMove();
+            player.makeMove(new Turn());
         }
 
         if (currentMessage.isRageQuit()) {
-            System.out.println("Try to play with colder head next time");
+            System.out.println(InterfaceStrings.colderHead);
             state = State.RAGE_QUIT;
         }
 
