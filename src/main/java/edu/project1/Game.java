@@ -31,7 +31,7 @@ public class Game {
         boolean isTerminal = false;
         while (!isTerminal) {
             statusOutput();
-            player.makeMove(new Turn());
+            player.makeMove(new Turn(gameStatus.getNumberOfMove()));
             gameStatus.checkStatusAndOutputInfo();
             isTerminal = gameStatus.isTerminal();
         }
@@ -42,6 +42,10 @@ public class Game {
         for (var t: turns) {
             statusOutput();
             player.makeMove(t);
+            gameStatus.checkStatusAndOutputInfo();
+            if (gameStatus.isTerminal()) {
+                break;
+            }
         }
     }
 
@@ -55,7 +59,7 @@ public class Game {
         }
         if (gameStatus.getState() == State.WIN) {
             System.out.printf("Congratulations, %s, you win this game!\n", player.getPlayerName());
-            System.out.println("You used %d a");
+            System.out.printf("You used %d attempts and made %d turns\n",gameStatus.getTotalAttempts()-gameStatus.getAttemptsLeft(), gameStatus.getNumberOfMove()-1);
         }
         if (gameStatus.getState() == State.FAIL) {
             System.out.printf("THERE %s LEFT\n", (gameStatus.getLettersLeft() == 1 ? "IS ONE LETTER" : "ARE %d LETTERS".formatted(gameStatus.getLettersLeft())));

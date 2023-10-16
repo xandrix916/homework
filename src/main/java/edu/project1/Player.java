@@ -99,17 +99,17 @@ public class Player {
             answer = scanner.next();
         }
         else{
-            gameJournal.makeLog(LogStrings.receiveMessage.formatted(1), turn);
-            gameJournal.makeLog(LogStrings.gamemodeChoice.formatted(LogStrings.gamemodeOne), turn);
             answer = turn.getInput();
         }
+        gameJournal.makeLog(LogStrings.receiveMessage.formatted(1), turn);
+        gameJournal.makeLog(LogStrings.gamemodeChoice.formatted(LogStrings.gamemodeOne), turn);
         if (answer.length() > 1) {
             if (checkAttemptLimit()) {
                 gameJournal.makeLog(LogStrings.gamemodeChange.formatted(LogStrings.gamemodeTwo), turn);
                 guessWord(answer);
             }
             else {
-                makeMove(new Turn());
+                makeMove(new Turn(gameStatus.getNumberOfMove()));
             }
         }
         else {
@@ -130,10 +130,10 @@ public class Player {
                 answer = scanner.next();
             }
             else {
-                gameJournal.makeLog(LogStrings.receiveMessage.formatted(2),turn);
-                gameJournal.makeLog(LogStrings.gamemodeChoice.formatted(LogStrings.gamemodeTwo), turn);
                 answer = turn.getInput();
             }
+            gameJournal.makeLog(LogStrings.receiveMessage.formatted(2),turn);
+            gameJournal.makeLog(LogStrings.gamemodeChoice.formatted(LogStrings.gamemodeTwo), turn);
             if (answer.length() == 1) {
                 gameJournal.makeLog(LogStrings.gamemodeChange.formatted(LogStrings.gamemodeOne), turn);
                 guessLetter(answer);
@@ -142,7 +142,7 @@ public class Player {
             }
         }
         else {
-            makeMove(new Turn());
+            makeMove(new Turn(gameStatus.getNumberOfMove()));
         }
     }
 
@@ -159,9 +159,9 @@ public class Player {
             answer = scanner.next();
         }
         else {
-            gameJournal.makeLog(LogStrings.giveUpMessage, turn);
             answer = turn.getAnswerToGiveUpChoice();
         }
+        gameJournal.makeLog(LogStrings.giveUpMessage, turn);
         gameStatus.updateMessage(new Message(false, true, answer, false, false));
     }
 

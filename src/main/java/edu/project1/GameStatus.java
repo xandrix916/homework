@@ -43,11 +43,6 @@ public class GameStatus {
         currentMessage = message;
     }
 
-    private Turn getTurn() {
-        if (turns == null || numberOfMove > turns.length)
-            return new Turn();
-        return turns[numberOfMove-1];
-    }
     public void updateTurns(Turn[] turns) {
         this.turns = turns.clone();
     }
@@ -77,7 +72,7 @@ public class GameStatus {
             if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures == 0) {
                 System.out.println(InterfaceStrings.wrongSymbolFree);
                 state = State.INPUT_FAILURE;
-                gameJournal.makeLog(LogStrings.inputFailure, getTurn());
+                gameJournal.makeLog(LogStrings.inputFailure, gameJournal.getTurn(numberOfMove-1));
                 inputFailures++;
                 return;
             }
@@ -98,24 +93,24 @@ public class GameStatus {
                 if (changes == 1) {
                     System.out.println(InterfaceStrings.oneLetterOpened);
                     lettersLeft--;
-                    gameJournal.makeLog(LogStrings.oneLetterOpened, getTurn());
+                    gameJournal.makeLog(LogStrings.oneLetterOpened, gameJournal.getTurn(numberOfMove-1));
                 } else {
                     System.out.printf((InterfaceStrings.severalLettersOpened), changes);
                     lettersLeft -= changes;
-                    gameJournal.makeLog(LogStrings.severalLettersOpened.formatted(changes), getTurn());
+                    gameJournal.makeLog(LogStrings.severalLettersOpened.formatted(changes), gameJournal.getTurn(numberOfMove-1));
                 }
                 usedLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
-                gameJournal.makeLog(LogStrings.correctLetterUpdate.formatted(currentMessage.getInput().charAt(0)),getTurn());
+                gameJournal.makeLog(LogStrings.correctLetterUpdate.formatted(currentMessage.getInput().charAt(0)), gameJournal.getTurn(numberOfMove-1));
                 if (!isWin()) {
                     state = State.SUCCESSFUL_GUESS;
                 }
             } else {
                 System.out.println(InterfaceStrings.noLettersOpenedSymbol);
                 attemptsLeft -= 1;
-                gameJournal.makeLog(LogStrings.wrongGuess.formatted(1,attemptsLeft), getTurn());
+                gameJournal.makeLog(LogStrings.wrongGuess.formatted(1,attemptsLeft), gameJournal.getTurn(numberOfMove-1));
                 state = State.UNSUCCESSFUL_GUESS;
                 wrongLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
-                gameJournal.makeLog(LogStrings.wrongLetterUpdate.formatted(currentMessage.getInput().charAt(0)), getTurn());
+                gameJournal.makeLog(LogStrings.wrongLetterUpdate.formatted(currentMessage.getInput().charAt(0)), gameJournal.getTurn(numberOfMove-1));
                 if (isFail()) {
                     System.out.println(InterfaceStrings.noAttemptsSymbolWay);
                 }
@@ -129,7 +124,7 @@ public class GameStatus {
             System.out.println(InterfaceStrings.bravoOpened);
             state = State.WIN;
             lettersLeft = 0;
-            gameJournal.makeLog(LogStrings.winOfGame, getTurn());
+            gameJournal.makeLog(LogStrings.winOfGame, gameJournal.getTurn(numberOfMove-1));
             return true;
         }
         return false;
@@ -138,7 +133,7 @@ public class GameStatus {
     private boolean isFail() {
         if (attemptsLeft < 0) {
             state = State.FAIL;
-            gameJournal.makeLog(LogStrings.outOfAttempts, getTurn());
+            gameJournal.makeLog(LogStrings.outOfAttempts, gameJournal.getTurn(numberOfMove-1));
             return true;
         }
         return false;
@@ -149,7 +144,7 @@ public class GameStatus {
             System.out.println(InterfaceStrings.wrongSequenceFree);
             inputFailures++;
             state = State.INPUT_FAILURE;
-            gameJournal.makeLog(LogStrings.inputFailure, getTurn());
+            gameJournal.makeLog(LogStrings.inputFailure, gameJournal.getTurn(numberOfMove-1));
             return;
         }
         if (anyOddSymbols && inputFailures > 0) {
@@ -157,7 +152,7 @@ public class GameStatus {
             state = State.INPUT_FAILURE;
             inputFailures++;
             attemptsLeft -= 2;
-            gameJournal.makeLog(LogStrings.inputFailureAgain, getTurn());
+            gameJournal.makeLog(LogStrings.inputFailureAgain, gameJournal.getTurn(numberOfMove-1));
             if (isFail()) {
                 System.out.println(InterfaceStrings.noAttemptsSequenceWay);
             }
@@ -167,7 +162,7 @@ public class GameStatus {
         if (!isWin()) {
             System.out.println(InterfaceStrings.wrongWord);
             attemptsLeft -= 2;
-            gameJournal.makeLog(LogStrings.wrongGuess.formatted(2,attemptsLeft), getTurn());
+            gameJournal.makeLog(LogStrings.wrongGuess.formatted(2,attemptsLeft), gameJournal.getTurn(numberOfMove-1));
             if (isFail()) {
                 System.out.println(InterfaceStrings.noAttemptsSequenceWay);
             }
@@ -177,7 +172,7 @@ public class GameStatus {
 
     public void checkStatusAndOutputInfo(){
         if (currentMessage.isDefault()) {
-            player.makeMove(new Turn());
+            player.makeMove(new Turn(numberOfMove));
         }
 
         if (currentMessage.isRageQuit()) {

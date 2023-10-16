@@ -1,7 +1,7 @@
 package edu.project1;
 
 public class Turn {
-    private int number;
+    private final int number;
     private String firstChoice;
 
     private String secondChoice;
@@ -20,7 +20,8 @@ public class Turn {
         this.keyboardInput = false;
     }
 
-    public Turn() {
+    public Turn(int number) {
+        this.number = number;
         keyboardInput = true;
     }
 
