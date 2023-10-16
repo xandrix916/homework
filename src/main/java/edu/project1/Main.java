@@ -10,5 +10,4 @@ public final class Main {
         Game game = new Game("");
         game.run(new Turn[]{});
     }
-
 }
