@@ -8,8 +8,7 @@ public final class Main {
 
     public static void main(String[] args) {
         Game game = new Game("");
-        GameJournal gameJournal = game.run(new Turn[]{});
-        System.out.println("\n\n" + gameJournal.toString());
+        game.run(new Turn[]{});
     }
 
 }

@@ -8,7 +8,7 @@ public class GameJournal {
     private Turn[] orderedTurns() {
         Turn[] setToOrder = new Turn[turnResponseHashMap.keySet().size()];
         for (var k: turnResponseHashMap.keySet()) {
-            setToOrder[k.getNumber()-1] = k;
+            setToOrder[k.getNumber() - 1] = k;
         }
         return setToOrder;
     }
@@ -35,7 +35,7 @@ public class GameJournal {
     public Turn getTurn(int number) {
         Turn[] orderedSet = orderedTurns();
         if (number >= orderedSet.length) {
-            return orderedSet[orderedSet.length-1];
+            return orderedSet[orderedSet.length - 1];
         }
         return orderedSet[number];
     }

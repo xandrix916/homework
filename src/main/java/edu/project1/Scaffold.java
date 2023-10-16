@@ -2,6 +2,7 @@ package edu.project1;
 
 public class Scaffold {
     private final GameStatus gameStatus;
+    private final static int DEFAULT_MAX_FRAMES = 5;
     private final String[] scaffoldFrames = new String[]{
                 """
         <>===================П
@@ -81,13 +82,14 @@ public class Scaffold {
     };
     private int currentFrame;
     private int currentAttempts;
+
     public Scaffold(GameStatus gameStatus) {
         this.gameStatus = gameStatus;
-        currentFrame = 5 - gameStatus.getTotalAttempts() - 1;
+        currentFrame = DEFAULT_MAX_FRAMES - gameStatus.getTotalAttempts() - 1;
         currentAttempts = gameStatus.getTotalAttempts();
     }
 
-    public String getFrame(){
+    public String getFrame() {
         if (currentAttempts > gameStatus.getAttemptsLeft()) {
             int difference = currentAttempts - gameStatus.getAttemptsLeft();
             currentAttempts -= difference;

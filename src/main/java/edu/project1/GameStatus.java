@@ -46,6 +46,7 @@ public class GameStatus {
     public void updateTurns(Turn[] turns) {
         this.turns = turns.clone();
     }
+
     private int countSymbols(String string) {
         return string.length() - (string.replace("_", "")).length();
     }
@@ -54,65 +55,82 @@ public class GameStatus {
         return countSymbols(previousMove) - countSymbols(current);
     }
 
+    @SuppressWarnings("RegexpSinglelineJava")
     private void whenGiveUp() {
         if (currentMessage.getInput().equalsIgnoreCase("yes")) {
-            System.out.println(InterfaceStrings.giveUpGoodbye);
-            gameJournal.makeLog(LogStrings.trueGiveUp, turns[numberOfMove-1]);
+            System.out.println(InterfaceStrings.GIVE_UP_GOODBYE);
+            gameJournal.makeLog(LogStrings.TRUE_GIVE_UP, turns[numberOfMove - 1]);
             state = State.GIVE_UP;
-        }
-        else {
-            gameJournal.makeLog(LogStrings.falseGiveUp, turns[numberOfMove-1]);
+        } else {
+            gameJournal.makeLog(LogStrings.FALSE_GIVE_UP, turns[numberOfMove - 1]);
         }
     }
 
+    @SuppressWarnings("RegexpSinglelineJava")
     private void whenSingleChar() {
-        if (usedLetters.contains(Character.toUpperCase(currentMessage.getInput().charAt(0))) || wrongLetters.contains(Character.toUpperCase(currentMessage.getInput().charAt(0)))) {
-            System.out.println(InterfaceStrings.alreadyUsedLetter);
+        if (usedLetters.contains(Character.toUpperCase(currentMessage.getInput().charAt(0)))
+            || wrongLetters.contains(Character.toUpperCase(currentMessage.getInput().charAt(0)))) {
+            System.out.println(InterfaceStrings.ALREADY_USED_LETTER);
         } else {
             if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures == 0) {
-                System.out.println(InterfaceStrings.wrongSymbolFree);
+                System.out.println(InterfaceStrings.WRONG_SYMBOL_FREE);
                 state = State.INPUT_FAILURE;
-                gameJournal.makeLog(LogStrings.inputFailure, gameJournal.getTurn(numberOfMove-1));
+                gameJournal.makeLog(LogStrings.INPUT_FAILURE, gameJournal.getTurn(numberOfMove - 1));
                 inputFailures++;
-                return;
-            }
-            if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures > 0) {
-                System.out.println(InterfaceStrings.wrongSymbolFine);
-                state = State.INPUT_FAILURE;
-                attemptsLeft--;
-                inputFailures++;
-                gameJournal.makeLog(LogStrings.inputFailureAgain.formatted(1, attemptsLeft), turns[numberOfMove-1]);
-                if (isFail()) {
-                    System.out.println(InterfaceStrings.noAttemptsSymbolWay);
-                }
-                return;
-            }
-            currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
-            if (!previousMove.equalsIgnoreCase(currentStringWithMask)) {
-                int changes = amountOfChanges(currentStringWithMask);
-                if (changes == 1) {
-                    System.out.println(InterfaceStrings.oneLetterOpened);
-                    lettersLeft--;
-                    gameJournal.makeLog(LogStrings.oneLetterOpened, gameJournal.getTurn(numberOfMove-1));
-                } else {
-                    System.out.printf((InterfaceStrings.severalLettersOpened), changes);
-                    lettersLeft -= changes;
-                    gameJournal.makeLog(LogStrings.severalLettersOpened.formatted(changes), gameJournal.getTurn(numberOfMove-1));
-                }
-                usedLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
-                gameJournal.makeLog(LogStrings.correctLetterUpdate.formatted(currentMessage.getInput().charAt(0)), gameJournal.getTurn(numberOfMove-1));
-                if (!isWin()) {
-                    state = State.SUCCESSFUL_GUESS;
-                }
             } else {
-                System.out.println(InterfaceStrings.noLettersOpenedSymbol);
-                attemptsLeft -= 1;
-                gameJournal.makeLog(LogStrings.wrongGuess.formatted(1,attemptsLeft), gameJournal.getTurn(numberOfMove-1));
-                state = State.UNSUCCESSFUL_GUESS;
-                wrongLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
-                gameJournal.makeLog(LogStrings.wrongLetterUpdate.formatted(currentMessage.getInput().charAt(0)), gameJournal.getTurn(numberOfMove-1));
-                if (isFail()) {
-                    System.out.println(InterfaceStrings.noAttemptsSymbolWay);
+                if (!Character.isLetter(currentMessage.getInput().charAt(0)) && inputFailures > 0) {
+                    System.out.println(InterfaceStrings.WRONG_SYMBOL_FINE);
+                    state = State.INPUT_FAILURE;
+                    attemptsLeft--;
+                    inputFailures++;
+                    gameJournal.makeLog(
+                        LogStrings.INPUT_FAILURE_AGAIN.formatted(1, attemptsLeft),
+                        turns[numberOfMove - 1]
+                    );
+                    if (isFail()) {
+                        System.out.println(InterfaceStrings.NO_ATTEMPTS_SYMBOL_WAY);
+                    }
+                    return;
+                }
+                currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
+                if (!previousMove.equalsIgnoreCase(currentStringWithMask)) {
+                    int changes = amountOfChanges(currentStringWithMask);
+                    if (changes == 1) {
+                        System.out.println(InterfaceStrings.ONE_LETTER_OPENED);
+                        lettersLeft--;
+                        gameJournal.makeLog(LogStrings.ONE_LETTER_OPENED, gameJournal.getTurn(numberOfMove - 1));
+                    } else {
+                        System.out.printf((InterfaceStrings.SEVERAL_LETTERS_OPENED), changes);
+                        lettersLeft -= changes;
+                        gameJournal.makeLog(
+                            LogStrings.SEVERAL_LETTERS_OPENED.formatted(changes),
+                            gameJournal.getTurn(numberOfMove - 1)
+                        );
+                    }
+                    usedLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
+                    gameJournal.makeLog(
+                        LogStrings.CORRECT_LETTER_UPDATE.formatted(currentMessage.getInput().charAt(0)),
+                        gameJournal.getTurn(numberOfMove - 1)
+                    );
+                    if (!isWin()) {
+                        state = State.SUCCESSFUL_GUESS;
+                    }
+                } else {
+                    System.out.println(InterfaceStrings.NO_LETTERS_OPENED_SYMBOL);
+                    attemptsLeft -= 1;
+                    gameJournal.makeLog(
+                        LogStrings.WRONG_GUESS.formatted(1, attemptsLeft),
+                        gameJournal.getTurn(numberOfMove - 1)
+                    );
+                    state = State.UNSUCCESSFUL_GUESS;
+                    wrongLetters.add(Character.toUpperCase(currentMessage.getInput().charAt(0)));
+                    gameJournal.makeLog(
+                        LogStrings.WRONG_LETTER_UPDATE.formatted(currentMessage.getInput().charAt(0)),
+                        gameJournal.getTurn(numberOfMove - 1)
+                    );
+                    if (isFail()) {
+                        System.out.println(InterfaceStrings.NO_ATTEMPTS_SYMBOL_WAY);
+                    }
                 }
             }
         }
@@ -121,10 +139,10 @@ public class GameStatus {
     @SuppressWarnings({"all"})
     private boolean isWin() {
         if (countSymbols(currentStringWithMask) == 0) {
-            System.out.println(InterfaceStrings.bravoOpened);
+            System.out.println(InterfaceStrings.BRAVO_OPENED);
             state = State.WIN;
             lettersLeft = 0;
-            gameJournal.makeLog(LogStrings.winOfGame, gameJournal.getTurn(numberOfMove-1));
+            gameJournal.makeLog(LogStrings.WIN_OF_GAME, gameJournal.getTurn(numberOfMove-1));
             return true;
         }
         return false;
@@ -133,50 +151,54 @@ public class GameStatus {
     private boolean isFail() {
         if (attemptsLeft < 0) {
             state = State.FAIL;
-            gameJournal.makeLog(LogStrings.outOfAttempts, gameJournal.getTurn(numberOfMove-1));
-            return true;
+            gameJournal.makeLog(LogStrings.OUT_OF_ATTEMPTS, gameJournal.getTurn(numberOfMove - 1));
         }
-        return false;
+        return attemptsLeft < 0;
     }
+
+    @SuppressWarnings("RegexpSinglelineJava")
     private void whenWholeWord() {
         boolean anyOddSymbols = StringProcessor.anyOddDigits(currentMessage.getInput());
         if (anyOddSymbols && inputFailures == 0) {
-            System.out.println(InterfaceStrings.wrongSequenceFree);
+            System.out.println(InterfaceStrings.WRONG_SEQUENCE_FREE);
             inputFailures++;
             state = State.INPUT_FAILURE;
-            gameJournal.makeLog(LogStrings.inputFailure, gameJournal.getTurn(numberOfMove-1));
-            return;
-        }
-        if (anyOddSymbols && inputFailures > 0) {
-            System.out.println(InterfaceStrings.wrongSequenceFine);
-            state = State.INPUT_FAILURE;
-            inputFailures++;
-            attemptsLeft -= 2;
-            gameJournal.makeLog(LogStrings.inputFailureAgain, gameJournal.getTurn(numberOfMove-1));
-            if (isFail()) {
-                System.out.println(InterfaceStrings.noAttemptsSequenceWay);
+            gameJournal.makeLog(LogStrings.INPUT_FAILURE, gameJournal.getTurn(numberOfMove - 1));
+        } else {
+            if (anyOddSymbols && inputFailures > 0) {
+                System.out.println(InterfaceStrings.WRONG_SEQUENCE_FINE);
+                state = State.INPUT_FAILURE;
+                inputFailures++;
+                attemptsLeft -= 2;
+                gameJournal.makeLog(LogStrings.INPUT_FAILURE_AGAIN, gameJournal.getTurn(numberOfMove - 1));
+                if (isFail()) {
+                    System.out.println(InterfaceStrings.NO_ATTEMPTS_SEQUENCE_WAY);
+                }
+                return;
             }
-            return;
-        }
-        currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
-        if (!isWin()) {
-            System.out.println(InterfaceStrings.wrongWord);
-            attemptsLeft -= 2;
-            gameJournal.makeLog(LogStrings.wrongGuess.formatted(2,attemptsLeft), gameJournal.getTurn(numberOfMove-1));
-            if (isFail()) {
-                System.out.println(InterfaceStrings.noAttemptsSequenceWay);
+            currentStringWithMask = stringProcessor.getStringWithMask(currentMessage.getInput());
+            if (!isWin()) {
+                System.out.println(InterfaceStrings.WRONG_WORD);
+                attemptsLeft -= 2;
+                gameJournal.makeLog(
+                    LogStrings.WRONG_GUESS.formatted(2, attemptsLeft),
+                    gameJournal.getTurn(numberOfMove - 1)
+                );
+                if (isFail()) {
+                    System.out.println(InterfaceStrings.NO_ATTEMPTS_SEQUENCE_WAY);
+                }
             }
         }
-
     }
 
-    public void checkStatusAndOutputInfo(){
+    @SuppressWarnings("RegexpSinglelineJava")
+    public void checkStatusAndOutputInfo() {
         if (currentMessage.isDefault()) {
             player.makeMove(new Turn(numberOfMove));
         }
 
         if (currentMessage.isRageQuit()) {
-            System.out.println(InterfaceStrings.colderHead);
+            System.out.println(InterfaceStrings.COLDER_HEAD);
             state = State.RAGE_QUIT;
         }
 

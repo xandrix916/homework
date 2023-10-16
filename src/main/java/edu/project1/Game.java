@@ -13,13 +13,15 @@ public class Game {
         this.gameJournal = new GameJournal();
         this.player = new Player(gameJournal);
         this.stringProcessor = new StringProcessor(word.equals("") ? config.getRandomWord() : word);
-        this.gameStatus = new GameStatus(config.getTotalAttempts(),stringProcessor,player,gameJournal);
+        this.gameStatus = new GameStatus(config.getTotalAttempts(), stringProcessor, player, gameJournal);
         player.updateGameStatus(gameStatus);
         this.scaffold = new Scaffold(gameStatus);
     }
 
+    @SuppressWarnings("RegexpSinglelineJava")
     private void statusOutput() {
-        System.out.printf("THERE %s LEFT\n", (gameStatus.getLettersLeft() == 1 ? "IS ONE LETTER" : "ARE %d LETTERS".formatted(gameStatus.getLettersLeft())));
+        System.out.printf(InterfaceStrings.LEFT_THERE, (gameStatus.getLettersLeft() == 1 ? InterfaceStrings.ONE_LETTER
+            : InterfaceStrings.SEVERAL_LETTERS.formatted(gameStatus.getLettersLeft())));
         System.out.println(stringProcessor.getStringWithMask());
         System.out.println(scaffold.getFrame());
         System.out.println("USED: " + gameStatus.getUsedLettersString());
@@ -49,20 +51,23 @@ public class Game {
         }
     }
 
+    @SuppressWarnings("RegexpSinglelineJava")
     public GameJournal run(Turn[] turns) {
         if (turns.length == 0) {
             player.changeName();
             defaultRun();
-        }
-        else {
+        } else {
             runWithGivenTurns(turns);
         }
         if (gameStatus.getState() == State.WIN) {
             System.out.printf("Congratulations, %s, you win this game!\n", player.getPlayerName());
-            System.out.printf("You used %d attempts and made %d turns\n",gameStatus.getTotalAttempts()-gameStatus.getAttemptsLeft(), gameStatus.getNumberOfMove()-1);
+            System.out.printf("You used %d attempts and made %d turns\n",
+                gameStatus.getTotalAttempts() - gameStatus.getAttemptsLeft(), gameStatus.getNumberOfMove() - 1);
         }
         if (gameStatus.getState() == State.FAIL) {
-            System.out.printf("THERE %s LEFT\n", (gameStatus.getLettersLeft() == 1 ? "IS ONE LETTER" : "ARE %d LETTERS".formatted(gameStatus.getLettersLeft())));
+            System.out.printf(InterfaceStrings.LEFT_THERE, (gameStatus.getLettersLeft() == 1
+                ? InterfaceStrings.ONE_LETTER
+                : InterfaceStrings.SEVERAL_LETTERS.formatted(gameStatus.getLettersLeft())));
             System.out.println(stringProcessor.getStringWithMask());
             System.out.println(scaffold.getFrame());
             System.out.println("You wasted all attempts");

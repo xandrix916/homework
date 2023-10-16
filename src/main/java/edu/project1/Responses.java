@@ -1,7 +1,9 @@
 package edu.project1;
 
-public class Responses {
-    public static final String response1 =
+public final class Responses {
+    private Responses() {}
+
+    public static final String RESPONSE_1 =
         """
            \nTURN #1
            ANSWER TO FIRST CHOICE: 1
@@ -36,7 +38,7 @@ public class Responses {
 
            WIN: WORD IS FULLY OPENED
            """;
-    public static final String response2 =
+    public static final String RESPONSE_2 =
         """
 
             TURN #1
@@ -105,7 +107,7 @@ public class Responses {
             WIN: WORD IS FULLY OPENED
             """;
 
-    public static final String response3 =
+    public static final String RESPONSE_3 =
         """
 
             TURN #1
@@ -198,7 +200,7 @@ public class Responses {
 
             FAIL: NO ATTEMPTS LEFT
             """;
-    public static final String response4 =
+    public static final String RESPONSE_4 =
         """
 
             TURN #1
@@ -210,7 +212,7 @@ public class Responses {
             RECEIVED INCORRECT OPTION
             PLAYER IGNORES ASK TO INPUT 1 AND RAGE QUITS
             """;
-    public static final String response5 =
+    public static final String RESPONSE_5 =
         """
 
             TURN #1
@@ -222,7 +224,7 @@ public class Responses {
             RECEIVED MISMATCH
             PLAYER IGNORES ASK TO INPUT 1 AND LEAVES GAME
             """;
-    public static final String response6 =
+    public static final String RESPONSE_6 =
         """
 
             TURN #1
@@ -312,7 +314,7 @@ public class Responses {
             FAIL: NO ATTEMPTS LEFT
             """;
 
-    public static final String response7 =
+    public static final String RESPONSE_7 =
         """
 
             TURN #1

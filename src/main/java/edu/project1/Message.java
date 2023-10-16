@@ -1,6 +1,7 @@
 package edu.project1;
 
 public class Message {
+    private final static String DEFAULT = "DEFAULT";
     private final boolean rageQuit;
     private final boolean giveUp;
     private final String input;
@@ -15,10 +16,10 @@ public class Message {
         this.wholeWord = wholeWord;
     }
 
-    public Message(){
+    public Message() {
         this.rageQuit = false;
         this.giveUp = false;
-        this.input = "DEFAULT";
+        this.input = DEFAULT;
         this.singleChar = false;
         this.wholeWord = false;
     }
@@ -44,7 +45,7 @@ public class Message {
     }
 
     public boolean isDefault() {
-        return rageQuit && giveUp && input.equals("DEFAULT");
+        return rageQuit && giveUp && input.equals(DEFAULT);
     }
 
 }

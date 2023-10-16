@@ -51,11 +51,11 @@ public class Turn {
 
     @Override
     public String toString() {
-        return LogStrings.turnNumber.formatted(number) +
-            LogStrings.answerToFirstChoice.formatted(firstChoice) +
-            LogStrings.answerToSecondChoice.formatted(secondChoice) +
-            LogStrings.inputMessage.formatted(input) +
-            LogStrings.answerToGiveUpChoice.formatted(answerToGiveUpChoice) +
-            (keyboardInput ? LogStrings.keyboardInput : LogStrings.turnInput);
+        return LogStrings.TURN_NUMBER.formatted(number)
+            + LogStrings.ANSWER_TO_FIRST_CHOICE.formatted(firstChoice)
+            + LogStrings.ANSWER_TO_SECOND_CHOICE.formatted(secondChoice)
+            + LogStrings.INPUT_MESSAGE.formatted(input)
+            + LogStrings.ANSWER_TO_GIVE_UP_CHOICE.formatted(answerToGiveUpChoice)
+            + (keyboardInput ? LogStrings.KEYBOARD_INPUT : LogStrings.TURN_INPUT);
     }
 }
