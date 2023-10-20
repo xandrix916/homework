@@ -11,26 +11,25 @@ public final class Main {
     private Main() {
     }
 
+    @SuppressWarnings("RegexpSinglelineJava")
     private static void thirdProblemTest() {
         Problem3 problem3 = new Problem3();
         try {
             LOGGER.info("EXAMPLE LAUNCH");
             problem3.exampleLaunch();
-        }
-        catch (Problem3.ConnectionException ce) {
-            ce.printStackTrace();
+        } catch (Problem3.ConnectionException connectionException) {
+            connectionException.printStackTrace();
         }
         try {
             LOGGER.info("FAULTY LAUNCH");
             problem3.faultyLaunch();
-        }
-        catch (Problem3.ConnectionException ce) {
-            ce.printStackTrace();
+        } catch (Problem3.ConnectionException connectionException) {
+            connectionException.printStackTrace();
         }
     }
 
+    @SuppressWarnings("RegexpSinglelineJava")
     public static void main(String[] args) {
         System.out.println(Problem4.callingInfo());
-        thirdProblemTest();
     }
 }

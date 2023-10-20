@@ -18,7 +18,7 @@ class Problem4Test {
         String result = tapSystemOut(() -> problem4.problem4());
         Assertions.assertThat(result).isEqualTo("""
             Class name: edu.hw2.Problem4
-            Method name: problem4
+            Method name: problem4\r
             """);
     }
 
@@ -27,9 +27,9 @@ class Problem4Test {
         String result = tapSystemOut(() -> problem4.doubleProblem4());
         Assertions.assertThat(result).isEqualTo("""
             Class name: edu.hw2.Problem4
-            Method name: problem4
+            Method name: problem4\r
             Class name: edu.hw2.Problem4
-            Method name: doubleProblem4
+            Method name: doubleProblem4\r
             """);
     }
 

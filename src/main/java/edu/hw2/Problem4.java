@@ -1,5 +1,6 @@
 package edu.hw2;
 
+@SuppressWarnings({"InnerTypeLast", "RegexpSinglelineJava"})
 public class Problem4 {
     public record CallingInfo(String className, String methodName) {
         @Override
@@ -14,12 +15,13 @@ public class Problem4 {
         return new CallingInfo(methods[2].getClassName(), methods[2].getMethodName());
     }
 
+
     public void problem4() {
-        System.out.printf("%s\n",callingInfo());
+        System.out.println(callingInfo());
     }
 
     public void doubleProblem4() {
         problem4();
-        System.out.printf("%s\n",callingInfo());
+        System.out.println(callingInfo());
     }
 }

@@ -2,9 +2,33 @@ package edu.hw2;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static edu.hw2.LoggerStrings.ATTEMPTS_LEFT;
+import static edu.hw2.LoggerStrings.CLOSE_CONNECTION;
+import static edu.hw2.LoggerStrings.CONNECTION_FAIL;
+import static edu.hw2.LoggerStrings.DELIVERY_FAIL;
+import static edu.hw2.LoggerStrings.EXECUTE_SUCCESS;
+import static edu.hw2.LoggerStrings.FAILED_COMMAND;
+import static edu.hw2.LoggerStrings.FAIL_CHANCE;
+import static edu.hw2.LoggerStrings.FAULTY_ESTABLISHED;
+import static edu.hw2.LoggerStrings.FAULTY_PROBABILITY;
+import static edu.hw2.LoggerStrings.NO_ATTEMPTS;
+import static edu.hw2.LoggerStrings.PING_PONG_COMMAND;
+import static edu.hw2.LoggerStrings.PING_PONG_MESSAGE;
+import static edu.hw2.LoggerStrings.STABLE_ESTABLISHED;
+import static edu.hw2.LoggerStrings.UPDATE_COMMAND;
+import static edu.hw2.LoggerStrings.UPDATE_PACKAGES;
 
+@SuppressWarnings("InnerTypeLast")
 public class Problem3 {
     private final static Logger LOGGER = LogManager.getLogger();
+
+    private final static double TWO_THIRDS = 0.66;
+    private final static int HUNDRED = 100;
+    private static final int TEN = 10;
+    private static final int SEVEN = 7;
+    private static final int THREE = 3;
+
+
     public interface Connection extends AutoCloseable {
         void execute(String command);
     }
@@ -17,12 +41,12 @@ public class Problem3 {
 
         @Override
         public void execute(String command) {
-            LOGGER.info("Executed successfully");
+            LOGGER.info(EXECUTE_SUCCESS);
         }
 
         @Override
         public void close() {
-            LOGGER.info("Connection closed");
+            LOGGER.info(CLOSE_CONNECTION);
         }
     }
 
@@ -37,12 +61,12 @@ public class Problem3 {
 
         private double isFailChance(int length) {
             if (length < noiseThreshold) {
-                return (double) length/(double) noiseThreshold;
+                return (double) length / (double) noiseThreshold;
             }
             int count = length / noiseThreshold;
             for (int i = 0; i < count; i++) {
-                if (Math.random() < 0.66) {
-                    failChance += 1.0/(double) count;
+                if (Math.random() < TWO_THIRDS) {
+                    failChance += 1.0 / (double) count;
                 }
             }
             return failChance;
@@ -51,17 +75,17 @@ public class Problem3 {
         @Override
         public void execute(String command) {
             failChance = isFailChance(command.length());
-            LOGGER.info("Chance of fail is %f%%".formatted(failChance*100));
+            LOGGER.info(FAIL_CHANCE.formatted(failChance * HUNDRED));
             if (Math.random() < failChance) {
-                LOGGER.info("Message delivery failed");
-                throw new ConnectionException("failed connection");
+                LOGGER.info(DELIVERY_FAIL);
+                throw new ConnectionException(CONNECTION_FAIL);
             }
-            LOGGER.info("Executed successfully");
+            LOGGER.info(EXECUTE_SUCCESS);
         }
 
         @Override
         public void close() {
-            LOGGER.info("Connection closed");
+            LOGGER.info(CLOSE_CONNECTION);
         }
     }
 
@@ -74,13 +98,13 @@ public class Problem3 {
 
         @Override
         public Connection getConnection() {
-            LOGGER.info("Faulty connection probability is %f%%".formatted(failProbability*100));
+            LOGGER.info(FAULTY_PROBABILITY.formatted(failProbability * HUNDRED));
             if (Math.random() < failProbability) {
-                int threshold = (int) (Math.random() * 10) + 10;
-                LOGGER.info("Faulty connection established. Noise threshold is %d".formatted(threshold));
+                int threshold = (int) (Math.random() * TEN) + TEN;
+                LOGGER.info(FAULTY_ESTABLISHED.formatted(threshold));
                 return new FaultyConnection(threshold);
             }
-            LOGGER.info("Stable connection established");
+            LOGGER.info(STABLE_ESTABLISHED);
             return new StableConnection();
         }
     }
@@ -89,8 +113,8 @@ public class Problem3 {
 
         @Override
         public Connection getConnection() {
-            LOGGER.info("Faulty connection established. Noise threshold is %d".formatted(7));
-            return new FaultyConnection(7);
+            LOGGER.info(FAULTY_ESTABLISHED.formatted(SEVEN));
+            return new FaultyConnection(SEVEN);
         }
     }
 
@@ -100,9 +124,10 @@ public class Problem3 {
         public ConnectionException(String cause) {
             this.causeOfException = cause;
         }
+
         @Override
         public void printStackTrace() {
-            LOGGER.info("Failed command execute because of %s".formatted(causeOfException));
+            LOGGER.info(FAILED_COMMAND.formatted(causeOfException));
         }
     }
 
@@ -116,14 +141,15 @@ public class Problem3 {
         }
 
         public void updatePackages() {
-            tryExecute("apt update && apt upgrade -y");
+            tryExecute(UPDATE_COMMAND);
         }
 
-        void tryExecute(String command) throws ConnectionException{
+        @SuppressWarnings("RegexpSinglelineJava")
+        void tryExecute(String command) throws ConnectionException {
             int attemptsLeft = maxAttempts;
             while (attemptsLeft != 0) {
-                LOGGER.info("Attempts left: %d".formatted(attemptsLeft));
-                try (Connection connection = manager.getConnection()){
+                LOGGER.info(ATTEMPTS_LEFT.formatted(attemptsLeft));
+                try (Connection connection = manager.getConnection()) {
                     connection.execute(command);
                     break;
                 } catch (Exception e) {
@@ -132,24 +158,26 @@ public class Problem3 {
                 attemptsLeft--;
             }
             if (attemptsLeft == 0) {
-                throw new ConnectionException("no attempts left");
+                throw new ConnectionException(NO_ATTEMPTS);
             }
         }
     }
 
     public void exampleLaunch() {
-        PopularCommandExecutor popularCommandExecutor = new PopularCommandExecutor(new DefaultConnectionManager(), 3);
-        LOGGER.info("PING PONG MESSAGE");
-        popularCommandExecutor.tryExecute("ping && pong -t");
-        LOGGER.info("UPDATE PACKAGES");
+        PopularCommandExecutor popularCommandExecutor =
+            new PopularCommandExecutor(new DefaultConnectionManager(), THREE);
+        LOGGER.info(PING_PONG_MESSAGE);
+        popularCommandExecutor.tryExecute(PING_PONG_COMMAND);
+        LOGGER.info(UPDATE_PACKAGES);
         popularCommandExecutor.updatePackages();
     }
 
     public void faultyLaunch() {
-        PopularCommandExecutor popularCommandExecutor = new PopularCommandExecutor(new FaultyConnectionManager(), 3);
-        LOGGER.info("PING PONG MESSAGE");
-        popularCommandExecutor.tryExecute("ping && pong -t");
-        LOGGER.info("UPDATE PACKAGES");
+        PopularCommandExecutor popularCommandExecutor =
+            new PopularCommandExecutor(new FaultyConnectionManager(), THREE);
+        LOGGER.info(PING_PONG_MESSAGE);
+        popularCommandExecutor.tryExecute(PING_PONG_COMMAND);
+        LOGGER.info(UPDATE_PACKAGES);
         popularCommandExecutor.updatePackages();
     }
 }

@@ -1,24 +1,42 @@
 package edu.hw2;
 
+@SuppressWarnings("InnerTypeLast")
 public class Problem2 {
-    public sealed interface Rect{
+    public sealed interface Rect {
         double area();
+
         double getHeight();
+
         double getWidth();
 
         record Rectangle(double width, double height) implements Rect {
-            @Override public double getHeight() {return height;}
-            @Override public double getWidth() {return width;}
-            @Override public double area() {return height * width;}
+            @Override public double getHeight() {
+                return height;
+            }
+
+            @Override public double getWidth() {
+                return width;
+            }
+
+            @Override public double area() {
+                return height * width;
+            }
 
         }
 
         record Square(double side) implements Rect {
-            @Override public double getHeight() { return side;}
-            @Override public double getWidth() { return side;}
-            @Override public double area() {return side * side;}
-        }
+            @Override public double getHeight() {
+                return side;
+            }
 
+            @Override public double getWidth() {
+                return side;
+            }
+
+            @Override public double area() {
+                return side * side;
+            }
+        }
     }
 
     public String mediumAreaHeightWidth(Rect[] rects) {

@@ -5,22 +5,37 @@ public class Problem1 {
         double evaluate();
 
         record Constant(double c) implements Expr {
-            @Override public double evaluate() {return c;}
+            @Override public double evaluate() {
+                return c;
+            }
         }
+
         record Negate(Expr expression) implements Expr {
-            @Override public double evaluate() {return -expression.evaluate();}
+            @Override public double evaluate() {
+                return -expression.evaluate();
+            }
         }
+
         record Exponent(Expr expression, double power) implements Expr {
-            @Override public double evaluate() {return Math.pow(expression.evaluate(), power);}
+            @Override public double evaluate() {
+                return Math.pow(expression.evaluate(), power);
+            }
         }
+
         record Addition(Expr expression1, Expr expression2) implements Expr {
-            @Override public double evaluate() {return expression1.evaluate() + expression2.evaluate();}
+            @Override public double evaluate() {
+                return expression1.evaluate() + expression2.evaluate();
+            }
         }
+
         record Multiplication(Expr expression1, Expr expression2) implements Expr {
-            @Override public double evaluate() {return expression1.evaluate() * expression2.evaluate();}
+            @Override public double evaluate() {
+                return expression1.evaluate() * expression2.evaluate();
+            }
         }
     }
 
+    @SuppressWarnings({"InnerTypeLast", "MagicNumber", "RegexpSinglelineJava"})
     public void calculationExample() {
         var two = new Expr.Constant(2);
         var four = new Expr.Constant(4);
