@@ -11,7 +11,7 @@ public final class Main {
     private Main() {
     }
 
-    public static void main(String[] args) {
+    private static void thirdProblemTest() {
         Problem3 problem3 = new Problem3();
         try {
             LOGGER.info("EXAMPLE LAUNCH");
@@ -27,7 +27,10 @@ public final class Main {
         catch (Problem3.ConnectionException ce) {
             ce.printStackTrace();
         }
+    }
 
-
+    public static void main(String[] args) {
+        System.out.println(Problem4.callingInfo());
+        thirdProblemTest();
     }
 }
