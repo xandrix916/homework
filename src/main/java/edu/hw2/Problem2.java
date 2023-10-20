@@ -50,7 +50,7 @@ public class Problem2 {
             height += rect.getHeight();
         }
 
-        return "Medium area is %f, medium height is %f, medium width is %f\n".formatted(area, width, height);
+        return "Medium area is approximately %d, medium height is approximately %d, medium width is approximately %d\n".formatted((int) Math.ceil(area), (int) Math.ceil(width), (int) Math.ceil(height));
     }
 
     public String checkLSP(Rect[] rects) {
@@ -59,7 +59,7 @@ public class Problem2 {
 
         for (var r: rects) {
             rectTest = r;
-            s.append("Width - %f, Height - %f\n".formatted(rectTest.getHeight(), rectTest.getWidth()));
+            s.append("Width - %d, Height - %d\n".formatted((int) rectTest.getHeight(), (int) rectTest.getWidth()));
         }
 
         return s.toString();

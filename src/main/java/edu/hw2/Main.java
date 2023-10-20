@@ -12,7 +12,7 @@ public final class Main {
     }
 
     @SuppressWarnings("RegexpSinglelineJava")
-    private static void thirdProblemTest() {
+    public static void thirdProblemTest() {
         Problem3 problem3 = new Problem3();
         try {
             LOGGER.info("EXAMPLE LAUNCH");
@@ -28,8 +28,11 @@ public final class Main {
         }
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
+    public static String mainFourTest() {
+        return Problem4.callingInfo().toString();
+    }
+
     public static void main(String[] args) {
-        System.out.println(Problem4.callingInfo());
+        thirdProblemTest();
     }
 }

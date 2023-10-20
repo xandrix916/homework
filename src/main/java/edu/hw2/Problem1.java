@@ -36,7 +36,7 @@ public class Problem1 {
     }
 
     @SuppressWarnings({"InnerTypeLast", "MagicNumber", "RegexpSinglelineJava"})
-    public void calculationExample() {
+    public String  calculationExample() {
         var two = new Expr.Constant(2);
         var four = new Expr.Constant(4);
         var negOne = new Expr.Negate(new Expr.Constant(1));
@@ -45,6 +45,6 @@ public class Problem1 {
         var exp = new Expr.Exponent(mult, 2);
         var res = new Expr.Addition(exp, new Expr.Constant(1));
 
-        System.out.println(res + " = " + res.evaluate());
+        return res + " = " + res.evaluate();
     }
 }

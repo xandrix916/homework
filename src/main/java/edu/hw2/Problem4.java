@@ -5,7 +5,7 @@ public class Problem4 {
     public record CallingInfo(String className, String methodName) {
         @Override
         public String toString() {
-            return "Class name: %s\nMethod name: %s".formatted(className, methodName);
+            return "Class name: %s\nMethod name: %s\n".formatted(className, methodName);
         }
     }
 
@@ -16,12 +16,11 @@ public class Problem4 {
     }
 
 
-    public void problem4() {
-        System.out.println(callingInfo());
+    public String problem4() {
+        return callingInfo().toString();
     }
 
-    public void doubleProblem4() {
-        problem4();
-        System.out.println(callingInfo());
+    public String  doubleProblem4() {
+        return problem4() + callingInfo();
     }
 }
