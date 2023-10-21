@@ -1,4 +1,4 @@
-![Build Status]([https://github.githubassets.com/images/modules/actions/actions-multi-container-testing.svg])
+![Build Status](https://github.githubassets.com/images/modules/actions/actions-multi-container-testing.svg)
 
 Домашние задания курса https://fintech.tinkoff.ru/academy/java
 
