@@ -1,9 +1,13 @@
 package edu.project1;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Game {
     private final Player player;
     private final GameStatus gameStatus;
     private final StringProcessor stringProcessor;
+    private final static Logger LOGGER = LogManager.getLogger();
 
     private final GameJournal gameJournal;
     private final Scaffold scaffold;
@@ -18,15 +22,16 @@ public class Game {
         this.scaffold = new Scaffold(gameStatus);
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
+
     private void statusOutput() {
-        System.out.printf(InterfaceStrings.LEFT_THERE, (gameStatus.getLettersLeft() == 1 ? InterfaceStrings.ONE_LETTER
-            : InterfaceStrings.SEVERAL_LETTERS.formatted(gameStatus.getLettersLeft())));
-        System.out.println(stringProcessor.getStringWithMask());
-        System.out.println(scaffold.getFrame());
-        System.out.println("USED: " + gameStatus.getUsedLettersString());
-        System.out.println("WRONG: " + gameStatus.getWrongLettersString());
-        System.out.printf("Attempts left: %d of %d\n", gameStatus.getAttemptsLeft(), gameStatus.getTotalAttempts());
+        LOGGER.info(InterfaceStrings.LEFT_THERE.formatted((gameStatus.getLettersLeft() == 1
+            ? InterfaceStrings.ONE_LETTER
+            : InterfaceStrings.SEVERAL_LETTERS.formatted(gameStatus.getLettersLeft()))));
+        LOGGER.info(stringProcessor.getStringWithMask());
+        LOGGER.info("\n" + scaffold.getFrame());
+        LOGGER.info("USED: " + gameStatus.getUsedLettersString());
+        LOGGER.info("WRONG: " + gameStatus.getWrongLettersString());
+        LOGGER.info("Attempts left: %d of %d\n".formatted(gameStatus.getAttemptsLeft(), gameStatus.getTotalAttempts()));
     }
 
     private void defaultRun() {
@@ -51,7 +56,6 @@ public class Game {
         }
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     public GameJournal run(Turn[] turns) {
         if (turns.length == 0) {
             player.changeName();
@@ -60,20 +64,20 @@ public class Game {
             runWithGivenTurns(turns);
         }
         if (gameStatus.getState() == State.WIN) {
-            System.out.printf("Congratulations, %s, you win this game!\n", player.getPlayerName());
-            System.out.printf("You used %d attempts and made %d turns\n",
-                gameStatus.getTotalAttempts() - gameStatus.getAttemptsLeft(), gameStatus.getNumberOfMove() - 1);
+            LOGGER.info("Congratulations, %s, you win this game!\n".formatted(player.getPlayerName()));
+            LOGGER.info("You used %d attempts and made %d turns\n".formatted(gameStatus.getTotalAttempts()
+                - gameStatus.getAttemptsLeft(), gameStatus.getNumberOfMove() - 1));
         }
         if (gameStatus.getState() == State.FAIL) {
-            System.out.printf(InterfaceStrings.LEFT_THERE, (gameStatus.getLettersLeft() == 1
+            LOGGER.info(InterfaceStrings.LEFT_THERE.formatted((gameStatus.getLettersLeft() == 1
                 ? InterfaceStrings.ONE_LETTER
-                : InterfaceStrings.SEVERAL_LETTERS.formatted(gameStatus.getLettersLeft())));
-            System.out.println(stringProcessor.getStringWithMask());
-            System.out.println(scaffold.getFrame());
-            System.out.println("You wasted all attempts");
-            System.out.println("GAME OVER");
+                : InterfaceStrings.SEVERAL_LETTERS.formatted(gameStatus.getLettersLeft()))));
+            LOGGER.info(stringProcessor.getStringWithMask());
+            LOGGER.info("\n" + scaffold.getFrame());
+            LOGGER.info("You wasted all attempts");
+            LOGGER.info("GAME OVER");
         }
-        System.out.println("Thanks for playing");
+        LOGGER.info("Thanks for playing");
         return this.gameJournal;
     }
 

@@ -2,10 +2,14 @@ package edu.project1;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class Player {
     private GameStatus gameStatus;
     private final GameJournal gameJournal;
+    private final static Logger LOGGER = LogManager.getLogger();
     private String playerName;
 
     public Player(GameJournal gameJournal) {
@@ -17,16 +21,15 @@ public class Player {
         this.gameStatus = gameStatus;
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     private int getAnswerKeyboard() {
-        System.out.println(InterfaceStrings.MAKE_MOVE_CHOICE);
+        LOGGER.info(InterfaceStrings.MAKE_MOVE_CHOICE);
         Scanner scanner = new Scanner(System.in);
         int answer;
         try {
             answer = scanner.nextInt();
         } catch (InputMismatchException ime) {
             scanner.nextLine();
-            System.err.println(InterfaceStrings.MISMATCH_ERROR_HANDLING);
+            LOGGER.error(InterfaceStrings.MISMATCH_ERROR_HANDLING);
             String answerString = scanner.next();
             if (!answerString.equals("1")) {
                 return -1;
@@ -45,7 +48,7 @@ public class Player {
         }
     }
 
-    @SuppressWarnings({"RegexpSinglelineJava", "MagicNumber"})
+    @SuppressWarnings({"MagicNumber"})
     public void makeMove(Turn turn) throws InputMismatchException {
         int answer;
         if (turn.isKeyboardInput()) {
@@ -65,7 +68,7 @@ public class Player {
             default -> {
                 if (turn.isKeyboardInput()) {
                     Scanner scanner = new Scanner(System.in);
-                    System.out.println(InterfaceStrings.SWITCH_DEFAULT_HANDLING);
+                    LOGGER.info(InterfaceStrings.SWITCH_DEFAULT_HANDLING);
                     String stringAnswer = scanner.next();
                     if (!stringAnswer.equals("1")) {
                         gameStatus.updateMessage(new Message(true, false, "",
@@ -83,20 +86,18 @@ public class Player {
         }
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     private boolean checkAttemptLimit() {
         if (gameStatus.getAttemptsLeft() == 0) {
-            System.out.println(InterfaceStrings.REACHED_ATTEMPT_LIMIT);
+            LOGGER.info(InterfaceStrings.REACHED_ATTEMPT_LIMIT);
             return false;
         }
         return true;
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     private void guessLetter(Turn turn) {
         String answer;
         if (turn.isKeyboardInput()) {
-            System.out.println(InterfaceStrings.INPUT_SINGLE_LETTER);
+            LOGGER.info(InterfaceStrings.INPUT_SINGLE_LETTER);
             Scanner scanner = new Scanner(System.in);
             answer = scanner.next();
         } else {
@@ -116,18 +117,16 @@ public class Player {
         }
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     private void guessLetter(String symbol) {
-        System.out.println(InterfaceStrings.FROM_WORD_TO_LETTER);
+        LOGGER.info(InterfaceStrings.FROM_WORD_TO_LETTER);
         gameStatus.updateMessage(new Message(false, false, symbol, true, false));
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     private void guessWord(Turn turn) {
         if (checkAttemptLimit()) {
             String answer;
             if (turn.isKeyboardInput()) {
-                System.out.println(InterfaceStrings.INPUT_WORD);
+                LOGGER.info(InterfaceStrings.INPUT_WORD);
                 Scanner scanner = new Scanner(System.in);
                 answer = scanner.next();
             } else {
@@ -146,17 +145,15 @@ public class Player {
         }
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     private void guessWord(String word) {
-        System.out.println(InterfaceStrings.FROM_LETTER_TO_WORD);
+        LOGGER.info(InterfaceStrings.FROM_LETTER_TO_WORD);
         gameStatus.updateMessage(new Message(false, false, word, false, true));
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     private void giveUp(Turn turn) {
         String answer;
         if (turn.isKeyboardInput()) {
-            System.out.println(InterfaceStrings.GIVE_UP_CHOICE);
+            LOGGER.info(InterfaceStrings.GIVE_UP_CHOICE);
             Scanner scanner = new Scanner(System.in);
             answer = scanner.next();
         } else {
@@ -166,21 +163,20 @@ public class Player {
         gameStatus.updateMessage(new Message(false, true, answer, false, false));
     }
 
-    @SuppressWarnings("RegexpSinglelineJava")
     public void changeName() {
-        System.out.println(InterfaceStrings.CHANGE_NAME_GREETINGS);
+        LOGGER.info(InterfaceStrings.CHANGE_NAME_GREETINGS);
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.next();
         scanner.nextLine();
         if (answer.equalsIgnoreCase("yes")) {
-            System.out.println(InterfaceStrings.WRITE_DOWN_NICKNAME);
+            LOGGER.info(InterfaceStrings.WRITE_DOWN_NICKNAME);
             this.playerName = scanner.nextLine();
-            System.out.println(InterfaceStrings.CHANGE_SUCCESSFUL);
+            LOGGER.info(InterfaceStrings.CHANGE_SUCCESSFUL);
         } else {
             if (answer.equalsIgnoreCase("no")) {
-                System.out.println(InterfaceStrings.AS_YOU_WISH);
+                LOGGER.info(InterfaceStrings.AS_YOU_WISH);
             } else {
-                System.out.println(InterfaceStrings.UNDEFINED_NICKNAME_ANSWER);
+                LOGGER.info(InterfaceStrings.UNDEFINED_NICKNAME_ANSWER);
             }
         }
     }

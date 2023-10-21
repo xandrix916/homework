@@ -10,16 +10,11 @@ import org.apache.logging.log4j.Logger;
 
 
 public class Config {
-    private final static Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     private final int totalAttempts;
-    private final static int DEFAULT_TOTAL_ATTEMPTS = 5;
+    private static final int DEFAULT_TOTAL_ATTEMPTS = 5;
 
     private final ArrayList<String> dictionary;
-
-//    public Config(int attempts, ArrayList<String> dictionary) {
-//        this.totalAttempts = attempts;
-//        this.dictionary = dictionary;
-//    }
 
     public Config() {
         this.totalAttempts = DEFAULT_TOTAL_ATTEMPTS;
