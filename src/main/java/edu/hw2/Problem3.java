@@ -22,11 +22,11 @@ import static edu.hw2.LoggerStrings.UPDATE_PACKAGES;
 public class Problem3 {
     private final static Logger LOGGER = LogManager.getLogger();
 
-    private final static double TWO_THIRDS = 0.66;
-    private final static int HUNDRED = 100;
-    private static final int TEN = 10;
-    private static final int SEVEN = 7;
-    private static final int THREE = 3;
+    private final static double FAULTY_CONNECTION_SINGLE_STEP_FAIL_CHANCE = 0.66;
+    private final static int TO_NATURAL_PERCENTS = 100;
+    private static final int GET_RANDOM_TEN_TO_TWENTY = 10;
+    private static final int FAULTY_CONNECTION_MANAGER_DEFAULT_THRESHOLD_VALUE = 7;
+    private static final int DEFAULT_RETRY_AMOUNT = 3;
 
 
     public interface Connection extends AutoCloseable {
@@ -65,7 +65,7 @@ public class Problem3 {
             }
             int count = length / noiseThreshold;
             for (int i = 0; i < count; i++) {
-                if (Math.random() < TWO_THIRDS) {
+                if (Math.random() < FAULTY_CONNECTION_SINGLE_STEP_FAIL_CHANCE) {
                     failChance += 1.0 / (double) count;
                 }
             }
@@ -75,7 +75,7 @@ public class Problem3 {
         @Override
         public void execute(String command) {
             failChance = isFailChance(command.length());
-            LOGGER.info(FAIL_CHANCE.formatted(failChance * HUNDRED));
+            LOGGER.info(FAIL_CHANCE.formatted(failChance * TO_NATURAL_PERCENTS));
             if (Math.random() < failChance) {
                 LOGGER.info(DELIVERY_FAIL);
                 throw new ConnectionException(CONNECTION_FAIL);
@@ -98,9 +98,9 @@ public class Problem3 {
 
         @Override
         public Connection getConnection() {
-            LOGGER.info(FAULTY_PROBABILITY.formatted(failProbability * HUNDRED));
+            LOGGER.info(FAULTY_PROBABILITY.formatted(failProbability * TO_NATURAL_PERCENTS));
             if (Math.random() < failProbability) {
-                int threshold = (int) (Math.random() * TEN) + TEN;
+                int threshold = (int) (Math.random() * GET_RANDOM_TEN_TO_TWENTY) + GET_RANDOM_TEN_TO_TWENTY;
                 LOGGER.info(FAULTY_ESTABLISHED.formatted(threshold));
                 return new FaultyConnection(threshold);
             }
@@ -113,8 +113,8 @@ public class Problem3 {
 
         @Override
         public Connection getConnection() {
-            LOGGER.info(FAULTY_ESTABLISHED.formatted(SEVEN));
-            return new FaultyConnection(SEVEN);
+            LOGGER.info(FAULTY_ESTABLISHED.formatted(FAULTY_CONNECTION_MANAGER_DEFAULT_THRESHOLD_VALUE));
+            return new FaultyConnection(FAULTY_CONNECTION_MANAGER_DEFAULT_THRESHOLD_VALUE);
         }
     }
 
@@ -165,7 +165,7 @@ public class Problem3 {
 
     public void exampleLaunch() {
         PopularCommandExecutor popularCommandExecutor =
-            new PopularCommandExecutor(new DefaultConnectionManager(), THREE);
+            new PopularCommandExecutor(new DefaultConnectionManager(), DEFAULT_RETRY_AMOUNT);
         LOGGER.info(PING_PONG_MESSAGE);
         popularCommandExecutor.tryExecute(PING_PONG_COMMAND);
         LOGGER.info(UPDATE_PACKAGES);
@@ -174,7 +174,7 @@ public class Problem3 {
 
     public void faultyLaunch() {
         PopularCommandExecutor popularCommandExecutor =
-            new PopularCommandExecutor(new FaultyConnectionManager(), THREE);
+            new PopularCommandExecutor(new FaultyConnectionManager(), DEFAULT_RETRY_AMOUNT);
         LOGGER.info(PING_PONG_MESSAGE);
         popularCommandExecutor.tryExecute(PING_PONG_COMMAND);
         LOGGER.info(UPDATE_PACKAGES);
