@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Problem3 {
     public static final double PHI = 1.6180339887498948482;
-    public <Type> String freqDict(ArrayList<Type> arrayList) {
+    public <Type> HashMap<Type, Integer> freqDict(ArrayList<Type> arrayList) {
         HashMap<Type, Integer> hashMap = new HashMap<>();
         for (var s: arrayList) {
             if (hashMap.containsKey(s)) {
@@ -15,6 +15,6 @@ public class Problem3 {
                 hashMap.put(s, 1);
             }
         }
-        return hashMap.toString();
+        return hashMap;
     }
 }
