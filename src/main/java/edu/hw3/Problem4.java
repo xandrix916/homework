@@ -4,14 +4,14 @@ import java.util.HashMap;
 
 public class Problem4 {
     private enum Roman {
-        ZERO (""),
-        ONE ("I"),
-        FIVE ("V"),
-        TEN ("X"),
-        FIFTY ("L"),
-        HUNDRED ("C"),
-        FIVE_HUNDRED ("D"),
-        THOUSAND ("M");
+        ZERO(""),
+        ONE("I"),
+        FIVE("V"),
+        TEN("X"),
+        FIFTY("L"),
+        HUNDRED("C"),
+        FIVE_HUNDRED("D"),
+        THOUSAND("M");
         private final String romanNumber;
         Roman(String romanNumber) {
             this.romanNumber = romanNumber;
@@ -24,9 +24,9 @@ public class Problem4 {
     }
 
     private enum Arabian {
-        TEN (10),
-        HUNDRED (100),
-        THOUSAND (1000);
+        TEN(10),
+        HUNDRED(100),
+        THOUSAND(1000);
         private final int arabianNumber;
         Arabian(int arabianNumber) {
             this.arabianNumber = arabianNumber;
@@ -42,6 +42,12 @@ public class Problem4 {
         }
     }
 
+    public static final int DIVIDER_AND_ELDER_MULTIPLIER = 5;
+
+    public static final int SPECIAL_CASE = 4;
+
+    public static final int MAX_ROMAN_NUMBER = 3999;
+
     private HashMap<Roman, Integer> amountsOfNumbers(int countedNumber) {
         HashMap<Roman, Integer> romanIntegerHashMap = new HashMap<>();
         int processedNumber = countedNumber;
@@ -49,16 +55,18 @@ public class Problem4 {
         romanIntegerHashMap.put(Roman.THOUSAND, processedNumber / Arabian.THOUSAND.getValue());
         processedNumber %= Arabian.THOUSAND.getValue();
 
-        romanIntegerHashMap.put(Roman.FIVE_HUNDRED, (processedNumber / Arabian.HUNDRED.getValue()) / 5);
-        romanIntegerHashMap.put(Roman.HUNDRED, (processedNumber / Arabian.HUNDRED.getValue()) % 5);
+        romanIntegerHashMap.put(Roman.FIVE_HUNDRED, (processedNumber / Arabian.HUNDRED.getValue())
+            / DIVIDER_AND_ELDER_MULTIPLIER);
+        romanIntegerHashMap.put(Roman.HUNDRED, (processedNumber / Arabian.HUNDRED.getValue())
+            % DIVIDER_AND_ELDER_MULTIPLIER);
         processedNumber %= Arabian.HUNDRED.getValue();
 
-        romanIntegerHashMap.put(Roman.FIFTY, (processedNumber / Arabian.TEN.getValue()) / 5);
-        romanIntegerHashMap.put(Roman.TEN, (processedNumber / Arabian.TEN.getValue()) % 5);
+        romanIntegerHashMap.put(Roman.FIFTY, (processedNumber / Arabian.TEN.getValue()) / DIVIDER_AND_ELDER_MULTIPLIER);
+        romanIntegerHashMap.put(Roman.TEN, (processedNumber / Arabian.TEN.getValue()) % DIVIDER_AND_ELDER_MULTIPLIER);
         processedNumber %= Arabian.TEN.getValue();
 
-        romanIntegerHashMap.put(Roman.FIVE, processedNumber / 5);
-        romanIntegerHashMap.put(Roman.ONE, processedNumber  % 5);
+        romanIntegerHashMap.put(Roman.FIVE, processedNumber / DIVIDER_AND_ELDER_MULTIPLIER);
+        romanIntegerHashMap.put(Roman.ONE, processedNumber  % DIVIDER_AND_ELDER_MULTIPLIER);
 
         return romanIntegerHashMap;
     }
@@ -85,17 +93,17 @@ public class Problem4 {
     }
 
     private String fourNineHandler(Roman elderRoman, Roman roman, HashMap<Roman, Integer> amounts) {
-        if ((amounts.get(elderRoman) * 5 + amounts.get(roman)) % 5 != 4) {
+        if ((amounts.get(elderRoman) * DIVIDER_AND_ELDER_MULTIPLIER + amounts.get(roman))
+            % DIVIDER_AND_ELDER_MULTIPLIER != SPECIAL_CASE) {
             return elderRoman.toString().repeat(amounts.get(elderRoman)) + roman.toString().repeat(amounts.get(roman));
-        }
-        else {
+        } else {
             return additionalForFourOrNine(elderRoman).toString() + switchToFourOrNine(amounts.get(elderRoman) == 1
                 ? elderRoman : roman).toString();
         }
     }
 
-    private int preMod(int toConvert) throws IllegalArgumentException{
-        if (!(toConvert >= 0 && toConvert < 4000)) {
+    private int preMod(int toConvert) throws IllegalArgumentException {
+        if (!(toConvert >= 0 && toConvert <= MAX_ROMAN_NUMBER)) {
             throw new IllegalArgumentException(new Throwable("Romans didn't use such numbers"));
         }
         return toConvert;
