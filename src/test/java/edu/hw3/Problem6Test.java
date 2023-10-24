@@ -23,7 +23,7 @@ class Problem6Test {
             #3 SBER 271,460000₽
             #4 GAZP 170,510000₽
             #5 VTBR 0,026090₽
-            """, response);
+            """.replace(",", "."), response.replace(",", "."));
     }
 
 }
