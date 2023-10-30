@@ -3,44 +3,6 @@ package edu.hw3;
 import java.util.HashMap;
 
 public class Problem4 {
-    private enum Roman {
-        ZERO(""),
-        ONE("I"),
-        FIVE("V"),
-        TEN("X"),
-        FIFTY("L"),
-        HUNDRED("C"),
-        FIVE_HUNDRED("D"),
-        THOUSAND("M");
-        private final String romanNumber;
-        Roman(String romanNumber) {
-            this.romanNumber = romanNumber;
-        }
-
-        @Override
-        public String toString() {
-            return this.romanNumber;
-        }
-    }
-
-    private enum Arabian {
-        TEN(10),
-        HUNDRED(100),
-        THOUSAND(1000);
-        private final int arabianNumber;
-        Arabian(int arabianNumber) {
-            this.arabianNumber = arabianNumber;
-        }
-
-        public int getValue() {
-            return arabianNumber;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(arabianNumber);
-        }
-    }
 
     public static final int DIVIDER_AND_ELDER_MULTIPLIER = 5;
 

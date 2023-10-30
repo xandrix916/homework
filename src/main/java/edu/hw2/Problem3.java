@@ -20,7 +20,7 @@ import static edu.hw2.LoggerStrings.UPDATE_PACKAGES;
 
 @SuppressWarnings("InnerTypeLast")
 public class Problem3 {
-    private final static Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final static double TWO_THIRDS = 0.66;
     private final static int HUNDRED = 100;
@@ -77,7 +77,7 @@ public class Problem3 {
             failChance = isFailChance(command.length());
             LOGGER.info(FAIL_CHANCE.formatted(failChance * HUNDRED));
             if (Math.random() < failChance) {
-                LOGGER.info(DELIVERY_FAIL);
+                LOGGER.error(DELIVERY_FAIL);
                 throw new ConnectionException(CONNECTION_FAIL);
             }
             LOGGER.info(EXECUTE_SUCCESS);
@@ -101,7 +101,7 @@ public class Problem3 {
             LOGGER.info(FAULTY_PROBABILITY.formatted(failProbability * HUNDRED));
             if (Math.random() < failProbability) {
                 int threshold = (int) (Math.random() * TEN) + TEN;
-                LOGGER.info(FAULTY_ESTABLISHED.formatted(threshold));
+                LOGGER.warn(FAULTY_ESTABLISHED.formatted(threshold));
                 return new FaultyConnection(threshold);
             }
             LOGGER.info(STABLE_ESTABLISHED);
@@ -113,7 +113,7 @@ public class Problem3 {
 
         @Override
         public Connection getConnection() {
-            LOGGER.info(FAULTY_ESTABLISHED.formatted(SEVEN));
+            LOGGER.warn(FAULTY_ESTABLISHED.formatted(SEVEN));
             return new FaultyConnection(SEVEN);
         }
     }

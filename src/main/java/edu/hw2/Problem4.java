@@ -5,7 +5,7 @@ public class Problem4 {
     public record CallingInfo(String className, String methodName) {
         @Override
         public String toString() {
-            return "Class name: %s\nMethod name: %s\n".formatted(className, methodName);
+            return String.format("Class name: %s\nMethod name: %s\n", className, methodName);
         }
     }
 
