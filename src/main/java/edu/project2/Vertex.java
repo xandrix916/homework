@@ -64,11 +64,13 @@ public class Vertex {
                     case WEST -> vertices[vertexRow][vertexCol - 1];
                     case EAST -> vertices[vertexRow][vertexCol + 1];
                 };
-                this.edgeMap.put(side, new Edge(this, secondVertex, true,
-                    false, false));
+                this.edgeMap.put(side, new Edge(this, secondVertex));
             }
         }
    }
 
-    public record Edge(Vertex firstVertex, Vertex secondVertex, boolean isActive, boolean isVisited, boolean isRendered){}
+   public Edge getEdgeBySide(Cell.WallSide wallSide) {
+        return edgeMap.get(wallSide);
+   }
+
 }
