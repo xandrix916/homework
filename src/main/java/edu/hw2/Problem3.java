@@ -46,7 +46,7 @@ public class Problem3 {
 
         @Override
         public Connection getConnection() {
-            log.info(FAULTY_ESTABLISHED.formatted(FAULTY_CONNECTION_MANAGER_DEFAULT_THRESHOLD_VALUE));
+            log.warn(FAULTY_ESTABLISHED.formatted(FAULTY_CONNECTION_MANAGER_DEFAULT_THRESHOLD_VALUE));
             return new FaultyConnection(FAULTY_CONNECTION_MANAGER_DEFAULT_THRESHOLD_VALUE);
         }
     }
@@ -60,7 +60,7 @@ public class Problem3 {
 
         @Override
         public void printStackTrace() {
-            log.info(FAILED_COMMAND.formatted(causeOfException));
+            log.error(FAILED_COMMAND.formatted(causeOfException));
         }
     }
 
@@ -83,4 +83,5 @@ public class Problem3 {
         log.info(UPDATE_PACKAGES);
         popularCommandExecutor.updatePackages();
     }
+
 }
