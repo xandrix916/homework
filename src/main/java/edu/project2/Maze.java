@@ -7,6 +7,8 @@ public final class Maze {
 
     private final Vertex[][] vertices;
 
+    private final Renderer renderer;
+
     private void initMaze() {
         for (int i = 0; i < mazeHeight; i++) {
             for (int j = 0; j < mazeWidth; j++) {
@@ -42,6 +44,8 @@ public final class Maze {
         this.vertices = new Vertex[mazeHeight + 1][mazeWidth + 1];
         initVertices();
         arrangeEdges();
+
+        this.renderer = new Renderer(this);
     }
 
     public int getMazeHeight() {
@@ -50,5 +54,16 @@ public final class Maze {
 
     public int getMazeWidth() {
         return mazeWidth;
+    }
+
+    public Vertex getVertex(int row, int col) {
+        if (0 <= row && row <= mazeHeight && 0 <= col && col <= mazeWidth) {
+            return vertices[row][col];
+        }
+        return null;
+    }
+
+    public void render() {
+        renderer.render();
     }
 }
