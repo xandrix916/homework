@@ -6,13 +6,6 @@ public class Cell {
     private final Location location;
     private final EnumMap<WallSide, Boolean> wallStatus = new EnumMap<>(WallSide.class);
 
-    public static final String cellTemplate = """
-        []%s[]
-        %s  %s
-        %s  %s
-        []%s[]
-        """;
-
     public Cell(Location location) {
         this.location = location;
         wallStatus.put(WallSide.NORTH, true);
