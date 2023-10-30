@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Problem2 {
-    public static final ArrayList<String> NULL_ARRAY = new ArrayList<>(0);
+    public static final List<String> NULL_ARRAY = new ArrayList<>(0);
 
     private boolean isNormalCluster(String subString) {
         if (subString.charAt(0) == subString.charAt(subString.length() - 1)) {
@@ -13,7 +13,7 @@ public class Problem2 {
         if (subString.length() == 2) {
             return subString.equals("()");
         }
-        ArrayList<String> subCluster = clusterizeProcessor(subString.substring(1, subString.length() - 1));
+        List<String> subCluster = clusterizeProcessor(subString.substring(1, subString.length() - 1));
         if (subCluster.equals(NULL_ARRAY)) {
             for (int i = 0, j = subString.length() - 1; i < subString.length() && j >= 0; i++, j--) {
                 if (subString.charAt(i) == subString.charAt(j)) {
@@ -35,7 +35,7 @@ public class Problem2 {
     }
 
 
-    private ArrayList<String> clusterizeProcessor(String string) {
+    private List<String> clusterizeProcessor(String string) {
         ArrayList<String> bracketsList = new ArrayList<>();
         int indexOfChar = 0;
         if (string.equals("()")) {
@@ -67,7 +67,7 @@ public class Problem2 {
         return string;
     }
 
-    public ArrayList<String> clusterize(String string) {
+    public List<String> clusterize(String string) {
         try {
             return clusterizeProcessor(preModeration(string));
         } catch (IllegalArgumentException illegalArgumentException) {

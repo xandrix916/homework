@@ -18,42 +18,42 @@ class Problem2Test {
     @Test
     void firstExample() {
         String input = "()()()";
-        ArrayList<String> response = problem2.clusterize(input);
+        List<String> response = problem2.clusterize(input);
         Assertions.assertEquals(new ArrayList<>(Arrays.asList("()", "()", "()")), response);
     }
 
     @Test
     void secondExample() {
         String input = "((()))";
-        ArrayList<String> response = problem2.clusterize(input);
+        List<String> response = problem2.clusterize(input);
         Assertions.assertEquals(new ArrayList<>(List.of("((()))")), response);
     }
 
     @Test
     void thirdExample() {
         String input = "((()))(())()()(()())";
-        ArrayList<String> response = problem2.clusterize(input);
+        List<String> response = problem2.clusterize(input);
         Assertions.assertEquals(new ArrayList<>(Arrays.asList("((()))", "(())", "()", "()", "(()())")), response);
     }
 
     @Test
     void fourthExample() {
         String input = "((())())(()(()()))";
-        ArrayList<String> response = problem2.clusterize(input);
+        List<String> response = problem2.clusterize(input);
         Assertions.assertEquals(new ArrayList<>(Arrays.asList("((())())", "(()(()()))")), response);
     }
 
     @Test
     void mixTest() {
         String input = "((((()(()()))())))((()))";
-        ArrayList<String> response = problem2.clusterize(input);
+        List<String> response = problem2.clusterize(input);
         Assertions.assertEquals(new ArrayList<>(Arrays.asList("((((()(()()))())))", "((()))")), response);
     }
 
     @Test
     void oddSymbolsFailure() {
         String input = "(((((*()(-))()+))!(-)))";
-        ArrayList<String> response = problem2.clusterize(input);
+        List<String> response = problem2.clusterize(input);
         Assertions.assertEquals(new ArrayList<>(List.of("Program will be stop due" +
             " to odd symbols in given string")), response);
     }
@@ -61,7 +61,7 @@ class Problem2Test {
     @Test
     void startEqualsEnding() {
         String input = "((())())(()(()()))(";
-        ArrayList<String> response = problem2.clusterize(input);
+        List<String> response = problem2.clusterize(input);
         Assertions.assertEquals(new ArrayList<>(List.of("Program will be stop due to" +
             " an obviously unclusterized sequence in given string")), response);
     }
@@ -69,7 +69,7 @@ class Problem2Test {
     @Test
     void oddLength() {
         String input = "((())())(()((()()))";
-        ArrayList<String> response = problem2.clusterize(input);
+        List<String> response = problem2.clusterize(input);
         Assertions.assertEquals(new ArrayList<>(List.of("Program will be stop due to" +
             " an obviously unclusterized sequence in given string")), response);
     }
