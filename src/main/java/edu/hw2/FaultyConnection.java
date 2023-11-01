@@ -37,7 +37,7 @@ public class FaultyConnection implements Problem3.Connection {
         failChance = isFailChance(command.length());
         log.info(FAIL_CHANCE.formatted(failChance * TO_NATURAL_PERCENTS));
         if (Math.random() < failChance) {
-            log.info(DELIVERY_FAIL);
+            log.error(DELIVERY_FAIL);
             throw new Problem3.ConnectionException(CONNECTION_FAIL);
         }
         log.info(EXECUTE_SUCCESS);

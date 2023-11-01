@@ -20,7 +20,7 @@ public class DefaultConnectionManager implements Problem3.ConnectionManager {
         log.info(FAULTY_PROBABILITY.formatted(failProbability * TO_NATURAL_PERCENTS));
         if (Math.random() < failProbability) {
             int threshold = (int) (Math.random() * GET_RANDOM_TEN_TO_TWENTY) + GET_RANDOM_TEN_TO_TWENTY;
-            log.info(FAULTY_ESTABLISHED.formatted(threshold));
+            log.warn(FAULTY_ESTABLISHED.formatted(threshold));
             return new FaultyConnection(threshold);
         }
         log.info(STABLE_ESTABLISHED);
