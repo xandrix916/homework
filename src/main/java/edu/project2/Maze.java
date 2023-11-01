@@ -20,6 +20,13 @@ public final class Maze {
 
     private final Renderer renderer;
 
+    private Cell.Location start;
+
+    private Cell.Location end;
+
+    private Cell.WallSide startSide;
+    private Cell.WallSide endSide;
+
     private void initMaze() {
         for (int i = 0; i < mazeHeight; i++) {
             for (int j = 0; j < mazeWidth; j++) {
@@ -63,6 +70,38 @@ public final class Maze {
         }
     }
 
+    private int getRandomInt(int startRange, int closeRange) {
+        return startRange + (int) (Math.random() * closeRange);
+    }
+
+    private Cell.Location pickRandomEdgeCell(Cell.WallSide wallSide) {
+        return switch (wallSide) {
+            case NORTH -> new Cell.Location(0, getRandomInt(0, mazeWidth));
+            case SOUTH -> new Cell.Location(mazeHeight - 1, getRandomInt(0, mazeWidth));
+            case WEST -> new Cell.Location(getRandomInt(0, mazeHeight), 0);
+            case EAST -> new Cell.Location(getRandomInt(0, mazeHeight), mazeWidth - 1);
+        };
+    }
+    public void pickRandomEntranceExit() {
+        Cell.WallSide entranceSide;
+        Cell.WallSide exitSide;
+        Cell.WallSide[] wallSides = new Cell.WallSide[]{Cell.WallSide.NORTH, Cell.WallSide.SOUTH, Cell.WallSide.WEST, Cell.WallSide.EAST};
+        entranceSide = wallSides[getRandomInt(0, wallSides.length)];
+        exitSide = wallSides[getRandomInt(0, wallSides.length)];
+        if (entranceSide.equals(exitSide)) {
+            this.start = pickRandomEdgeCell(entranceSide);
+            this.end = new Cell.Location(start.row() == 0 ? 0 : mazeWidth - start.row(),
+                start.col() == 0 ? 0 : mazeHeight - start.col());
+            this.startSide = entranceSide;
+            this.endSide = this.startSide;
+        } else {
+            this.start = pickRandomEdgeCell(entranceSide);
+            this.end = pickRandomEdgeCell(exitSide);
+            this.startSide = entranceSide;
+            this.endSide = exitSide;
+        }
+    }
+
 
     public Maze(int mazeHeight, int mazeWidth) {
         this.mazeHeight = mazeHeight;
@@ -85,7 +124,7 @@ public final class Maze {
         }
 
 
-        this.renderer = new Renderer(this);
+        this.renderer = new Renderer(this, 9, 3);
     }
 
 
@@ -127,5 +166,21 @@ public final class Maze {
 
     public Cell getCellByCoordinates(int row, int col) {
         return maze[row][col];
+    }
+
+    public Cell.Location getStart() {
+        return start;
+    }
+
+    public Cell.Location getEnd() {
+        return end;
+    }
+
+    public Cell.WallSide getEndSide() {
+        return endSide;
+    }
+
+    public Cell.WallSide getStartSide() {
+        return startSide;
     }
 }
