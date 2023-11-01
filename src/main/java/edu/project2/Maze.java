@@ -1,8 +1,6 @@
 package edu.project2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public final class Maze {
@@ -47,13 +45,7 @@ public final class Maze {
     }
 
     private int clusterSize() {
-        if (mazeHeight > mazeWidth) {
-            return mazeHeight + mazeWidth - 2;
-        }
-        if (mazeHeight == mazeWidth) {
-            return 2 * mazeHeight - 1;
-        }
-        return mazeWidth + mazeHeight;
+        return 2 * mazeWidth - 1;
     }
 
     private void initEdges() {
@@ -62,26 +54,10 @@ public final class Maze {
         for (int i = 0; i < edgeAmount; i++) {
             orientation = i % edgeClusterSize;
             row = i / edgeClusterSize;
-            if (mazeHeight == mazeWidth) {
-                if (orientation < mazeHeight - 1) {
-                    edges.add(vertices[row][orientation + 1].getEdgeBySide(Cell.WallSide.SOUTH));
-                } else {
-                    edges.add(vertices[row + 1][orientation - mazeHeight + 1].getEdgeBySide(Cell.WallSide.EAST));
-                }
-            }
-            if (mazeHeight > mazeWidth) {
-                if (orientation < mazeWidth - 1) {
-                    edges.add(vertices[row][orientation + 1].getEdgeBySide(Cell.WallSide.SOUTH));
-                } else {
-                    edges.add(vertices[row + 1][orientation - mazeWidth + 1].getEdgeBySide(Cell.WallSide.EAST));
-                }
-            }
-            if (mazeHeight < mazeWidth) {
-                if (orientation < mazeHeight) {
-                    edges.add(vertices[row][orientation + 1].getEdgeBySide(Cell.WallSide.SOUTH));
-                } else {
-                    edges.add(vertices[row + 1][orientation - mazeWidth + 1].getEdgeBySide(Cell.WallSide.EAST));
-                }
+            if (orientation < mazeWidth - 1) {
+                edges.add(vertices[row][orientation + 1].getEdgeBySide(Cell.WallSide.SOUTH));
+            } else {
+                edges.add(vertices[row + 1][orientation - mazeWidth + 1].getEdgeBySide(Cell.WallSide.EAST));
             }
             edges.get(i).setNumber(i);
         }
@@ -109,18 +85,6 @@ public final class Maze {
         }
 
 
-        this.renderer = new Renderer(this);
-    }
-
-    public Maze(Maze otherMaze) {
-        this.mazeHeight = otherMaze.mazeHeight;
-        this.mazeWidth = otherMaze.mazeWidth;
-        this.maze = otherMaze.maze.clone();
-        this.edges = new ArrayList<>();
-        this.edgeAmount = otherMaze.edgeAmount;
-        this.edgeClusterSize = otherMaze.edgeClusterSize;
-        Collections.copy(otherMaze.edges, this.edges);
-        this.vertices = otherMaze.vertices.clone();
         this.renderer = new Renderer(this);
     }
 
