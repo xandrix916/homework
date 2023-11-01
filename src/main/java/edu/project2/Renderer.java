@@ -12,7 +12,7 @@ public class Renderer {
         put(RenderIcons.VERT_PART_EDGE, "||");
         put(RenderIcons.HOR_EDGE, "==========");
         put(RenderIcons.HOR_HOLLOW, " ".repeat(10));
-        put(RenderIcons.VERT_HOLLOW, " ");
+        put(RenderIcons.VERT_HOLLOW, "  ");
     }};
 
     private String[] templateString() {
@@ -69,6 +69,6 @@ public class Renderer {
     }
 
     public void render() {
-        log.info("\n" + mazeToString());
+        log.info(Arrays.toString(maze.getNumbersArray()) + "\n" + mazeToString());
     }
 }
