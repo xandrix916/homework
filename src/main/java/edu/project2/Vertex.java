@@ -73,4 +73,11 @@ public class Vertex {
         return edgeMap.get(wallSide);
    }
 
+    public int getVertexCol() {
+        return vertexCol;
+    }
+
+    public int getVertexRow() {
+        return vertexRow;
+    }
 }
