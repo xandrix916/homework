@@ -51,6 +51,14 @@ public final class Maze {
         }
     }
 
+    private void stickCellsWithEdges() {
+        for (int i = 0; i < mazeHeight; i++) {
+            for (int j = 0; j < mazeWidth; j++) {
+                maze[i][j].updateWallStatus(vertices);
+            }
+        }
+    }
+
     private int clusterSize() {
         return 2 * mazeWidth - 1;
     }
@@ -70,6 +78,7 @@ public final class Maze {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private int getRandomInt(int startRange, int closeRange) {
         return startRange + (int) (Math.random() * closeRange);
     }
@@ -90,8 +99,12 @@ public final class Maze {
         exitSide = wallSides[getRandomInt(0, wallSides.length)];
         if (entranceSide.equals(exitSide)) {
             this.start = pickRandomEdgeCell(entranceSide);
-            this.end = new Cell.Location(start.row() == 0 ? 0 : mazeWidth - start.row(),
-                start.col() == 0 ? 0 : mazeHeight - start.col());
+            this.end = switch (entranceSide) {
+                case NORTH, SOUTH  -> (start.col() * 2 + 1 == mazeWidth ? new Cell.Location(start.row(), 0)
+                    : new Cell.Location(start.row(), mazeWidth - 1 - start.col())) ;
+                case WEST, EAST -> (start.row() * 2 + 1 == mazeHeight ? new Cell.Location(0, start.col())
+                    : new Cell.Location(mazeHeight - 1 - start.row(), start.col()));
+            };
             this.startSide = entranceSide;
             this.endSide = this.startSide;
         } else {
@@ -119,9 +132,13 @@ public final class Maze {
         edgeClusterSize = clusterSize();
         initEdges();
 
+        stickCellsWithEdges();
+
         for (var e: edges) {
             e.setConnectedCells(this);
         }
+
+        pickRandomEntranceExit();
 
 
         this.renderer = new Renderer(this, 9, 3);

@@ -40,13 +40,13 @@ public class Edge {
         return isActive;
     }
 
-    /*public Vertex getFirstVertex() {
+    public Vertex getFirstVertex() {
         return firstVertex;
     }
 
     public Vertex getSecondVertex() {
         return secondVertex;
-    }*/
+    }
 
     public void setConnectedCells(Maze maze) {
         if (!checkMazeSide(maze)) {

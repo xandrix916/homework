@@ -45,13 +45,14 @@ public class Kruskal implements Generator {
         return trees;
     }
 
+    @SuppressWarnings("unused")
     public Kruskal() {
         this.numberList = null;
     }
 
-//    public Kruskal(int[] numberList) {
-//        this.numberList = numberList;
-//    }
+    public Kruskal(int[] numberList) {
+        this.numberList = numberList;
+    }
 
     public Maze run() {
         for (var e: edges) {

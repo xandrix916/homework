@@ -27,13 +27,6 @@ public class Renderer {
         return strings;
     }
 
-    /*public Renderer(Maze maze) {
-        this.maze = maze;
-        this.cellHorSize = 10;
-        this.cellVertSize = 4;
-
-    }*/
-
     public Renderer(Maze maze, int horSize, int vertSize) {
         this.maze = maze;
         this.cellHorSize = horSize;
@@ -88,98 +81,40 @@ public class Renderer {
         return resultString.toString();
     }
 
-    private Vertex[] allPossibleVertexForCell(Cell.Location location) {
-        return new Vertex[]{maze.getVertex(location.row(), location.col()),
-            maze.getVertex(location.row(), (location.col() + 1) == maze.getMazeWidth() ? (location.col() + 1)
-                : (location.col() - 1)),
-            maze.getVertex((location.row() + 1 == maze.getMazeHeight() ? location.row() + 1 : location.row() - 1),
-                location.col()),
-            maze.getVertex((location.row() + 1 == maze.getMazeHeight() ? location.row() + 1 : location.row() - 1),
-                (location.col() + 1) == maze.getMazeWidth() ? (location.col() + 1)
-                    : (location.col() - 1))};
-        }
-
-    private Vertex[] deleteNulls(Vertex[] vertices) {
-        int countNull = 0;
-        int counter = 0;
-        for (var i: vertices) {
-            if (i == null) {
-                countNull++;
-            }
-        }
-        if (countNull != 0) {
-            Vertex[] newVertices = new Vertex[vertices.length - countNull];
-            for (var i: vertices) {
-                if (i != null) {
-                    newVertices[counter] = i;
-                    counter++;
-                }
-            }
-            return newVertices;
-        }
-        return vertices;
-    }
-
-    private Vertex[] twoVerticesForEntrance(Cell.WallSide wallSide, Cell.Location location) {
-        Vertex[] possibleVertices = allPossibleVertexForCell(location);
-        possibleVertices = deleteNulls(possibleVertices);
-        if (possibleVertices.length < 4) {
-            if (possibleVertices.length == 2) {
-                return possibleVertices;
-            } else {
-                return switch (wallSide) {
-                    case NORTH, SOUTH -> new Vertex[] {possibleVertices[1], possibleVertices[2]};
-                    case WEST, EAST -> new Vertex[] {possibleVertices[0], possibleVertices[1]};
-                };
-            }
-        } else {
-            return switch (wallSide) {
-                case NORTH -> new Vertex[] {possibleVertices[0], possibleVertices[1]};
-                case SOUTH -> new Vertex[] {possibleVertices[2], possibleVertices[3]};
-                case WEST -> new Vertex[] {possibleVertices[0], possibleVertices[2]};
-                case EAST -> new Vertex[] {possibleVertices[1], possibleVertices[3]};
+    private int[] getGateIndex(Cell.Location location, Cell.WallSide wallSide) {
+        Cell wantedCell = maze.getCellByCoordinates(location.row(), location.col());
+        Edge wantedEdge = wantedCell.getEdgeBySide(wallSide);
+        Vertex firstVertex = wantedEdge.getFirstVertex();
+        Vertex secondVertex = wantedEdge.getSecondVertex();
+        return switch (wallSide) {
+            case NORTH, SOUTH -> new int[]{(cellVertSize + 1) * firstVertex.getVertexRow(),
+                firstVertex.getVertexCol() + secondVertex.getVertexCol()};
+            case WEST, EAST -> new int[]{
+                ((cellVertSize + 1) / 2) * (firstVertex.getVertexRow() + secondVertex.getVertexRow()),
+                2 * firstVertex.getVertexCol()
             };
-        }
+        };
     }
 
-    private int[] gateAddress(Cell.WallSide wallSide, Vertex first, Vertex second) {
-        try {
-            return switch (wallSide) {
-                case NORTH -> new int[]{0, first.getVertexCol() + second.getVertexCol()};
-                case SOUTH -> new int[]{(cellVertSize + 1) * (maze.getMazeHeight()),
-                    first.getVertexCol() + second.getVertexCol()};
-                case WEST -> new int[]{(cellVertSize + 1) / 2 * (first.getVertexRow() + second.getVertexRow()), 0};
-                case EAST -> new int[]{(cellVertSize + 1) / 2 * (first.getVertexRow() + second.getVertexRow()),
-                    2 * maze.getMazeWidth()};
-            };
-        } catch (NullPointerException exception) {
-            log.error(exception.getMessage());
-        }
-
-        return new int[0];
-    }
-
-    private void changeArgs(Cell.WallSide wallSide, int[] address) {
-        switch (wallSide) {
-            case NORTH, SOUTH -> args[address[0]][address[1]] = RenderIcons.HOR_GATE;
-            case EAST, WEST -> args[address[0]][address[1]] = RenderIcons.VERT_HOLLOW;
-        }
+    private RenderIcons getProperIcon(Cell.WallSide wallSide) {
+        return switch (wallSide) {
+            case NORTH, SOUTH -> RenderIcons.HOR_GATE;
+            case EAST, WEST -> RenderIcons.VERT_HOLLOW;
+        };
     }
 
     public void addExits() {
-        Cell.Location firstLocation = maze.getStart();
-        Cell.Location secondLocation = maze.getEnd();
+        Cell.Location startCell = maze.getStart();
+        Cell.Location endCell = maze.getEnd();
 
-        Vertex entranceFirst = twoVerticesForEntrance(maze.getStartSide(), firstLocation)[0];
-        Vertex entranceSecond = twoVerticesForEntrance(maze.getStartSide(), firstLocation)[1];
-        Vertex exitFirst = twoVerticesForEntrance(maze.getEndSide(), secondLocation)[0];
-        Vertex exitSecond = twoVerticesForEntrance(maze.getEndSide(), secondLocation)[1];
+        Cell.WallSide entranceSide = maze.getStartSide();
+        Cell.WallSide exitSide = maze.getEndSide();
 
-        int[] startAddress = gateAddress(maze.getStartSide(), entranceFirst, entranceSecond);
-        int[] exitAddress = gateAddress(maze.getEndSide(), exitFirst, exitSecond);
+        int[] startIndex = getGateIndex(startCell, entranceSide);
+        int[] endIndex = getGateIndex(endCell, exitSide);
 
-        changeArgs(maze.getStartSide(), startAddress);
-        changeArgs(maze.getEndSide(), exitAddress);
+        args[startIndex[0]][startIndex[1]] = getProperIcon(entranceSide);
+        args[endIndex[0]][endIndex[1]] = getProperIcon(exitSide);
     }
 
     public void render() {
