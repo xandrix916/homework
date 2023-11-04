@@ -50,11 +50,12 @@ public class Kruskal implements Generator {
         this.numberList = null;
     }
 
+    @SuppressWarnings("unused")
     public Kruskal(int[] numberList) {
         this.numberList = numberList;
     }
 
-    public Maze run() {
+    private Maze run() {
         for (var e: edges) {
             var connectedCells = e.getConnectedCells();
             Cell firstCell;

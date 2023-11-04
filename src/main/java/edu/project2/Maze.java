@@ -24,8 +24,8 @@ public final class Maze {
 
     private Cell.Location end;
 
-    private Cell.WallSide startSide;
-    private Cell.WallSide endSide;
+    private Cell.WallSide startSide = null;
+    private Cell.WallSide endSide = null;
 
     private void initMaze() {
         for (int i = 0; i < mazeHeight; i++) {
@@ -79,7 +79,7 @@ public final class Maze {
     }
 
     @SuppressWarnings("SameParameterValue")
-    private int getRandomInt(int startRange, int closeRange) {
+    public static int getRandomInt(int startRange, int closeRange) {
         return startRange + (int) (Math.random() * closeRange);
     }
 
@@ -94,9 +94,8 @@ public final class Maze {
     public void pickRandomEntranceExit() {
         Cell.WallSide entranceSide;
         Cell.WallSide exitSide;
-        Cell.WallSide[] wallSides = new Cell.WallSide[]{Cell.WallSide.NORTH, Cell.WallSide.SOUTH, Cell.WallSide.WEST, Cell.WallSide.EAST};
-        entranceSide = wallSides[getRandomInt(0, wallSides.length)];
-        exitSide = wallSides[getRandomInt(0, wallSides.length)];
+        entranceSide = Cell.COMPASS_POINTS[getRandomInt(0, Cell.COMPASS_POINTS.length)];
+        exitSide = Cell.COMPASS_POINTS[getRandomInt(0, Cell.COMPASS_POINTS.length)];
         if (entranceSide.equals(exitSide)) {
             this.start = pickRandomEdgeCell(entranceSide);
             this.end = switch (entranceSide) {
@@ -113,6 +112,17 @@ public final class Maze {
             this.startSide = entranceSide;
             this.endSide = exitSide;
         }
+        maze[start.row()][start.col()].setExitSide(startSide);
+        maze[end.row()][end.col()].setExitSide(endSide);
+    }
+
+    public void pickExitsManually(Cell.Location start, Cell.Location end, Cell.WallSide startSide, Cell.WallSide endSide) {
+        this.start = start;
+        this.end = end;
+        this.startSide = startSide;
+        this.endSide = endSide;
+        maze[start.row()][start.col()].setExitSide(startSide);
+        maze[end.row()][end.col()].setExitSide(endSide);
     }
 
 
@@ -138,8 +148,8 @@ public final class Maze {
             e.setConnectedCells(this);
         }
 
-        pickRandomEntranceExit();
 
+        pickRandomEntranceExit();
 
         this.renderer = new Renderer(this, 9, 3);
     }
@@ -199,5 +209,13 @@ public final class Maze {
 
     public Cell.WallSide getStartSide() {
         return startSide;
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
+    public void setSolver(Solver solver) {
+        this.renderer.setSolver(solver);
     }
 }

@@ -6,14 +6,52 @@ import java.util.EnumMap;
 
 public class Cell {
     private final Location location;
-    //private final EnumMap<WallSide, Boolean> wallStatus = new EnumMap<>(WallSide.class);
+
+    private boolean visited;
+    private boolean deadEnd;
     private final EnumMap<WallSide, Edge> wallStatus = new EnumMap<>(WallSide.class);
+
+    private WallSide exitSide;
+
+    public static final WallSide[] COMPASS_POINTS = new WallSide[]{WallSide.NORTH, WallSide.SOUTH, WallSide.WEST, WallSide.EAST};
+
     public Cell(Location location) {
         this.location = location;
+        wallStatus.put(Cell.WallSide.NORTH, null);
+        wallStatus.put(Cell.WallSide.SOUTH, null);
+        wallStatus.put(Cell.WallSide.EAST, null);
+        wallStatus.put(Cell.WallSide.WEST, null);
+        visited = false;
+        deadEnd = false;
+        exitSide = null;
     }
 
     public Location getLocation() {
         return location;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean isVisited) {
+        this.visited = isVisited;
+    }
+
+    public boolean isDeadEnd() {
+        return deadEnd;
+    }
+
+    public void setDeadEnd(boolean deadEnd) {
+        this.deadEnd = deadEnd;
+    }
+
+    public WallSide getExitSide() {
+        return exitSide;
+    }
+
+    public void setExitSide(WallSide exitSide) {
+        this.exitSide = exitSide;
     }
 
     public record Location(int row, int col) {}

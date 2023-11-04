@@ -4,13 +4,22 @@ public class Main {
     private Main() {
     }
 
-    public static void main(String[] args) {
-        //Kruskal kruskal = new Kruskal();
-        //Kruskal kruskal = new Kruskal(new int[]{8, 5, 10, 9, 0, 4, 1, 7, 11, 6, 3, 2});
-        Kruskal kruskal = new Kruskal(new int[]{11, 7, 1, 4, 3, 8, 0, 10, 9, 2, 6, 5});
-        Maze maze = kruskal.generate(3, 3);
-        //maze.pickRandomEntranceExit();
+    public static String testGenerate(int[] edgeOrder, int n, int m, int[] startIndex, int[] endIndex, Cell.WallSide startWallSide,
+        Cell.WallSide endWallSide, boolean solve) {
+        Generator kruskal = new Kruskal(edgeOrder);
+        Maze maze = kruskal.generate(n, m);
+        Cell.Location startCell = maze.getCellByCoordinates(startIndex[0], startIndex[1]).getLocation();
+        Cell.Location endCell = maze.getCellByCoordinates(endIndex[0], endIndex[1]).getLocation();
+        maze.pickExitsManually(startCell, endCell, startWallSide, endWallSide);
         maze.render();
-
+        if (solve) {
+            Solver tremaux = new TremauxSolver(maze);
+            maze.setSolver(tremaux);
+            maze.getRenderer().setNoMarks(true);
+            maze.render();
+        }
+        return maze.getRenderer().toString();
     }
+
+    public static void main(String[] args) {}
 }
