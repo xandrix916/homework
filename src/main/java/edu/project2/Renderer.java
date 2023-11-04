@@ -1,18 +1,21 @@
 package edu.project2;
 
-import lombok.extern.slf4j.Slf4j;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Renderer {
     private final Maze maze;
 
     private final int cellHorSize;
+    public static final int DEFAULT_CELL_HOR_SIZE = 9;
 
     private final int cellVertSize;
+    public static final int DEFAULT_CELL_VERT_SIZE = 3;
 
+    private static final int GATE_SIZE = 6;
     private boolean exitsAdded = false;
 
     private Solver solver = null;
@@ -40,8 +43,8 @@ public class Renderer {
     }
 
     private String gateString(String avatar) {
-        return String.format("%s%s%s%s%s", "==|", " ".repeat((cellHorSize - 6)/ 2),
-            avatar, " ".repeat((cellHorSize - 6)/ 2), "|==");
+        return String.format("%s%s%s%s%s", "==|", " ".repeat((cellHorSize - GATE_SIZE) / 2),
+            avatar, " ".repeat((cellHorSize - GATE_SIZE) / 2), "|==");
     }
 
     private String fromSide(Cell.WallSide side, String visit) {
@@ -72,10 +75,13 @@ public class Renderer {
         iconMap.put(RenderIcons.FROM_WEST_VISITED, fromSide(Cell.WallSide.WEST, iconMap.get(RenderIcons.VISITED)));
         iconMap.put(RenderIcons.PATH_SEGMENT_VERT, " ".repeat(cellHorSize / 2) + "|" + " ".repeat(cellHorSize / 2));
 
-        iconMap.put(RenderIcons.VISITED, " ".repeat(cellHorSize / 2) + iconMap.get(RenderIcons.VISITED) + " ".repeat(cellHorSize / 2));
-        iconMap.put(RenderIcons.DEAD_END, " ".repeat(cellHorSize / 2) + iconMap.get(RenderIcons.DEAD_END) + " ".repeat(cellHorSize / 2));
+        iconMap.put(RenderIcons.VISITED, " ".repeat(cellHorSize / 2)
+            + iconMap.get(RenderIcons.VISITED) + " ".repeat(cellHorSize / 2));
+        iconMap.put(RenderIcons.DEAD_END, " ".repeat(cellHorSize / 2)
+            + iconMap.get(RenderIcons.DEAD_END) + " ".repeat(cellHorSize / 2));
     }
 
+    @SuppressWarnings("ReturnCount")
     private Cell.WallSide calculateRelativeSide(Cell firstCell, Cell secondCell) {
         if (firstCell.equals(secondCell)
             || (Math.abs(firstCell.getLocation().row() - secondCell.getLocation().row()) > 1
@@ -97,11 +103,14 @@ public class Renderer {
         return null;
     }
 
-
+    @SuppressWarnings("InnerAssignment")
     private void drawExitPath(Cell.WallSide wallSide, int[] index) {
         switch (wallSide) {
             case NORTH, SOUTH -> args[index[0]][index[1]] = RenderIcons.HOR_GATE_WALKED;
             case WEST, EAST -> args[index[0]][index[1]] = RenderIcons.HOR_TRANSITION;
+            default -> {
+
+            }
         }
     }
 
@@ -134,6 +143,9 @@ public class Renderer {
                     args[index[0]][index[1] - 1] = RenderIcons.HOR_TRANSITION;
                 }
             }
+            default -> {
+
+            }
         }
     }
 
@@ -154,6 +166,9 @@ public class Renderer {
             case WEST, EAST -> {
                 args[index[0] + 1][index[1]] = RenderIcons.PATH_SEGMENT_HOR_FULL;
                 args[index[0] + 1][index[1] + (direction == Cell.WallSide.WEST ? 1 : -1)] = RenderIcons.HOR_TRANSITION;
+            }
+            default -> {
+
             }
         }
     }
@@ -233,13 +248,15 @@ public class Renderer {
                     currentEdge = currentVertex.getEdgeBySide(Cell.WallSide.SOUTH);
                     if (currentEdge != null) {
                         for (int k = 1; k <= cellVertSize; k++) {
-                            args[(cellVertSize + 1) * i + k][2 * j] = currentEdge.isActive() ? RenderIcons.VERT_PART_EDGE : RenderIcons.VERT_HOLLOW;
+                            args[(cellVertSize + 1) * i + k][2 * j] = currentEdge.isActive()
+                                ? RenderIcons.VERT_PART_EDGE : RenderIcons.VERT_HOLLOW;
                         }
                     }
 
                     currentEdge = currentVertex.getEdgeBySide(Cell.WallSide.EAST);
                     if (currentEdge != null) {
-                        args[(cellVertSize + 1) * i][2 * j + 1] = currentEdge.isActive() ? RenderIcons.HOR_EDGE : RenderIcons.HOR_HOLLOW;
+                        args[(cellVertSize + 1) * i][2 * j + 1] = currentEdge.isActive()
+                            ? RenderIcons.HOR_EDGE : RenderIcons.HOR_HOLLOW;
                     }
                 }
                 if (j != 0 && i != maze.getMazeHeight()) {

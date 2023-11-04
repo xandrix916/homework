@@ -6,14 +6,14 @@ import java.util.EnumMap;
 
 public class Cell {
     private final Location location;
-
     private boolean visited;
     private boolean deadEnd;
     private final EnumMap<WallSide, Edge> wallStatus = new EnumMap<>(WallSide.class);
 
     private WallSide exitSide;
 
-    public static final WallSide[] COMPASS_POINTS = new WallSide[]{WallSide.NORTH, WallSide.SOUTH, WallSide.WEST, WallSide.EAST};
+    public static final WallSide[] COMPASS_POINTS = new WallSide[]{WallSide.NORTH, WallSide.SOUTH,
+        WallSide.WEST, WallSide.EAST};
 
     public Cell(Location location) {
         this.location = location;
@@ -54,19 +54,12 @@ public class Cell {
         this.exitSide = exitSide;
     }
 
-    public record Location(int row, int col) {}
-
-    public enum WallSide {
-        NORTH,
-        SOUTH,
-        WEST,
-        EAST
-    }
 
     private Vertex[] getGroupOfVertices(Vertex[][] vertices) {
         int row = location.row();
         int col = location.col();
-        return new Vertex[]{vertices[row][col], vertices[row][col + 1], vertices[row + 1][col], vertices[row + 1][col + 1]};
+        return new Vertex[]{vertices[row][col], vertices[row][col + 1],
+            vertices[row + 1][col], vertices[row + 1][col + 1]};
     }
 
     public void updateWallStatus(Vertex[][] vertices) {
@@ -89,7 +82,21 @@ public class Cell {
         return otherCell.location.row == this.location.row && otherCell.location.col == this.location.col;
     }
 
+    @Override
+    public int hashCode() {
+        return 31 * location.hashCode();
+    }
+
     public Edge getEdgeBySide(WallSide side) {
         return wallStatus.get(side);
+    }
+
+    public record Location(int row, int col) {}
+
+    public enum WallSide {
+        NORTH,
+        SOUTH,
+        WEST,
+        EAST
     }
 }

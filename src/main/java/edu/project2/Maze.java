@@ -91,6 +91,7 @@ public final class Maze {
             case EAST -> new Cell.Location(getRandomInt(0, mazeHeight), mazeWidth - 1);
         };
     }
+
     public void pickRandomEntranceExit() {
         Cell.WallSide entranceSide;
         Cell.WallSide exitSide;
@@ -100,7 +101,7 @@ public final class Maze {
             this.start = pickRandomEdgeCell(entranceSide);
             this.end = switch (entranceSide) {
                 case NORTH, SOUTH  -> (start.col() * 2 + 1 == mazeWidth ? new Cell.Location(start.row(), 0)
-                    : new Cell.Location(start.row(), mazeWidth - 1 - start.col())) ;
+                    : new Cell.Location(start.row(), mazeWidth - 1 - start.col()));
                 case WEST, EAST -> (start.row() * 2 + 1 == mazeHeight ? new Cell.Location(0, start.col())
                     : new Cell.Location(mazeHeight - 1 - start.row(), start.col()));
             };
@@ -116,7 +117,8 @@ public final class Maze {
         maze[end.row()][end.col()].setExitSide(endSide);
     }
 
-    public void pickExitsManually(Cell.Location start, Cell.Location end, Cell.WallSide startSide, Cell.WallSide endSide) {
+    public void pickExitsManually(Cell.Location start, Cell.Location end,
+        Cell.WallSide startSide, Cell.WallSide endSide) {
         this.start = start;
         this.end = end;
         this.startSide = startSide;
@@ -151,7 +153,7 @@ public final class Maze {
 
         pickRandomEntranceExit();
 
-        this.renderer = new Renderer(this, 9, 3);
+        this.renderer = new Renderer(this, Renderer.DEFAULT_CELL_HOR_SIZE, Renderer.DEFAULT_CELL_VERT_SIZE);
     }
 
 

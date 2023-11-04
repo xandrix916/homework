@@ -18,6 +18,7 @@ public class Vertex {
         edgeMap.put(Cell.WallSide.WEST, null);
     }
 
+    @SuppressWarnings("ReturnCount")
     private boolean checkEdge(Cell.WallSide wallSide, Vertex[][] vertices) {
         Edge adjacentEdge = null;
         switch (wallSide) {
@@ -44,6 +45,9 @@ public class Vertex {
                     return true;
                 }
                 adjacentEdge = vertices[vertexRow][vertexCol + 1].edgeMap.get(Cell.WallSide.WEST);
+            }
+            default -> {
+
             }
         }
         if (adjacentEdge != null) {

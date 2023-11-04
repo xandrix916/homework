@@ -14,6 +14,7 @@ public class CellTree {
     private String anotherNode(int row, int col) {
         return String.format(STRING_VIEW_TEMPLATE, row, col);
     }
+
     private void setParentTree(CellTree parentTree) {
         this.parentTree = parentTree;
     }
@@ -33,6 +34,11 @@ public class CellTree {
         }
         CellTree cellTree = (CellTree) o;
         return this.getRoot() == cellTree.getRoot();
+    }
+
+    @Override
+    public int hashCode() {
+        return getRoot().hashCode();
     }
 
     private CellTree getRoot() {

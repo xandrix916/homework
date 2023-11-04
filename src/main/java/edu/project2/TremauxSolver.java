@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
-public class TremauxSolver implements Solver{
+public class TremauxSolver implements Solver {
     private final List<Cell.Location> resultPath;
     private final Maze maze;
 
@@ -21,6 +21,7 @@ public class TremauxSolver implements Solver{
         };
     }
 
+    @SuppressWarnings("ReturnCount")
     private CellType checkType(Cell examinedCell, Cell.WallSide initialDirection) {
         if (isJoint(examinedCell, initialDirection)) {
             return CellType.JOINT;
@@ -66,7 +67,7 @@ public class TremauxSolver implements Solver{
         } catch (IndexOutOfBoundsException e) {
             notVisited = true;
         }
-        return uniqueWaysCounter == 1 && ( notVisited || examinedCell.getEdgeBySide(initialDirection).isActive());
+        return uniqueWaysCounter == 1 && (notVisited || examinedCell.getEdgeBySide(initialDirection).isActive());
     }
 
     private boolean isPassage(Cell examinedCell, Cell.WallSide initialDirection) {
@@ -132,7 +133,8 @@ public class TremauxSolver implements Solver{
             if (getCellBySide(backwards, currentCell).isDeadEnd()) {
                 for (var side : Cell.COMPASS_POINTS) {
                     try {
-                        if (!getCellBySide(side, currentCell).isDeadEnd() && !currentCell.getEdgeBySide(side).isActive()) {
+                        if (!getCellBySide(side, currentCell).isDeadEnd()
+                            && !currentCell.getEdgeBySide(side).isActive()) {
                             return side;
                         }
                     } catch (IndexOutOfBoundsException ignored) {
@@ -204,6 +206,7 @@ public class TremauxSolver implements Solver{
                         }
                     }
                 }
+                default -> { }
             }
         }
         return resultPath;

@@ -4,8 +4,9 @@ public class Main {
     private Main() {
     }
 
-    public static String testGenerate(int[] edgeOrder, int n, int m, int[] startIndex, int[] endIndex, Cell.WallSide startWallSide,
-        Cell.WallSide endWallSide, boolean solve) {
+    @SuppressWarnings("ParameterNumber")
+    public static String testGenerate(int[] edgeOrder, int n, int m, int[] startIndex, int[] endIndex,
+        Cell.WallSide startWallSide, Cell.WallSide endWallSide, boolean solve) {
         Generator kruskal = new Kruskal(edgeOrder);
         Maze maze = kruskal.generate(n, m);
         Cell.Location startCell = maze.getCellByCoordinates(startIndex[0], startIndex[1]).getLocation();
