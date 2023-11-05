@@ -9,10 +9,11 @@ import java.util.stream.Collectors;
 
 public class Problem6 {
     public Map<Animal.Type, Animal> heavyByType(List<Animal> animalList) {
-        var preMap = animalList.stream().collect(Collectors.groupingBy(Animal::type, Collectors.maxBy(Comparator.comparing(Animal :: weight))));
+        var preMap = animalList.stream().collect(Collectors.groupingBy(Animal::type,
+            Collectors.maxBy(Comparator.comparing(Animal :: weight))));
         Map<Animal.Type, Animal> resultMap = new HashMap<>();
         try {
-            preMap.forEach((k, v) -> resultMap.put(k, v.get()));
+            preMap.forEach((k, v) -> resultMap.put(k, (v.orElse(null))));
             return resultMap;
         } catch (NoSuchElementException e) {
             return null;
