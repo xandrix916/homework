@@ -14,6 +14,18 @@ class Problem5Test {
 
     private Problem5 problem5;
 
+    public static final List<Animal> animalList = new ArrayList<>(List.of(
+        new Animal("Kitty Softpaws", Animal.Type.CAT, Animal.Sex.F, 13, 41, 15, true),
+        new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
+        new Animal("Ostrich", Animal.Type.BIRD, Animal.Sex.M, 34, 250, 156, false),
+        new Animal("Dori", Animal.Type.FISH, Animal.Sex.F,
+            100, 1300, 12000, false),
+        new Animal("Lady", Animal.Type.DOG, Animal.Sex.F, 10, 64, 35, true),
+        new Animal("Beethoven", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false),
+        new Animal("Sweet Shalquoir", Animal.Type.CAT, Animal.Sex.F, 12, 30, 6, false)
+    )
+    );
+
     @Test
     void maleTest() {
         List<Animal> animalList = new ArrayList<>(List.of(
@@ -34,17 +46,7 @@ class Problem5Test {
 
     @Test
     void femaleTest() {
-        List<Animal> animalList = new ArrayList<>(List.of(
-            new Animal("Kitty Softpaws", Animal.Type.CAT, Animal.Sex.F, 13, 41, 15, true),
-            new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
-            new Animal("Ostrich", Animal.Type.BIRD, Animal.Sex.M, 34, 250, 156, false),
-            new Animal("Dori", Animal.Type.FISH, Animal.Sex.F,
-                100, 1300, 12000, false),
-            new Animal("Lady", Animal.Type.DOG, Animal.Sex.F, 10, 64, 35, true),
-            new Animal("Beethoven", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false),
-            new Animal("Sweet Shalquoir", Animal.Type.CAT, Animal.Sex.F, 12, 30, 6, false)
-        )
-        );
+
         Animal.Sex response = problem5.getSexPrimacy(animalList);
         assertEquals(Animal.Sex.F, response);
     }
