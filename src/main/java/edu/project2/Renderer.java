@@ -7,17 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Renderer {
-    private final Maze maze;
 
-    private final int cellHorSize;
     public static final int DEFAULT_CELL_HOR_SIZE = 9;
-
-    private final int cellVertSize;
     public static final int DEFAULT_CELL_VERT_SIZE = 3;
-
     private static final int GATE_SIZE = 6;
+    private final Maze maze;
+    private final int cellHorSize;
+    private final int cellVertSize;
     private boolean exitsAdded = false;
-
     private Solver solver = null;
 
     private int[] startIndex;
@@ -103,17 +100,15 @@ public class Renderer {
         return null;
     }
 
-    @SuppressWarnings("InnerAssignment")
+    @SuppressWarnings({"InnerAssignment", "MissingSwitchDefault"})
     private void drawExitPath(Cell.WallSide wallSide, int[] index) {
         switch (wallSide) {
             case NORTH, SOUTH -> args[index[0]][index[1]] = RenderIcons.HOR_GATE_WALKED;
             case WEST, EAST -> args[index[0]][index[1]] = RenderIcons.HOR_TRANSITION;
-            default -> {
-
-            }
         }
     }
 
+    @SuppressWarnings({"MissingSwitchDefault"})
     private void fillHalfCell(Cell.Location location, Cell.WallSide direction) {
         int[] index = getCenterIndex(location);
         switch (direction) {
@@ -142,9 +137,6 @@ public class Renderer {
                 if (!(location.equals(maze.getStart()) || location.equals(maze.getEnd()))) {
                     args[index[0]][index[1] - 1] = RenderIcons.HOR_TRANSITION;
                 }
-            }
-            default -> {
-
             }
         }
     }
@@ -188,6 +180,32 @@ public class Renderer {
         }
     }
 
+    private void markVisit(int[] index) {
+        args[index[0]][index[1]] = switch (args[index[0]][index[1]]) {
+            case PATH_SEGMENT_HOR_FULL -> RenderIcons.PATH_HOR_VISITED;
+            case PATH_SEGMENT_HOR_FROM_EAST -> RenderIcons.FROM_EAST_VISITED;
+            case PATH_SEGMENT_HOR_FROM_WEST -> RenderIcons.FROM_WEST_VISITED;
+            default -> RenderIcons.VISITED;
+        };
+    }
+
+    private void drawMarks() {
+        for (int i = 0; i < maze.getMazeHeight(); i++) {
+            for (int j = 0; j < maze.getMazeWidth(); j++) {
+                Cell cell = maze.getCellByCoordinates(i, j);
+                int[] index = getCenterIndex(cell.getLocation());
+                if (cell.isDeadEnd()) {
+                    args[index[0]][index[1]]
+                        = RenderIcons.DEAD_END;
+                } else {
+                    if (cell.isVisited()) {
+                        markVisit(index);
+                    }
+                }
+            }
+        }
+    }
+
 
     private void drawPath(List<Cell.Location> path) {
         drawExitPath(maze.getStartSide(), startIndex);
@@ -209,25 +227,7 @@ public class Renderer {
         }
 
         if (!noMarks) {
-            for (int i = 0; i < maze.getMazeHeight(); i++) {
-                for (int j = 0; j < maze.getMazeWidth(); j++) {
-                    Cell cell = maze.getCellByCoordinates(i, j);
-                    int[] index = getCenterIndex(cell.getLocation());
-                    if (cell.isDeadEnd()) {
-                        args[index[0]][index[1]]
-                            = RenderIcons.DEAD_END;
-                    } else {
-                        if (cell.isVisited()) {
-                            args[index[0]][index[1]] = switch (args[index[0]][index[1]]) {
-                                case PATH_SEGMENT_HOR_FULL -> RenderIcons.PATH_HOR_VISITED;
-                                case PATH_SEGMENT_HOR_FROM_EAST -> RenderIcons.FROM_EAST_VISITED;
-                                case PATH_SEGMENT_HOR_FROM_WEST -> RenderIcons.FROM_WEST_VISITED;
-                                default -> RenderIcons.VISITED;
-                            };
-                        }
-                    }
-                }
-            }
+            drawMarks();
         }
 
         assert maze.getEndSide() != null;

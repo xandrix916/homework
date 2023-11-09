@@ -126,30 +126,34 @@ public class TremauxSolver implements Solver {
         }
     }
 
+    private Cell.WallSide deadEndChooseSide(Cell currentCell) {
+        for (var side : Cell.COMPASS_POINTS) {
+            try {
+                if (!getCellBySide(side, currentCell).isDeadEnd()
+                    && !currentCell.getEdgeBySide(side).isActive()) {
+                    return side;
+                }
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+        }
+        return null;
+    }
+
     private Cell.WallSide deadEndSolver(Cell.Location location, Cell.WallSide direction) {
         Cell currentCell = maze.getCellByCoordinates(location.row(), location.col());
         if (currentCell.isDeadEnd()) {
             Cell.WallSide backwards = oppositeDirection(direction);
             if (getCellBySide(backwards, currentCell).isDeadEnd()) {
-                for (var side : Cell.COMPASS_POINTS) {
-                    try {
-                        if (!getCellBySide(side, currentCell).isDeadEnd()
-                            && !currentCell.getEdgeBySide(side).isActive()) {
-                            return side;
-                        }
-                    } catch (IndexOutOfBoundsException ignored) {
-                    }
-                }
+                return deadEndChooseSide(currentCell);
             } else {
                     return backwards;
                 }
         } else {
             return chooseDirection(cellsToGo(currentCell, direction));
         }
-        return null;
     }
 
-
+    @SuppressWarnings({"MissingSwitchDefault"})
     private List<Cell.Location> run() {
         Cell currentCell = maze.getCellByCoordinates(maze.getStart().row(), maze.getStart().col());
         resultPath.add(currentCell.getLocation());
@@ -206,7 +210,6 @@ public class TremauxSolver implements Solver {
                         }
                     }
                 }
-                default -> { }
             }
         }
         return resultPath;

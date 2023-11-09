@@ -7,11 +7,7 @@ import java.util.List;
 public class Kruskal implements Generator {
     private Maze maze;
     private List<Edge> edges;
-
     private final int[] numberList;
-
-    //private Map<Cell, CellTree> setMap = new HashMap<>();
-
     private CellTree[][] cellTrees;
 
     private void setNumbersArray() {
