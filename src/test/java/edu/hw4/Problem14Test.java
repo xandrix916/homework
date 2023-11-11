@@ -20,7 +20,8 @@ class Problem14Test {
             new Animal("Rex", Animal.Type.DOG, Animal.Sex.M, 10, 64, 35, true),
             new Animal("Beethoven", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false),
             new Animal("Ludwig", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)));
-        assertTrue(problem14.isThereDogHigherThanK(doggosList, 65));
+        Boolean response = problem14.isThereDogHigherThanK(doggosList, 65);
+        assertTrue(response);
     }
 
     @Test
@@ -29,6 +30,7 @@ class Problem14Test {
             new Animal("Rex", Animal.Type.DOG, Animal.Sex.M, 10, 64, 35, true),
             new Animal("Beethoven", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false),
             new Animal("Ludwig", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)));
-        assertFalse(problem14.isThereDogHigherThanK(doggosList, 80));
+        Boolean response = problem14.isThereDogHigherThanK(doggosList, 80);
+        assertFalse(response);
     }
 }

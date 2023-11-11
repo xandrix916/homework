@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public class Problem8 {
     public Optional<Animal> oldestFromLowerK(List<Animal> animalList, int k) {
-        return animalList.stream().filter(animal -> animal.height() < k).max(Comparator.comparing(Animal::weight));
+        return animalList.stream()
+            .filter(animal -> animal.height() < k)
+            .max(Comparator.comparing(Animal::weight));
     }
 }

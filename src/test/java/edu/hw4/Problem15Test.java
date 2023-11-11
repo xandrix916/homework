@@ -15,12 +15,13 @@ class Problem15Test {
 
     @Test
     void simpleTest() {
-        var expected = new HashMap<>(){{
+        var animalList = Problem7Test.animalList;
+        var response = problem15.weightForTypeAndAgeRange(animalList, 10, 20);
+        assertEquals(new HashMap<>(){{
             put(Animal.Type.CAT, 22);
             put(Animal.Type.DOG, 61);
             put(Animal.Type.SPIDER, 0);
-        }};
-        assertEquals(expected, problem15.weightForTypeAndAgeRange(Problem7Test.animalList, 10, 20));
+        }}, response);
     }
 
 }

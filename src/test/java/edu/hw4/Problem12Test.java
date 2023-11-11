@@ -15,6 +15,8 @@ class Problem12Test {
 
     @Test
     void countThemAll() {
-        assertEquals(2, problem12.problematicBodyMassIndex(Problem7Test.animalList));
+        var animalList = Problem7Test.animalList;
+        Integer response =problem12.problematicBodyMassIndex(animalList);
+        assertEquals(2, response);
     }
 }

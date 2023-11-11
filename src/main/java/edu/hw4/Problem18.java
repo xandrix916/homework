@@ -14,7 +14,8 @@ public class Problem18 {
             commonList = Stream.concat(commonList.stream(), list.stream()).toList();
         }
         try {
-            return commonList.stream().max(Comparator.comparing(Animal::weight)).get();
+            return commonList.stream()
+                .max(Comparator.comparing(Animal::weight)).get();
         } catch (NoSuchElementException e) {
             return null;
         }

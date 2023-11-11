@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Problem9 {
     public Integer sumOfPaws(List<Animal> animalList) {
-        return animalList.stream().mapToInt(Animal::paws).sum();
+        return animalList.stream()
+            .mapToInt(Animal::paws).sum();
     }
 }

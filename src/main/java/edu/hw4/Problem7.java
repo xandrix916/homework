@@ -5,7 +5,10 @@ import java.util.List;
 
 public class Problem7 {
     public Animal getKthOldestAnimal(List<Animal> animalList, int k) {
-        var animals = animalList.stream().sorted(Comparator.comparing(Animal::age)).toList();
+        var animals = animalList.stream()
+            .sorted(Comparator
+                .comparing(Animal::age))
+            .toList();
         if (k >= animals.size() || k < 0) {
             return null;
         }

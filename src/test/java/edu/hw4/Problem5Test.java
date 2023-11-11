@@ -54,6 +54,7 @@ class Problem5Test {
     @Test
     void thirdGender() {
         List<Animal> animalList = new ArrayList<>();
-        assertNull(problem5.getSexPrimacy(animalList));
+        var response = problem5.getSexPrimacy(animalList);
+        assertNull(response);
     }
 }

@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Problem19Test {
@@ -24,13 +22,13 @@ class Problem19Test {
             new Animal("Ginger", Animal.Type.CAT, null, 100500, 40, 10, true),
             new Animal("Bunny", null, Animal.Sex.F, 12, 1000000000, 14000, false)
         ));
-        Map<String, Set<ValidationError>> errorSet = problem19.getErrors(animalList);
-        Map<String, Set<ValidationError>> expected = new HashMap<>(){{
+        var response = problem19.getErrors(animalList);
+
+        assertEquals(new HashMap<>(){{
             put("", ValidationError.checkError(animalList.get(0)));
             put("Ginger", ValidationError.checkError(animalList.get(1)));
             put("Bunny", ValidationError.checkError(animalList.get(2)));
-        }};
-        assertEquals(expected, errorSet);
+        }}, response);
     }
 
 }

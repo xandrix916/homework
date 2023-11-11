@@ -16,11 +16,11 @@ class Problem11Test {
 
     @Test
     void badGuy() {
-        List<Animal> expected = new ArrayList<>(List.of(
+        var animalList = Problem7Test.animalList;
+        List<Animal> response = problem11.whoBitesAndHigherThat100(animalList);
+        assertEquals(new ArrayList<>(List.of(
             new Animal("Bull Shark", Animal.Type.FISH, Animal.Sex.M,
-                50, 225, 95, true)
-        ));
-        assertEquals(expected, problem11.whoBitesAndHigherThat100(Problem7Test.animalList));
+                50, 225, 95, true))), response);
     }
 
 }

@@ -7,8 +7,9 @@ import java.util.stream.Collectors;
 
 public class Problem3 {
     public Map<Animal.Type, Integer> getMapOfTypeAmounts(List<Animal> animals) {
-        Map<Animal.Type, Long> preOrderedMap = animals.stream().collect(Collectors.groupingBy(Animal::type,
-            Collectors.mapping(Animal::name, Collectors.counting())));
+        Map<Animal.Type, Long> preOrderedMap = animals.stream()
+            .collect(Collectors
+                .groupingBy(Animal::type, Collectors.mapping(Animal::name, Collectors.counting())));
         Map<Animal.Type, Integer> resultMap = new HashMap<>();
         preOrderedMap.forEach((k, v) -> resultMap.put(k, v.intValue()));
         return resultMap;

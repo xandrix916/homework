@@ -30,12 +30,15 @@ class Problem17Test {
             new Animal("Senbernar", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false)
         )
         );
-        assertTrue(problem17.spidersOrDogs(animalList));
+        Boolean response = problem17.spidersOrDogs(animalList);
+        assertTrue(response);
     }
 
     @Test
     void butDogsDoToo() {
-        assertFalse(problem17.spidersOrDogs(Problem7Test.animalList));
+        var animalList = Problem7Test.animalList;
+        Boolean response = problem17.spidersOrDogs(animalList);
+        assertFalse(response);
     }
 
 }

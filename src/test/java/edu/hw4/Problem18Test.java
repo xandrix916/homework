@@ -16,8 +16,9 @@ class Problem18Test {
 
     @Test
     void freddyTheFish() {
+        var animalList = Problem7Test.animalList;
         List<List<Animal>> animalLists = new ArrayList<>(List.of(
-            Problem7Test.animalList,
+            animalList,
             new ArrayList<>(List.of(
                 new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 13, 41, 15, true),
                 new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
@@ -28,8 +29,8 @@ class Problem18Test {
             )
             )
         ));
-        Animal expected = Problem7Test.animalList.get(5);
-        assertEquals(expected, problem18.heaviestFish(animalLists));
+        Animal response = problem18.heaviestFish(animalLists);
+        assertEquals(animalList.get(5), response);
     }
 
 }

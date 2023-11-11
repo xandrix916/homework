@@ -35,7 +35,7 @@ class Problem4Test {
     @Test
     void somethingWentWrong() {
         List<Animal> animalList = new ArrayList<>();
-        Animal largestOne = problem4.getAnimalWithLargestName(animalList);
-        assertNull(largestOne);
+        Animal response = problem4.getAnimalWithLargestName(animalList);
+        assertNull(response);
     }
 }

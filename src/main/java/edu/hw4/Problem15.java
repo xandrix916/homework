@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 
 public class Problem15 {
     public Map<Animal.Type, Integer> weightForTypeAndAgeRange(List<Animal> animalList, int k, int l) {
-        return animalList.stream().filter(animal -> animal.age() >= k && animal.age() <= l).collect(
-            Collectors.groupingBy(Animal::type, Collectors.summingInt(Animal::weight)));
+        return animalList.stream()
+            .filter(animal -> animal.age() >= k && animal.age() <= l)
+            .collect(Collectors.groupingBy(Animal::type, Collectors.summingInt(Animal::weight)));
     }
 }

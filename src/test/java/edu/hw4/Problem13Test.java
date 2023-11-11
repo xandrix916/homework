@@ -26,11 +26,11 @@ class Problem13Test {
             new Animal("Beethoven", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false),
             new Animal("Sweet Shalquoir of Majula", Animal.Type.CAT, Animal.Sex.F, 12, 30, 6, false)
         ));
-        var expected = new ArrayList<>(List.of(
+        var response = problem13.complexNames(animals);
+        assertEquals(new ArrayList<>(List.of(
             animals.get(0),
             animals.get(1),
             animals.get(6)
-        ));
-        assertEquals(expected, problem13.complexNames(animals));
+        )), response);
     }
 }

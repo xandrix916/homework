@@ -1,14 +1,13 @@
 package edu.hw4;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Problem19 {
     public Map<String, Set<ValidationError>> getErrors(List<Animal> animalList) {
-        Map<String, Set<ValidationError>> errorsMap = new HashMap<>();
-        animalList.forEach(animal -> errorsMap.put(animal.name(), ValidationError.checkError(animal)));
-        return errorsMap;
+        return animalList.stream()
+            .collect(Collectors.toMap(Animal::name, ValidationError::checkError));
     }
 }

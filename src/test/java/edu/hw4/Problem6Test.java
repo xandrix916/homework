@@ -20,13 +20,12 @@ class Problem6Test {
     void heavyAnimals() {
         List<Animal> animalList = Problem7Test.animalList;
         Map<Animal.Type, Animal> response = problem6.heavyByType(animalList);
-        Map<Animal.Type, Animal> expected = new HashMap<>() {{
+        assertEquals(new HashMap<>() {{
             put(Animal.Type.CAT, animalList.get(0));
             put(Animal.Type.DOG, animalList.get(9));
             put(Animal.Type.BIRD, animalList.get(3));
             put(Animal.Type.FISH, animalList.get(5));
             put(Animal.Type.SPIDER, animalList.get(7));
-        }};
-        assertEquals(expected, response);
+        }}, response);
     }
 }

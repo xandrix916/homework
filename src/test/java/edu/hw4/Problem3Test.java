@@ -31,14 +31,13 @@ class Problem3Test {
         )
         );
         Map<Animal.Type, Integer> amounts = problem3.getMapOfTypeAmounts(animalList);
-        Map<Animal.Type, Integer> expected = new HashMap<>(){{
+        assertEquals(new HashMap<>(){{
             put(Animal.Type.FISH, 1);
             put(Animal.Type.DOG, 4);
             put(Animal.Type.CAT, 1);
             put(Animal.Type.BIRD, 1);
             put(Animal.Type.SPIDER, 1);
-        }};
-        assertEquals(expected, amounts);
+        }}, amounts);
     }
 
 }
