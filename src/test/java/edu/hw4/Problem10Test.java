@@ -17,7 +17,8 @@ class Problem10Test {
 
     @Test
     void noMatches() {
-        var response = problem10.pawsNotEqualsAge(Problem7Test.animalList);
+        var animalList = Problem7Test.animalList;
+        var response = problem10.pawsNotEqualsAge(animalList);
         assertEquals(Problem7Test.animalList, response);
     }
 
@@ -40,7 +41,8 @@ class Problem10Test {
             new Animal("Berger Picard", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)
         )
         );
-        List<Animal> expected = new ArrayList<>(List.of(
+        var response = problem10.pawsNotEqualsAge(animalList);
+        assertEquals(new ArrayList<>(List.of(
             new Animal("Siberian cat", Animal.Type.CAT, Animal.Sex.M, 10, 41, 7, true),
             new Animal("Hummingbird", Animal.Type.BIRD, Animal.Sex.M, 7, 20, 0, false),
             new Animal("Bull Shark", Animal.Type.FISH, Animal.Sex.M,
@@ -48,8 +50,6 @@ class Problem10Test {
             new Animal("Sheepdog", Animal.Type.DOG, Animal.Sex.M, 10, 64, 35, true),
             new Animal("Berger Picard", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)
         )
-        );
-        var response = problem10.pawsNotEqualsAge(animalList);
-        assertEquals(expected, response);
+        ), response);
     }
 }

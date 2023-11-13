@@ -16,7 +16,8 @@ class Problem9Test {
 
     @Test
     void lotsOfPaws() {
-        Integer response = problem9.sumOfPaws(Problem7Test.animalList);
+        List<Animal> animalList = Problem7Test.animalList;
+        Integer response = problem9.sumOfPaws(animalList);
         assertEquals(36, response);
     }
 

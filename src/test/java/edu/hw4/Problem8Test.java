@@ -14,16 +14,16 @@ class Problem8Test {
 
     private Problem8 problem8;
 
-    List<Animal> animalList = Problem7Test.animalList;
-
     @Test
     void lowerAndLower() {
+        List<Animal> animalList = Problem7Test.animalList;
         Optional<Animal> response = problem8.oldestFromLowerK(animalList, 200);
         assertEquals(Optional.of(animalList.get(9)), response);
     }
 
     @Test
     void notThisLow() {
+        List<Animal> animalList = Problem7Test.animalList;
         Optional<Animal> response = problem8.oldestFromLowerK(animalList, 10);
         assertEquals(Optional.empty(), response);
     }
