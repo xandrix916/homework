@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Problem2 {
+
+    private static final int THIRTEENTH = 13;
+    private static final int MONTH_AMOUNT = 12;
+
+    @SuppressWarnings("MagicNumber")
     boolean isFriday(LocalDate localDate) {
         int day = localDate.getDayOfMonth();
         int month = (localDate.getMonthValue() <= 2 ? 10 + localDate.getMonthValue()
@@ -18,8 +23,8 @@ public class Problem2 {
 
     List<LocalDate> getFridaysByYear(int year) {
         List<LocalDate> fridays = new ArrayList<>();
-        for (int i = 1; i <= 12; i++) {
-            fridays.add(LocalDate.of(year, i, 13));
+        for (int i = 1; i <= MONTH_AMOUNT; i++) {
+            fridays.add(LocalDate.of(year, i, THIRTEENTH));
         }
         return fridays.stream().filter(this::isFriday).toList();
     }

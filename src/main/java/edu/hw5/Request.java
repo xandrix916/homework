@@ -15,6 +15,7 @@ public class Request {
     public String getDateToHandle() {
         return dateToHandle;
     }
+
     public void markHandled(LocalDate result) {
         this.handled = true;
         this.result = result;

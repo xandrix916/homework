@@ -6,7 +6,11 @@ import java.util.List;
 
 public class SimpleWordHandler implements RequestHandler {
 
-    private static final List<String> ALLOWED_COMMANDS = new ArrayList<>(List.of("tomorrow", "today", "yesterday"));
+    private static final String TOMORROW = "tomorrow";
+    private static final String TODAY = "today";
+    private static final String YESTERDAY = "yesterday";
+
+    private static final List<String> ALLOWED_COMMANDS = new ArrayList<>(List.of(TOMORROW, TODAY, YESTERDAY));
 
     private static final String NAME = "Simple Word Handler";
 
@@ -23,9 +27,9 @@ public class SimpleWordHandler implements RequestHandler {
     @Override
     public void handle(Request rq) {
         LocalDate localDate = switch (rq.getDateToHandle().toLowerCase()) {
-            case "today" -> LocalDate.now();
-            case "tomorrow" -> LocalDate.now().plusDays(1);
-            case "yesterday" -> LocalDate.now().minusDays(1);
+            case TODAY -> LocalDate.now();
+            case TOMORROW -> LocalDate.now().plusDays(1);
+            case YESTERDAY -> LocalDate.now().minusDays(1);
             default -> null;
         };
         rq.markHandled(localDate);

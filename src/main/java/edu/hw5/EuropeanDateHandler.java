@@ -7,8 +7,11 @@ import java.util.regex.Pattern;
 public class EuropeanDateHandler implements RequestHandler {
 
     private static final String MATCH_STRING = "\\d/\\d/\\d{2,4}";
-
     private static final String NAME = "European Date Handler";
+    private static final int PRIORITY = 3;
+    private static final int SHORT_YEAR_FORMAT_LEN = 2;
+    private static final int FULL_YEAR_FORMAT_LEN = 4;
+
 
     @Override
     public boolean canHandleRequest(Request rq) {
@@ -19,15 +22,15 @@ public class EuropeanDateHandler implements RequestHandler {
 
     @Override
     public int getPriority() {
-        return 3;
+        return PRIORITY;
     }
 
     @Override
     public void handle(Request rq) {
         String[] date = rq.getDateToHandle().split("/");
         date[2] = switch (date[2].length()) {
-            case 2 -> "20" + date[2];
-            case 4 -> date[2];
+            case SHORT_YEAR_FORMAT_LEN -> "20" + date[2];
+            case FULL_YEAR_FORMAT_LEN -> date[2];
             default -> "";
         };
         if (date[2].isEmpty()) {

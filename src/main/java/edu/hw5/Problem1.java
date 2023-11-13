@@ -1,6 +1,5 @@
 package edu.hw5;
 
-import lombok.extern.slf4j.Slf4j;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,13 +11,15 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Slf4j
+
 public class Problem1 {
-    public static final String timesPattern = "\\d{4}-\\d{2}-\\d{2}, \\d{2}:\\d{2} - " +
-        "\\d{4}-\\d{2}-\\d{2}, \\d{2}:\\d{2}";
+    public static final String TIMES_PATTERN = "\\d{4}-\\d{2}-\\d{2}, \\d{2}:\\d{2} - "
+        + "\\d{4}-\\d{2}-\\d{2}, \\d{2}:\\d{2}";
+
+    private final static int OFFSET = 5;
 
     private int getIndexTimePart(DateTimePart dateTimePart, boolean isEnd) {
-        return dateTimePart.ordinal() + (isEnd ? 5 : 0);
+        return dateTimePart.ordinal() + (isEnd ? OFFSET : 0);
     }
 
     private LocalDateTime formDateTime(List<Integer> intList, boolean isEnd) {
@@ -31,7 +32,7 @@ public class Problem1 {
 
     private Duration getVisitDuration(String startAndEndingTime) {
 
-        Pattern pattern = Pattern.compile(timesPattern);
+        Pattern pattern = Pattern.compile(TIMES_PATTERN);
         Matcher matcher = pattern.matcher(startAndEndingTime);
         if (matcher.matches()) {
             List<Integer> intList = Arrays.stream(startAndEndingTime.split("-|:|, | - "))

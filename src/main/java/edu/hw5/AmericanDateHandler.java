@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 public class AmericanDateHandler implements RequestHandler {
     private static final String MATCH_STRING = "\\d{4}-\\d{1,2}-\\d{1,2}";
     private static final String NAME = "American Date Handler";
+    private static final int PRIORITY = 4;
 
     @Override
     public boolean canHandleRequest(Request rq) {
@@ -17,7 +18,7 @@ public class AmericanDateHandler implements RequestHandler {
 
     @Override
     public int getPriority() {
-        return 4;
+        return PRIORITY;
     }
 
     @Override

@@ -7,9 +7,10 @@ public class Problem8 {
     public static final String TWO_OPTIONS = "(0([01]{2})*)|(1([01]{2})*[01])";
     public static final String MOD_THREE_ZERO = "(0(1)*0(1)*0)(1)*((0(1)*0(1)*0)(1)*)*";
     public static final String ANY_EXCEPT_ELEVENS = "(0[01]*)|(10[01]*)|(110[01]*)|(111[01][01]*)|(1)";
-    public static final String ANY_ODD_SYMBOL_IS_ONE = "((1[01])(1[01])*)|(1([01]1)*)";  //10101111111110101
-    public static final String MORE_TWO_ZEROS_NO_MORE_ONE_ONE = "(00(0)*)|((0)*(100|010|001)(0)*)"; //001000000000000000000000
+    public static final String ANY_ODD_SYMBOL_IS_ONE = "((1[01])(1[01])*)|(1([01]1)*)";  //
+    public static final String MORE_TWO_ZEROS_NO_MORE_ONE_ONE = "(00(0)*)|((0)*(100|010|001)(0)*)";
 
+    @SuppressWarnings({"WhitespaceAround", "MissingSwitchDefault"})
     public boolean checkString(String toCheck, RegexCase regexCase) {
         return (switch (regexCase) {
             case ODD_LENGTH_REGEX -> Pattern.compile(ODD_LENGTH_REGEX);

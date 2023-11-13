@@ -148,7 +148,7 @@ class Problem8Test {
 
     @Test
     void anotherCheckFifth() {
-        String toCheck = "10111010111";
+        String toCheck = "10101111111110101";
         boolean response = problem8.checkString(toCheck, Problem8.RegexCase.ANY_ODD_SYMBOL_IS_ONE);
         assertTrue(response);
     }
@@ -176,7 +176,7 @@ class Problem8Test {
 
     @Test
     void anotherCheckSixth() {
-        String toCheck = "00001000";
+        String toCheck = "001000000000000000000000";
         boolean response = problem8.checkString(toCheck, Problem8.RegexCase.MORE_TWO_ZEROS_NO_MORE_ONE_ONE);
         assertTrue(response);
     }

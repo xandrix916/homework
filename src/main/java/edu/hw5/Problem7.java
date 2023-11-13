@@ -7,6 +7,7 @@ public class Problem7 {
     public static final String FIRST_EQUALS_LAST = "(0[01]*0)|(1[01]*1)";
     public static final String BETWEEN_ONE_AND_THREE = "[01]{1,3}";
 
+    @SuppressWarnings({"WhitespaceAround", "MissingSwitchDefault"})
     public boolean checkString(String toCheck, RegexCase regexCase) {
         return (switch (regexCase) {
             case THIRD_IS_ZERO -> Pattern.compile(THIRD_IS_ZERO);
