@@ -16,6 +16,7 @@ class Problem18Test {
 
     @Test
     void freddyTheFish() {
+        // Arrange
         var animalList = Problem7Test.animalList;
         List<List<Animal>> animalLists = new ArrayList<>(List.of(
             animalList,
@@ -29,7 +30,11 @@ class Problem18Test {
             )
             )
         ));
+
+        // Act
         Animal response = problem18.heaviestFish(animalLists);
+
+        // Assert
         assertEquals(animalList.get(5), response);
     }
 

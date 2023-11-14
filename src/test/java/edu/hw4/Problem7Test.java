@@ -35,15 +35,25 @@ class Problem7Test {
 
     @Test
     void oldestOne() {
+        // Arrange
         var animalList = Problem7Test.animalList.subList(0, 10);
+
+        // Act
         Animal response = problem7.getKthOldestAnimal(animalList, 2);
+
+        // Assert
         assertEquals(animalList.get(3), response);
     }
 
     @Test
     void wrongIndex() {
+        // Arrange
         var animalList = Problem7Test.animalList.subList(0, 10);
+
+        // Act
         Animal response = problem7.getKthOldestAnimal(animalList, 29);
+
+        // Assert
         assertNull(response);
     }
 

@@ -16,8 +16,13 @@ class Problem11Test {
 
     @Test
     void badGuy() {
+        // Arrange
         var animalList = Problem7Test.animalList;
+
+        // Act
         List<Animal> response = problem11.whoBitesAndHigherThat100(animalList);
+
+        // Assert
         assertEquals(new ArrayList<>(List.of(
             new Animal("Bull Shark", Animal.Type.FISH, Animal.Sex.M,
                 50, 225, 95, true))), response);

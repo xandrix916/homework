@@ -18,8 +18,13 @@ class Problem6Test {
 
     @Test
     void heavyAnimals() {
+        // Arrange
         List<Animal> animalList = Problem7Test.animalList;
+
+        // Act
         Map<Animal.Type, Animal> response = problem6.heavyByType(animalList);
+
+        // Assert
         assertEquals(new HashMap<>() {{
             put(Animal.Type.CAT, animalList.get(0));
             put(Animal.Type.DOG, animalList.get(9));

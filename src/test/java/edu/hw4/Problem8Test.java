@@ -16,15 +16,25 @@ class Problem8Test {
 
     @Test
     void lowerAndLower() {
+        // Arrange
         List<Animal> animalList = Problem7Test.animalList;
+
+        // Act
         Optional<Animal> response = problem8.oldestFromLowerK(animalList, 200);
+
+        // Assert
         assertEquals(Optional.of(animalList.get(9)), response);
     }
 
     @Test
     void notThisLow() {
+        // Arrange
         List<Animal> animalList = Problem7Test.animalList;
+
+        // Act
         Optional<Animal> response = problem8.oldestFromLowerK(animalList, 10);
+
+        // Assert
         assertEquals(Optional.empty(), response);
     }
 

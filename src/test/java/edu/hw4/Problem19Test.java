@@ -17,13 +17,17 @@ class Problem19Test {
 
     @Test
     void listOfProblems() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("", Animal.Type.SPIDER, Animal.Sex.M, 23, 24,0, true),
             new Animal("Ginger", Animal.Type.CAT, null, 100500, 40, 10, true),
             new Animal("Bunny", null, Animal.Sex.F, 12, 1000000000, 14000, false)
         ));
+
+        // Act
         var response = problem19.getErrors(animalList);
 
+        // Assert
         assertEquals(new HashMap<>(){{
             put("", ValidationError.checkError(animalList.get(0)));
             put("Ginger", ValidationError.checkError(animalList.get(1)));

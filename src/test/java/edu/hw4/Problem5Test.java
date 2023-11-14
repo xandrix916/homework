@@ -17,6 +17,7 @@ class Problem5Test {
 
     @Test
     void maleTest() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 13, 41, 15, true),
             new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
@@ -29,12 +30,17 @@ class Problem5Test {
             new Animal("Ludwig", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)
         )
         );
+
+        // Act
         Animal.Sex response = problem5.getSexPrimacy(animalList);
+
+        // Assert
         assertEquals(Animal.Sex.M, response);
     }
 
     @Test
     void femaleTest() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Kitty Softpaws", Animal.Type.CAT, Animal.Sex.F, 13, 41, 15, true),
             new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
@@ -46,14 +52,23 @@ class Problem5Test {
             new Animal("Sweet Shalquoir", Animal.Type.CAT, Animal.Sex.F, 12, 30, 6, false)
         )
         );
+
+        // Act
         Animal.Sex response = problem5.getSexPrimacy(animalList);
+
+        // Assert
         assertEquals(Animal.Sex.F, response);
     }
 
     @Test
     void thirdGender() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>();
+
+        // Act
         var response = problem5.getSexPrimacy(animalList);
+
+        // Assert
         assertNull(response);
     }
 }

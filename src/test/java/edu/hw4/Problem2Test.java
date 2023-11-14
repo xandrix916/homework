@@ -16,6 +16,7 @@ class Problem2Test {
 
     @Test
     void zooSpecies() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 13, 41, 15, true),
             new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
@@ -25,7 +26,11 @@ class Problem2Test {
             new Animal("Goliath birdeater", Animal.Type.SPIDER, Animal.Sex.M, 20, 24, 0, true)
         )
         );
+
+        // Act
         List<Animal> response = problem2.sortByWeightPickFirstK(animalList, 3);
+
+        // Assert
         assertEquals(new ArrayList<>(List.of(
             new Animal("Giant Shark", Animal.Type.FISH, Animal.Sex.F,
                 100, 1300, 12000, false),
@@ -37,6 +42,7 @@ class Problem2Test {
 
     @Test
     void tooBigK() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 13, 41, 15, true),
             new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
@@ -46,7 +52,11 @@ class Problem2Test {
             new Animal("Goliath birdeater", Animal.Type.SPIDER, Animal.Sex.M, 20, 24, 0, true)
         )
         );
+
+        // Act
         List<Animal> response = problem2.sortByWeightPickFirstK(animalList, 7);
+
+        // Assert
         assertEquals(new ArrayList<>(List.of(
             new Animal("Giant Shark", Animal.Type.FISH, Animal.Sex.F,
                 100, 1300, 12000, false),
@@ -60,6 +70,7 @@ class Problem2Test {
 
     @Test
     void tooSmallK() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 13, 41, 15, true),
             new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
@@ -69,7 +80,11 @@ class Problem2Test {
             new Animal("Goliath birdeater", Animal.Type.SPIDER, Animal.Sex.M, 20, 24, 0, true)
         )
         );
+
+        // Act
         List<Animal> response = problem2.sortByWeightPickFirstK(animalList, -5);
+
+        // Assert
         assertEquals(new ArrayList<>(), response);
     }
 }

@@ -15,8 +15,13 @@ class Problem12Test {
 
     @Test
     void countThemAll() {
+        // Arrange
         var animalList = Problem7Test.animalList;
+
+        // Act
         Integer response =problem12.problematicBodyMassIndex(animalList);
+
+        // Assert
         assertEquals(2, response);
     }
 }

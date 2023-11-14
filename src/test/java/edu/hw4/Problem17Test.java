@@ -16,6 +16,7 @@ class Problem17Test {
 
     @Test
     void spidersBitesOften() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 13, 41, 15, true),
             new Animal("Siberian cat", Animal.Type.CAT, Animal.Sex.M, 10, 41, 7, true),
@@ -30,14 +31,23 @@ class Problem17Test {
             new Animal("Senbernar", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false)
         )
         );
+
+        // Act
         Boolean response = problem17.spidersOrDogs(animalList);
+
+        // Assert
         assertTrue(response);
     }
 
     @Test
     void butDogsDoToo() {
+        // Arrange
         var animalList = Problem7Test.animalList;
+
+        // Act
         Boolean response = problem17.spidersOrDogs(animalList);
+
+        // Assert
         assertFalse(response);
     }
 

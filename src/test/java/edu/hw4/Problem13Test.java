@@ -16,6 +16,7 @@ class Problem13Test {
 
     @Test
     void royalPets() {
+        // Arrange
         var animals = new ArrayList<>(List.of(
             new Animal("Kitty Softpaws, Legend of Spain", Animal.Type.CAT, Animal.Sex.F, 13, 41, 12, true),
             new Animal("Puss in Boots", Animal.Type.CAT, Animal.Sex.M, 13, 45, 13, true),
@@ -26,7 +27,11 @@ class Problem13Test {
             new Animal("Beethoven", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false),
             new Animal("Sweet Shalquoir of Majula", Animal.Type.CAT, Animal.Sex.F, 12, 30, 6, false)
         ));
+
+        // Act
         var response = problem13.complexNames(animals);
+
+        // Assert
         assertEquals(new ArrayList<>(List.of(
             animals.get(0),
             animals.get(1),

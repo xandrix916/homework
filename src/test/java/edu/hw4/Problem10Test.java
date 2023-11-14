@@ -17,13 +17,19 @@ class Problem10Test {
 
     @Test
     void noMatches() {
+        // Arrange
         var animalList = Problem7Test.animalList;
+
+        // Act
         var response = problem10.pawsNotEqualsAge(animalList);
+
+        // Assert
         assertEquals(Problem7Test.animalList, response);
     }
 
     @Test
     void notEssentials() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 4, 41, 15, true),
             new Animal("Siberian cat", Animal.Type.CAT, Animal.Sex.M, 10, 41, 7, true),
@@ -41,7 +47,11 @@ class Problem10Test {
             new Animal("Berger Picard", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)
         )
         );
+
+        // Act
         var response = problem10.pawsNotEqualsAge(animalList);
+
+        // Assert
         assertEquals(new ArrayList<>(List.of(
             new Animal("Siberian cat", Animal.Type.CAT, Animal.Sex.M, 10, 41, 7, true),
             new Animal("Hummingbird", Animal.Type.BIRD, Animal.Sex.M, 7, 20, 0, false),

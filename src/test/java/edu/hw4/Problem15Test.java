@@ -15,8 +15,13 @@ class Problem15Test {
 
     @Test
     void simpleTest() {
+        // Arrange
         var animalList = Problem7Test.animalList;
+
+        // Act
         var response = problem15.weightForTypeAndAgeRange(animalList, 10, 20);
+
+        // Assert
         assertEquals(new HashMap<>(){{
             put(Animal.Type.CAT, 22);
             put(Animal.Type.DOG, 61);

@@ -18,6 +18,7 @@ class Problem3Test {
 
     @Test
     void typeAmounts() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 13, 41, 15, true),
             new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
@@ -30,7 +31,11 @@ class Problem3Test {
             new Animal("Ludwig", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)
         )
         );
+
+        // Act
         Map<Animal.Type, Integer> amounts = problem3.getMapOfTypeAmounts(animalList);
+
+        // Assert
         assertEquals(new HashMap<>(){{
             put(Animal.Type.FISH, 1);
             put(Animal.Type.DOG, 4);

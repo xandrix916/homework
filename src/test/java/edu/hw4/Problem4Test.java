@@ -16,6 +16,7 @@ class Problem4Test {
 
     @Test
     void theLargestOne() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>(List.of(
             new Animal("Mayne Coon", Animal.Type.CAT, Animal.Sex.M, 13, 41, 15, true),
             new Animal("Irish Wolfhound", Animal.Type.DOG, Animal.Sex.M, 8, 80, 55, true),
@@ -28,14 +29,23 @@ class Problem4Test {
             new Animal("Ludwig", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)
         )
         );
+
+        // Act
         Animal response = problem4.getAnimalWithLargestName(animalList);
+
+        // Assert
         assertEquals(animalList.get(4), response);
     }
 
     @Test
     void somethingWentWrong() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>();
+
+        // Act
         Animal response = problem4.getAnimalWithLargestName(animalList);
+
+        // Assert
         assertNull(response);
     }
 }

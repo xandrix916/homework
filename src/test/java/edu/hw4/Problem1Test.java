@@ -16,11 +16,16 @@ class Problem1Test {
 
     @Test
     void knownDogs() {
+        // Arrange
         List<Animal> doggosList = new ArrayList<>(List.of(
             new Animal("Rex", Animal.Type.DOG, Animal.Sex.M, 10, 64, 35, true),
             new Animal("Beethoven", Animal.Type.DOG, Animal.Sex.M, 5, 75, 90, false),
             new Animal("Ludwig", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true)));
+
+        // Act
         List<Animal> response = problem1.sortByHeight(doggosList);
+
+        // Assert
         assertEquals(new ArrayList<>(List.of(
             new Animal("Ludwig", Animal.Type.DOG, Animal.Sex.M, 14, 62, 26, true),
             new Animal("Rex", Animal.Type.DOG, Animal.Sex.M, 10, 64, 35, true),
@@ -31,8 +36,13 @@ class Problem1Test {
 
     @Test
     void hollowTest() {
+        // Arrange
         List<Animal> animalList = new ArrayList<>();
+
+        // Act
         List<Animal> response = problem1.sortByHeight(animalList);
+
+        // Assert
         assertEquals(new ArrayList<>(), response);
     }
 }
