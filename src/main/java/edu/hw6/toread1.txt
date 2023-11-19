@@ -1,0 +1,5 @@
+Google:Larry Page
+Apple:Steve Jobs
+Disney:Walt Disney
+Valve:Gabe Newell
+Microsoft:Bill Gates
