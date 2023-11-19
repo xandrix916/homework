@@ -8,16 +8,8 @@ import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "ConstantName"})
 public class Problem3 {
-    @FunctionalInterface
-    public interface AbstractFilter extends DirectoryStream.Filter<Path> {
-        default AbstractFilter and(AbstractFilter other) {
-            assert other != null;
-            return (path) -> accept(path) && other.accept(path);
-        }
-    }
-
     public static final AbstractFilter regularFile = Files::isRegularFile;
 
     public static final AbstractFilter readable = Files::isReadable;
@@ -31,9 +23,10 @@ public class Problem3 {
     }
 
     public static AbstractFilter regexContains(String regex) {
-        return path -> Pattern.compile("*"+regex+"*").matcher(path.getFileName().toString()).matches();
+        return path -> Pattern.compile("*" + regex + "*").matcher(path.getFileName().toString()).matches();
     }
 
+    @SuppressWarnings("MagicNumber")
     public void tryFilter(Path dir) {
         DirectoryStream.Filter<Path> filter = regularFile
             .and(readable)
@@ -45,6 +38,14 @@ public class Problem3 {
             entries.forEach(System.out::println);
         } catch (IOException e) {
             log.error("Problems with output");
+        }
+    }
+
+    @FunctionalInterface
+    public interface AbstractFilter extends DirectoryStream.Filter<Path> {
+        default AbstractFilter and(AbstractFilter other) {
+            assert other != null;
+            return (path) -> accept(path) && other.accept(path);
         }
     }
 }

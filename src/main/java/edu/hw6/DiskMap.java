@@ -21,7 +21,7 @@ public class DiskMap implements Map<String, String> {
     private final Map<String, String> bufferMap = new HashMap<>();
     private final Path currentPath;
 
-    private static final String format = "%s:%s\n";
+    private static final String FORMAT = "%s:%s\n";
 
     public static String readFile(Path mapPath) throws IOException {
         StringBuilder mapBuilder = new StringBuilder();
@@ -47,7 +47,7 @@ public class DiskMap implements Map<String, String> {
              FileChannel outChannel = fos.getChannel()) {
             for (var key: bufferMap.keySet()) {
                 ByteBuffer buff = ByteBuffer
-                    .wrap(String.format(format, key, bufferMap.get(key))
+                    .wrap(String.format(FORMAT, key, bufferMap.get(key))
                         .getBytes(StandardCharsets.UTF_8));
                 outChannel.write(buff);
             }

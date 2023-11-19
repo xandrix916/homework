@@ -1,6 +1,5 @@
 package edu.hw6;
 
-import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Problem2 {
