@@ -16,7 +16,7 @@ public class Problem1 {
     public static final String TIMES_PATTERN = "\\d{4}-\\d{2}-\\d{2}, \\d{2}:\\d{2} - "
         + "\\d{4}-\\d{2}-\\d{2}, \\d{2}:\\d{2}";
 
-    private final static int OFFSET = 5;
+    private static final int OFFSET = 5;
 
     private int getIndexTimePart(DateTimePart dateTimePart, boolean isEnd) {
         return dateTimePart.ordinal() + (isEnd ? OFFSET : 0);

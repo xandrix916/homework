@@ -14,57 +14,92 @@ class Problem6Test {
 
     @Test
     void exampleTest() {
+        // arrange
         String potentialSub = "abc";
         String sequence = "achfdbaabgabcaabg";
+
+        // act
         boolean response = problem6.isSubsequence(sequence, potentialSub);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void oneMoreTest() {
+        // arrange
         String potentialSub = " ip";
         String sequence = "Lorem ipsum dolor set";
+
+        // act
         boolean response = problem6.isSubsequence(sequence, potentialSub);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void subMoreThanSeq() {
+        // arrange
         String potentialSub = "achfdbaabgabcaabg";
         String sequence = "abc";
+
+        // act
         boolean response = problem6.isSubsequence(sequence, potentialSub);
+
+        // assert
         assertFalse(response);
     }
 
     @Test
     void subEqualsSeq() {
+        // arrange
         String potentialSub = "abc";
         String sequence = "abc";
+
+        // act
         boolean response = problem6.isSubsequence(sequence, potentialSub);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void hollowSub() {
+        // arrange
         String potentialSub = "";
         String sequence = "abc";
+
+        // act
         boolean response = problem6.isSubsequence(sequence, potentialSub);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void hollowSeq() {
+        // arrange
         String potentialSub = "abc";
         String sequence = "";
+
+        // act
         boolean response = problem6.isSubsequence(sequence, potentialSub);
+
+        // assert
         assertFalse(response);
     }
 
     @Test
     void hollowSeqAndSub() {
+        // arrange
         String potentialSub = "";
         String sequence = "";
+
+        // act
         boolean response = problem6.isSubsequence(sequence, potentialSub);
+
+        // assert
         assertTrue(response);
     }
 

@@ -12,7 +12,7 @@ public class SimpleWordHandler implements RequestHandler {
 
     private static final List<String> ALLOWED_COMMANDS = new ArrayList<>(List.of(TOMORROW, TODAY, YESTERDAY));
 
-    private static final String NAME = "Simple Word Handler";
+    private static final String HANDLER_NAME = "Simple Word Handler";
 
     @Override
     public boolean canHandleRequest(Request rq) {
@@ -37,6 +37,6 @@ public class SimpleWordHandler implements RequestHandler {
 
     @Override
     public String name() {
-        return NAME;
+        return HANDLER_NAME;
     }
 }

@@ -16,15 +16,17 @@ public class RequestManager {
             new EuropeanDateHandler(), new WordAndNumberHandler()));
     }
 
-    public void makeRequest(Request rq) {
-        handlers
+    public void makeRequest(Request request) {
+        var firstHandler = handlers
             .stream()
             .sorted(Comparator.comparing(RequestHandler::getPriority))
-            .filter(handler -> handler.canHandleRequest(rq))
-            .findFirst()
-            .ifPresent(handler -> handler.handle(rq));
-        if (!rq.isHandled()) {
-            rq.markHandled(null);
+            .filter(handler -> handler.canHandleRequest(request))
+            .findFirst();
+        firstHandler
+            .ifPresent(handler -> handler.handle(request));
+
+        if (!request.isHandled()) {
+            request.markHandled(null);
         }
     }
 }

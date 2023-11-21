@@ -14,29 +14,49 @@ class Problem4Test {
 
     @Test
     void simpleValid() {
+        // arrange
         String password = "MyFavouritePassword!";
+
+        // act
         boolean response = problem4.passwordMatch(password);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void anotherValid() {
+        // arrange
         String password = "~ha!ha@ha#ha$ha%ha^ha&ha*ha|";
+
+        // act
         boolean response = problem4.passwordMatch(password);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void veryBadPassword() {
+        // arrange
         String password = "1234";
+
+        // act
         boolean response = problem4.passwordMatch(password);
+
+        // assert
         assertFalse(response);
     }
 
     @Test
     void notSoBadButStill() {
+        // arrange
         String password = "wd2783hdjwh23+++";
+
+        // act
         boolean response = problem4.passwordMatch(password);
+
+        // assert
         assertFalse(response);
     }
 }

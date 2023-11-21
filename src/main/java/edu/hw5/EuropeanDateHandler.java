@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class EuropeanDateHandler implements RequestHandler {
 
     private static final String MATCH_STRING = "\\d/\\d/\\d{2,4}";
-    private static final String NAME = "European Date Handler";
+    private static final String HANDLER_NAME = "European Date Handler";
     private static final int PRIORITY = 3;
     private static final int SHORT_YEAR_FORMAT_LEN = 2;
     private static final int FULL_YEAR_FORMAT_LEN = 4;
@@ -43,6 +43,6 @@ public class EuropeanDateHandler implements RequestHandler {
 
     @Override
     public String name() {
-        return NAME;
+        return HANDLER_NAME;
     }
 }

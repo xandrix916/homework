@@ -16,9 +16,14 @@ class Problem1Test {
 
     @Test
     void likeInTask() {
+        // arrange
         List<String> inputStrings = new ArrayList<>(List.of("2022-03-12, 20:20 - 2022-03-12, 23:50",
             "2022-04-01, 21:30 - 2022-04-02, 01:20"));
+
+        // act
         String response = problem1.getMediumDuration(inputStrings);
+
+        // assert
         assertEquals("3 hours 40 minutes", response);
     }
 

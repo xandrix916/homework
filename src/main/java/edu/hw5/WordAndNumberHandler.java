@@ -8,7 +8,7 @@ public class WordAndNumberHandler implements RequestHandler {
 
     private static final int REQUIRED_LEN = 3;
     private static final String REGEX = "\\d{1,20}";
-    private static final String NAME = "Word And Number Handler";
+    private static final String HANDLER_NAME = "Word And Number Handler";
     private static final String AGO = "ago";
     private static final String AFTER = "after";
 
@@ -41,6 +41,6 @@ public class WordAndNumberHandler implements RequestHandler {
 
     @Override
     public String name() {
-        return NAME;
+        return HANDLER_NAME;
     }
 }

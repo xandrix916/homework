@@ -14,85 +14,145 @@ class Problem7Test {
 
     @Test
     void checkThirdZero() {
+        // arrange
         String toCheck = "100";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.THIRD_IS_ZERO);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.THIRD_IS_ZERO);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void anotherCheckThirdZero() {
+        // arrange
         String toCheck = "110101010101010";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.THIRD_IS_ZERO);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.THIRD_IS_ZERO);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void fallThirdZero() {
+        // arrange
         String toCheck = "001";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.THIRD_IS_ZERO);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.THIRD_IS_ZERO);
+
+        // assert
         assertFalse(response);
     }
 
     @Test
     void anotherFallThirdZero() {
+        // arrange
         String toCheck = "7302323";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.THIRD_IS_ZERO);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.THIRD_IS_ZERO);
+
+        // assert
         assertFalse(response);
     }
 
     @Test
     void checkFirstLast() {
+        // arrange
         String toCheck = "11";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.FIRST_EQUALS_LAST);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.FIRST_EQUALS_LAST);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void anotherCheckFirstLast() {
+        // arrange
         String toCheck = "010101010101010";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.FIRST_EQUALS_LAST);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.FIRST_EQUALS_LAST);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void fallFirstLast() {
+        // arrange
         String toCheck = "001";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.FIRST_EQUALS_LAST);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.FIRST_EQUALS_LAST);
+
+        // assert
         assertFalse(response);
     }
 
     @Test
     void anotherFallFirstLast() {
+        // arrange
         String toCheck = "0302320";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.FIRST_EQUALS_LAST);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.FIRST_EQUALS_LAST);
+
+        // assert
         assertFalse(response);
     }
 
     @Test
     void checkBetweenOneAndThree() {
+        // arrange
         String toCheck = "01";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.BETWEEN_ONE_AND_THREE);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.BETWEEN_ONE_AND_THREE);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void anotherCheckBetweenOneAndThree() {
+        // arrange
         String toCheck = "110";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.BETWEEN_ONE_AND_THREE);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.BETWEEN_ONE_AND_THREE);
+
+        // assert
         assertTrue(response);
     }
 
     @Test
     void fallBetweenOneAndThree() {
+        // arrange
         String toCheck = "0101010101001";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.BETWEEN_ONE_AND_THREE);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.BETWEEN_ONE_AND_THREE);
+
+        // assert
         assertFalse(response);
     }
 
     @Test
     void anotherFallBetweenOneAndThree() {
+        // arrange
         String toCheck = "012";
-        boolean response = problem7.checkString(toCheck, Problem7.RegexCase.BETWEEN_ONE_AND_THREE);
+
+        // act
+        boolean response = problem7.checkString(toCheck, RegexCase.BETWEEN_ONE_AND_THREE);
+
+        // assert
         assertFalse(response);
     }
 }
