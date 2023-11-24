@@ -18,10 +18,9 @@ import org.jetbrains.annotations.Nullable;
 
 @Slf4j
 public class DiskMap implements Map<String, String> {
+    private static final String FORMAT = "%s:%s\n";
     private final Map<String, String> bufferMap = new HashMap<>();
     private final Path currentPath;
-
-    private static final String FORMAT = "%s:%s\n";
 
     public static String readFile(Path mapPath) throws IOException {
         StringBuilder mapBuilder = new StringBuilder();
