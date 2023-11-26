@@ -15,7 +15,7 @@ public class Problem2 {
 
     public BigInteger getFactorial(int n) {
         try {
-            n = inputWrapper(n);
+            inputWrapper(n);
         } catch (IllegalArgumentException e) {
             return null;
         }
